@@ -8,6 +8,6 @@
 public class MTMultiply_blendTransition: MTTransition {
     
     override var fragmentName: String {
-        return "Multiply_blendFragment"
+        return "MultiplyBlendFragment"
     }
 }

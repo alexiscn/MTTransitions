@@ -26,11 +26,6 @@
 
 using namespace metalpetal;
 
-
-
-
-
-
 float3 mod289(float3 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
 }

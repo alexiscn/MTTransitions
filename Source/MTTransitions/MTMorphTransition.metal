@@ -7,16 +7,27 @@
 
 using namespace metalpetal;
 
-//float4 transition(float2 p) {
-//  float4 ca = getFromColor(p);
-//  float4 cb = getToColor(p);
-//  
-//  float2 oa = (((ca.rg+ca.b)*0.5)*2.0-1.0);
-//  float2 ob = (((cb.rg+cb.b)*0.5)*2.0-1.0);
-//  float2 oc = mix(oa,ob,0.5)*strength;
-//  
-//  float w0 = progress;
-//  float w1 = 1.0-w0;
-//  return mix(getFromColor(p+oc*w0), getToColor(p-oc*w1), progress);
-//}
-//
+fragment float4 MorphFragment(VertexOut vertexIn [[ stage_in ]],
+                              texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                              texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                              constant float & strength [[ buffer(0) ]],
+                              constant float & ratio [[ buffer(1) ]],
+                              constant float & progress [[ buffer(2) ]],
+                              sampler textureSampler [[ sampler(0) ]])
+{
+    float2 uv = vertexIn.textureCoordinate;
+    float _fromR = fromTexture.get_width()/fromTexture.get_height();
+    float _toR = toTexture.get_width()/toTexture.get_height();
+    
+    float4 ca = getFromColor(uv, fromTexture, ratio, _fromR);
+    float4 cb = getToColor(uv, toTexture, ratio, _toR);
+    float2 oa = (((ca.rg + ca.b) * 0.5) * 2.0 - 1.0);
+    float2 ob = (((cb.rg + cb.b) * 0.5) * 2.0 - 1.0);
+    float2 oc = mix(oa, ob, 0.5) * strength;
+    
+    float w0 = progress;
+    float w1 = 1.0 - w0;
+    return mix(getFromColor(uv + oc * w0, fromTexture, ratio, _fromR),
+               getToColor(uv - oc * w1, toTexture, ratio, _toR),
+               progress);
+}
