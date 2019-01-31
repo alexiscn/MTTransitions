@@ -7,28 +7,28 @@
 
 using namespace metalpetal;
 
-//float nQuick = clamp(zoom_quickness,0.2,1.0);
-//
-//float2 zoom(float2 uv, float amount) {
-//  return 0.5 + ((uv - 0.5) * (1.0-amount));    
-//}
-//
-//
-//fragment float4 SimpleZoomFragment(VertexOut vertexIn [[ stage_in ]],
-//                texture2d<float, access::sample> fromTexture [[ texture(0) ]],
-//                texture2d<float, access::sample> toTexture [[ texture(1) ]],
-//                constant float & zoom_quickness [[ buffer(0) ]],
-//                constant float & ratio [[ buffer(1) ]],
-//                constant float & progress [[ buffer(2) ]],
-//                sampler textureSampler [[ sampler(0) ]]) 
-//{
-//    float2 uv = vertexIn.textureCoordinate;
-//    float _fromR = fromTexture.get_width()/fromTexture.get_height();
-//    float _toR = toTexture.get_width()/toTexture.get_height();
-//    
-//  return mix(
-//    getFromColor(zoom(uv, smoothstep(0.0, nQuick, progress))),
-//    getFromColor(uv, toTexture, ratio, _toR),
-//   smoothstep(nQuick-0.2, 1.0, progress)
-//  );
-//}
+float2 simple_zoom(float2 uv, float amount) {
+    return 0.5 + ((uv - 0.5) * (1.0-amount));
+}
+
+
+fragment float4 SimpleZoomFragment(VertexOut vertexIn [[ stage_in ]],
+                                   texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                                   texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                                   constant float & zoom_quickness [[ buffer(0) ]],
+                                   constant float & ratio [[ buffer(1) ]],
+                                   constant float & progress [[ buffer(2) ]],
+                                   sampler textureSampler [[ sampler(0) ]])
+{
+    float2 uv = vertexIn.textureCoordinate;
+    float _fromR = fromTexture.get_width()/fromTexture.get_height();
+    float _toR = toTexture.get_width()/toTexture.get_height();
+    
+    float nQuick = clamp(zoom_quickness,0.2,1.0);
+    
+    return mix(
+               getFromColor(simple_zoom(uv, smoothstep(0.0, nQuick, progress)), fromTexture, ratio, _fromR),
+               getToColor(uv, toTexture, ratio, _toR),
+               smoothstep(nQuick-0.2, 1.0, progress)
+               );
+}
