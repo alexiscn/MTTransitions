@@ -28,8 +28,7 @@ fragment float4 CrosshatchFragment(VertexOut vertexIn [[ stage_in ]],
     return mix(
                getFromColor(uv, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
-               mix(
-                   0.0,
+               mix(0.0,
                    mix(step(dist, r),1.0, smoothstep(1.0-fadeEdge, 1.0, progress)),
                    smoothstep(0.0, fadeEdge, progress))
                );

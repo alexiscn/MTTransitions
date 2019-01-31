@@ -8,7 +8,6 @@
 
 using namespace metalpetal;
 
-
 fragment float4 ColourDistanceFragment(VertexOut vertexIn [[ stage_in ]],
                                        texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                        texture2d<float, access::sample> toTexture [[ texture(1) ]],

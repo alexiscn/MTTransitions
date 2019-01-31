@@ -8,9 +8,9 @@
 using namespace metalpetal;
 
 float2 offset(float progress, float x, float theta) {
-  //float phase = progress * progress + progress + theta;
-  float shifty = 0.03 * progress * cos(10.0*(progress + x));
-  return float2(0, shifty);
+    //float phase = progress * progress + progress + theta;
+    float shifty = 0.03 * progress * cos(10.0*(progress + x));
+    return float2(0, shifty);
 }
 
 fragment float4 DreamyFragment(VertexOut vertexIn [[ stage_in ]],
