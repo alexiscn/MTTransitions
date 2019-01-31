@@ -16,4 +16,12 @@ public class MTCrosshatchTransition: MTTransition {
     override var fragmentName: String {
         return "CrosshatchFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "threshold": threshold, 
+            "center": center, 
+            "fadeEdge": fadeEdge
+        ]
+    }
 }

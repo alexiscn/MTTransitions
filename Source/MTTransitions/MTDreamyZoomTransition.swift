@@ -7,13 +7,18 @@
 
 public class MTDreamyZoomTransition: MTTransition {
     
-    // In degrees
     public var rotation: Float = 6 
 
-    // Multiplier
     public var scale: Float = 1.2 
 
     override var fragmentName: String {
         return "DreamyZoomFragment"
+    }
+
+    override var parameters: [String: Any] {
+        return [
+            "rotation": rotation, 
+            "scale": scale
+        ]
     }
 }

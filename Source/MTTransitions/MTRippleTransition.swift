@@ -14,4 +14,11 @@ public class MTRippleTransition: MTTransition {
     override var fragmentName: String {
         return "RippleFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "speed": speed, 
+            "amplitude": amplitude
+        ]
+    }
 }

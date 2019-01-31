@@ -12,4 +12,10 @@ public class MTLinearBlurTransition: MTTransition {
     override var fragmentName: String {
         return "LinearBlurFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "intensity": intensity
+        ]
+    }
 }

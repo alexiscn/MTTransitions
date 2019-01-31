@@ -14,4 +14,11 @@ public class MTWindowsliceTransition: MTTransition {
     override var fragmentName: String {
         return "WindowsliceFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "count": count, 
+            "smoothness": smoothness
+        ]
+    }
 }

@@ -12,4 +12,10 @@ public class MTColourDistanceTransition: MTTransition {
     override var fragmentName: String {
         return "ColourDistanceFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "power": power
+        ]
+    }
 }

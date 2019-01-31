@@ -14,4 +14,11 @@ public class MTCircleopenTransition: MTTransition {
     override var fragmentName: String {
         return "CircleopenFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "smoothness": smoothness, 
+            "opening": opening
+        ]
+    }
 }

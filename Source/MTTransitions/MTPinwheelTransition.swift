@@ -12,4 +12,10 @@ public class MTPinwheelTransition: MTTransition {
     override var fragmentName: String {
         return "PinwheelFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "speed": speed
+        ]
+    }
 }

@@ -14,4 +14,11 @@ public class MTWaterDropTransition: MTTransition {
     override var fragmentName: String {
         return "WaterDropFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "speed": speed, 
+            "amplitude": amplitude
+        ]
+    }
 }

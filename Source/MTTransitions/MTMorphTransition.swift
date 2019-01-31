@@ -12,4 +12,10 @@ public class MTMorphTransition: MTTransition {
     override var fragmentName: String {
         return "MorphFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "strength": strength
+        ]
+    }
 }

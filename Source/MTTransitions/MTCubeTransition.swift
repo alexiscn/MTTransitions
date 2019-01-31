@@ -18,4 +18,13 @@ public class MTCubeTransition: MTTransition {
     override var fragmentName: String {
         return "CubeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "persp": persp, 
+            "unzoom": unzoom, 
+            "reflection": reflection, 
+            "floating": floating
+        ]
+    }
 }

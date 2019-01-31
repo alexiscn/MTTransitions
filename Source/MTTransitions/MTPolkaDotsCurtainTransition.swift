@@ -14,4 +14,11 @@ public class MTPolkaDotsCurtainTransition: MTTransition {
     override var fragmentName: String {
         return "PolkaDotsCurtainFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "dots": dots, 
+            "center": center
+        ]
+    }
 }

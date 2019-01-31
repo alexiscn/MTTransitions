@@ -14,4 +14,11 @@ public class MTPixelizeTransition: MTTransition {
     override var fragmentName: String {
         return "PixelizeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "squaresMin": squaresMin, 
+            "steps": steps
+        ]
+    }
 }

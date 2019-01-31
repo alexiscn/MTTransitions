@@ -12,4 +12,10 @@ public class MTFadegrayscaleTransition: MTTransition {
     override var fragmentName: String {
         return "FadegrayscaleFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "intensity": intensity
+        ]
+    }
 }

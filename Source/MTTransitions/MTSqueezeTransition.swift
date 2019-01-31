@@ -12,4 +12,10 @@ public class MTSqueezeTransition: MTTransition {
     override var fragmentName: String {
         return "SqueezeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "colorSeparation": colorSeparation
+        ]
+    }
 }

@@ -14,4 +14,11 @@ public class MTHexagonalizeTransition: MTTransition {
     override var fragmentName: String {
         return "HexagonalizeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "steps": steps, 
+            "horizontalHexagons": horizontalHexagons
+        ]
+    }
 }

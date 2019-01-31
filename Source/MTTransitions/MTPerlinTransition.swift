@@ -16,4 +16,12 @@ public class MTPerlinTransition: MTTransition {
     override var fragmentName: String {
         return "PerlinFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "scale": scale, 
+            "seed": seed, 
+            "smoothness": smoothness
+        ]
+    }
 }

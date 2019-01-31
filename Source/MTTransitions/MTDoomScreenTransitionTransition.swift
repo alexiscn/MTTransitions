@@ -20,4 +20,14 @@ public class MTDoomScreenTransitionTransition: MTTransition {
     override var fragmentName: String {
         return "DoomScreenTransitionFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "dripScale": dripScale, 
+            "bars": bars, 
+            "noise": noise, 
+            "frequency": frequency, 
+            "amplitude": amplitude
+        ]
+    }
 }

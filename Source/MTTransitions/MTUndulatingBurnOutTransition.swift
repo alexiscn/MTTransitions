@@ -16,4 +16,12 @@ public class MTUndulatingBurnOutTransition: MTTransition {
     override var fragmentName: String {
         return "UndulatingBurnOutFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "color": color, 
+            "smoothness": smoothness, 
+            "center": center
+        ]
+    }
 }

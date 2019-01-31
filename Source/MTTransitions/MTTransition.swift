@@ -22,16 +22,19 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     var fragmentName: String { return "" }
     
+    var parameters: [String: Any] { return [:] }
+    
     public var outputImage: MTIImage? {
         guard let input = inputImage, let dest = destImage else {
             return inputImage
         }
         let images: [MTIImage] = [input, dest]
         let outputDescriptors = [ MTIRenderPassOutputDescriptor(dimensions: MTITextureDimensions(cgSize: input.size), pixelFormat: outputPixelFormat)]
-        let params: [String: Any] = [
-            "ratio": Float(512.0/400.0),
-            "progress": progress
-        ]
+        
+        var params = parameters
+        params["ratio"] = Float(512.0/400.0)
+        params["progress"] = progress
+        
         let output = kernel.apply(toInputImages: images, parameters: params, outputDescriptors: outputDescriptors).first
         return output
     }

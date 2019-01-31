@@ -16,4 +16,12 @@ public class MTButterflyWaveScrawlerTransition: MTTransition {
     override var fragmentName: String {
         return "ButterflyWaveScrawlerFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "colorSeparation": colorSeparation, 
+            "amplitude": amplitude, 
+            "waves": waves
+        ]
+    }
 }

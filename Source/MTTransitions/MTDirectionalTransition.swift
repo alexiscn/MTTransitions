@@ -12,4 +12,10 @@ public class MTDirectionalTransition: MTTransition {
     override var fragmentName: String {
         return "DirectionalFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "direction": direction
+        ]
+    }
 }

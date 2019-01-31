@@ -16,4 +16,12 @@ public class MTFlyeyeTransition: MTTransition {
     override var fragmentName: String {
         return "FlyeyeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "colorSeparation": colorSeparation, 
+            "zoom": zoom, 
+            "size": size
+        ]
+    }
 }

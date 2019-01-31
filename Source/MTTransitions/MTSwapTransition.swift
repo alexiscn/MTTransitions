@@ -16,4 +16,12 @@ public class MTSwapTransition: MTTransition {
     override var fragmentName: String {
         return "SwapFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "depth": depth, 
+            "reflection": reflection, 
+            "perspective": perspective
+        ]
+    }
 }

@@ -12,4 +12,10 @@ public class MTWindTransition: MTTransition {
     override var fragmentName: String {
         return "WindFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "size": size
+        ]
+    }
 }

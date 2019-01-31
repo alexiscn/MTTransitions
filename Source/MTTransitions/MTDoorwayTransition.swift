@@ -16,4 +16,12 @@ public class MTDoorwayTransition: MTTransition {
     override var fragmentName: String {
         return "DoorwayFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "depth": depth, 
+            "reflection": reflection, 
+            "perspective": perspective
+        ]
+    }
 }

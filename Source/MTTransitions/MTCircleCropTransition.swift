@@ -12,4 +12,10 @@ public class MTCircleCropTransition: MTTransition {
     override var fragmentName: String {
         return "CircleCropFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "bgcolor": bgcolor
+        ]
+    }
 }

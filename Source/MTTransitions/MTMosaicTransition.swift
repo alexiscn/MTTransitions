@@ -14,4 +14,11 @@ public class MTMosaicTransition: MTTransition {
     override var fragmentName: String {
         return "MosaicFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "endy": endy, 
+            "endx": endx
+        ]
+    }
 }

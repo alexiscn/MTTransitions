@@ -14,4 +14,11 @@ public class MTDirectionalwipeTransition: MTTransition {
     override var fragmentName: String {
         return "DirectionalwipeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "direction": direction, 
+            "smoothness": smoothness
+        ]
+    }
 }

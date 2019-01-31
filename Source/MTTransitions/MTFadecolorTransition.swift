@@ -14,4 +14,11 @@ public class MTFadecolorTransition: MTTransition {
     override var fragmentName: String {
         return "FadecolorFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "color": color, 
+            "colorPhase": colorPhase
+        ]
+    }
 }

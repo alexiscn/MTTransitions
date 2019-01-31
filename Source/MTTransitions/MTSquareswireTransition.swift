@@ -16,4 +16,12 @@ public class MTSquareswireTransition: MTTransition {
     override var fragmentName: String {
         return "SquareswireFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "direction": direction, 
+            "squares": squares, 
+            "smoothness": smoothness
+        ]
+    }
 }

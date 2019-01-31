@@ -18,4 +18,13 @@ public class MTCrazyParametricFunTransition: MTTransition {
     override var fragmentName: String {
         return "CrazyParametricFunFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "a": a, 
+            "b": b, 
+            "smoothness": smoothness, 
+            "amplitude": amplitude
+        ]
+    }
 }

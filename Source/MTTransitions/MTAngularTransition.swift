@@ -12,4 +12,10 @@ public class MTAngularTransition: MTTransition {
     override var fragmentName: String {
         return "AngularFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "startingAngle": startingAngle
+        ]
+    }
 }

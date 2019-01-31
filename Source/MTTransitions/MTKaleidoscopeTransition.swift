@@ -16,4 +16,12 @@ public class MTKaleidoscopeTransition: MTTransition {
     override var fragmentName: String {
         return "KaleidoscopeFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "angle": angle, 
+            "speed": speed, 
+            "power": power
+        ]
+    }
 }

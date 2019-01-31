@@ -12,4 +12,11 @@ public class MTDisplacementTransition: MTTransition {
     override var fragmentName: String {
         return "DisplacementFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "strength": strength, 
+           // "displacementMap": displacementMap
+        ]
+    }
 }

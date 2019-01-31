@@ -14,4 +14,11 @@ public class MTColorphaseTransition: MTTransition {
     override var fragmentName: String {
         return "ColorphaseFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "fromStep": fromStep, 
+            "toStep": toStep
+        ]
+    }
 }

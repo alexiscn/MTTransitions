@@ -12,4 +12,10 @@ public class MTRadialTransition: MTTransition {
     override var fragmentName: String {
         return "RadialFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "smoothness": smoothness
+        ]
+    }
 }

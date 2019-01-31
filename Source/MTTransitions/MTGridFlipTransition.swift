@@ -20,4 +20,14 @@ public class MTGridFlipTransition: MTTransition {
     override var fragmentName: String {
         return "GridFlipFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "bgcolor": bgcolor, 
+            "randomness": randomness, 
+            "pause": pause, 
+            "dividerWidth": dividerWidth, 
+            "size": size
+        ]
+    }
 }

@@ -14,4 +14,11 @@ public class MTRandomsquaresTransition: MTTransition {
     override var fragmentName: String {
         return "RandomsquaresFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "smoothness": smoothness, 
+            "size": size
+        ]
+    }
 }

@@ -12,4 +12,10 @@ public class MTCrossZoomTransition: MTTransition {
     override var fragmentName: String {
         return "CrossZoomFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "strength": strength
+        ]
+    }
 }

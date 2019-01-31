@@ -12,4 +12,10 @@ public class MTBurnTransition: MTTransition {
     override var fragmentName: String {
         return "BurnFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "color": color
+        ]
+    }
 }

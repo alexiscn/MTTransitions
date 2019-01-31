@@ -14,4 +14,11 @@ public class MTStereoViewerTransition: MTTransition {
     override var fragmentName: String {
         return "StereoViewerFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "corner_radius": corner_radius, 
+            "zoom": zoom
+        ]
+    }
 }
