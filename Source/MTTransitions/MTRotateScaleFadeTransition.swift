@@ -18,4 +18,13 @@ public class MTRotateScaleFadeTransition: MTTransition {
     override var fragmentName: String {
         return "RotateScaleFadeFragment"
     }
+
+        override var parameters: [String: Any] {
+        return [
+            "scale": scale, 
+            "rotations": rotations, 
+            "center": center, 
+            "backColor": backColor
+        ]
+    }
 }

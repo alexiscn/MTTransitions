@@ -19,4 +19,12 @@ public class MTLuminance_meltTransition: MTTransition {
     override var fragmentName: String {
         return "LuminanceMeltFragment"
     }
+
+    override var parameters: [String: Any] {
+        return [
+            "direction": direction, 
+            "above": above, 
+            "l_threshold": l_threshold
+        ]
+    }
 }
