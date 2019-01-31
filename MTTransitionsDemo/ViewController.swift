@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 
      private var imageView: MTIImageView!
     
-    private var wipeUpTransition: MTTransition?
+    private var transition: MTTransition?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +36,9 @@ class ViewController: UIViewController {
     }
     
     private func setupTransition() {
-        wipeUpTransition = MTTransition()
-        wipeUpTransition?.inputImage = resourceImage(named: "1")
-        wipeUpTransition?.destImage = resourceImage(named: "2")
+        transition = MTCrosshatchTransition()
+        transition?.inputImage = resourceImage(named: "1")
+        transition?.destImage = resourceImage(named: "2")
     }
 
     @IBAction func buttonTapped(_ sender: Any) {
@@ -51,8 +51,8 @@ class ViewController: UIViewController {
             }
             print(progress)
 
-            self.wipeUpTransition?.progress = progress
-            self.imageView.image = self.wipeUpTransition?.outputImage
+            self.transition?.progress = progress
+            self.imageView.image = self.transition?.outputImage
         }
         t.fire()
     }

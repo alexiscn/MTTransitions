@@ -4,6 +4,7 @@
 //
 //  Created by alexiscn on 2019/1/28.
 //
+import MetalPetal
 
 public class MTCrosshatchTransition: MTTransition {
     
@@ -20,7 +21,7 @@ public class MTCrosshatchTransition: MTTransition {
     override var parameters: [String: Any] {
         return [
             "threshold": threshold, 
-            "center": center, 
+            "center": MTIVector(value: center),
             "fadeEdge": fadeEdge
         ]
     }
