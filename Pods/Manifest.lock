@@ -1,0 +1,25 @@
+PODS:
+  - MetalPetal (1.1.4):
+    - MetalPetal/Core (= 1.1.4)
+  - MetalPetal/Core (1.1.4)
+  - MTTransitions (0.0.1):
+    - MetalPetal
+
+DEPENDENCIES:
+  - MTTransitions (from `.`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - MetalPetal
+
+EXTERNAL SOURCES:
+  MTTransitions:
+    :path: "."
+
+SPEC CHECKSUMS:
+  MetalPetal: ee0394e825b60c312b69de99455ad24531e559e9
+  MTTransitions: 8a08efd6af10fa884b26a7ce33d8d22071c5d0bd
+
+PODFILE CHECKSUM: f7ffa1eb82de4d2c696786a1fbfb83f81cc6b1c3
+
+COCOAPODS: 1.6.0.beta.2

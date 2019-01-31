@@ -1,0 +1,6 @@
+framework module MTTransitions {
+  umbrella header "MTTransitions-umbrella.h"
+
+  export *
+  module * { export * }
+}
