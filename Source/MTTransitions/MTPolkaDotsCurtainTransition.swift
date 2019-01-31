@@ -5,6 +5,8 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTPolkaDotsCurtainTransition: MTTransition {
     
     public var dots: Float = 20 
@@ -18,7 +20,7 @@ public class MTPolkaDotsCurtainTransition: MTTransition {
     override var parameters: [String: Any] {
         return [
             "dots": dots, 
-            "center": center
+            "center": MTIVector(value: center) 
         ]
     }
 }

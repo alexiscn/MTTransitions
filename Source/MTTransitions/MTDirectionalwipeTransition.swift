@@ -5,6 +5,8 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTDirectionalwipeTransition: MTTransition {
     
     public var direction: CGPoint = CGPoint(x: 0, y: 0) 
@@ -17,7 +19,7 @@ public class MTDirectionalwipeTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "direction": direction, 
+            "direction": MTIVector(value: direction), 
             "smoothness": smoothness
         ]
     }

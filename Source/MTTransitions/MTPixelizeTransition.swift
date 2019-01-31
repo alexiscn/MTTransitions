@@ -5,6 +5,8 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTPixelizeTransition: MTTransition {
     
     public var squaresMin: CGSize = CGSize(width: 10, height: 10) 
@@ -17,7 +19,7 @@ public class MTPixelizeTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "squaresMin": squaresMin, 
+            "squaresMin": MTIVector(value: squaresMin), 
             "steps": steps
         ]
     }

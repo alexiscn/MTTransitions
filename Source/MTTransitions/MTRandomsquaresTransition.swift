@@ -5,6 +5,8 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTRandomsquaresTransition: MTTransition {
     
     public var smoothness: Float = 0.5 
@@ -18,7 +20,7 @@ public class MTRandomsquaresTransition: MTTransition {
     override var parameters: [String: Any] {
         return [
             "smoothness": smoothness, 
-            "size": size
+            "size": MTIVector(value: size)
         ]
     }
 }

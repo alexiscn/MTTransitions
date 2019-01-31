@@ -10,11 +10,11 @@ using namespace metalpetal;
 fragment float4 BounceFragment(VertexOut vertexIn [[ stage_in ]],
                                texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                texture2d<float, access::sample> toTexture [[ texture(1) ]],
-                               constant float & progress [[ buffer(0) ]],
-                               constant float & ratio [[ buffer(1) ]],
-                               constant float4 & shadowColour [[ buffer(2) ]],
-                               constant float4 & shadowHeight [[ buffer(3) ]],
-                               constant float & bounces [[ buffer(4) ]],
+                               constant float & bounces [[ buffer(0) ]],
+                               constant float4 & shadowColour [[ buffer(1) ]],
+                               constant float & shadowHeight [[ buffer(2) ]],
+                               constant float & ratio [[ buffer(3) ]],
+                               constant float & progress [[ buffer(4) ]],
                                sampler textureSampler [[ sampler(0) ]])
 {
     float _fromR = fromTexture.get_width()/fromTexture.get_height();

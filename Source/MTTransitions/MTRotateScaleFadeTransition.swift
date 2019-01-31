@@ -5,6 +5,8 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTRotateScaleFadeTransition: MTTransition {
     
     public var scale: Float = 8 
@@ -13,18 +15,18 @@ public class MTRotateScaleFadeTransition: MTTransition {
 
     public var center: CGPoint = CGPoint(x: 0, y: 0) 
 
-    public var backColor: UIColor = UIColor.white 
+    public var backColor: MTIColor = MTIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.0)
 
     override var fragmentName: String {
         return "RotateScaleFadeFragment"
     }
 
-        override var parameters: [String: Any] {
+    override var parameters: [String: Any] {
         return [
             "scale": scale, 
             "rotations": rotations, 
-            "center": center, 
-            "backColor": backColor
+            "center": MTIVector(value: center), 
+            "backColor": MTIVector(value: backColor.toFloat4())
         ]
     }
 }

@@ -5,9 +5,11 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTGridFlipTransition: MTTransition {
     
-    public var bgcolor: UIColor = UIColor.white 
+    public var bgcolor: MTIColor = MTIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 
     public var randomness: Float = 0.1 
 
@@ -23,7 +25,7 @@ public class MTGridFlipTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "bgcolor": bgcolor, 
+            "bgcolor": MTIVector(value: bgcolor.toFloat4()), 
             "randomness": randomness, 
             "pause": pause, 
             "dividerWidth": dividerWidth, 

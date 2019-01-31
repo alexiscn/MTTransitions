@@ -5,6 +5,8 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+import MetalPetal
+
 public class MTSquareswireTransition: MTTransition {
     
     public var direction: CGPoint = CGPoint(x: 0, y: 0) 
@@ -19,8 +21,8 @@ public class MTSquareswireTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "direction": direction, 
-            "squares": squares, 
+            "direction": MTIVector(value: direction),
+            "squares": MTIVector(value: squares), 
             "smoothness": smoothness
         ]
     }
