@@ -23,8 +23,7 @@ fragment float4 ColourDistanceFragment(VertexOut vertexIn [[ stage_in ]],
     float4 fTex = getFromColor(uv, fromTexture, ratio, _fromR);
     float4 tTex = getToColor(uv, toTexture, ratio, _toR);
     float m = step(distance(fTex, tTex), progress);
-    return mix(
-               mix(fTex, tTex, m),
+    return mix(mix(fTex, tTex, m),
                tTex,
                pow(progress, power)
                );

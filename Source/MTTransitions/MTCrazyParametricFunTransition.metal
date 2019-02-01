@@ -28,8 +28,7 @@ fragment float4 CrazyParametricFragment(VertexOut vertexIn [[ stage_in ]],
     float x = (a - b) * cos(progress) + b * cos(progress * ((a / b) - 1.0));
     float y = (a - b) * sin(progress) - b * sin(progress * ((a / b) - 1.0));
     float2 offset = dir * float2(sin(progress  * dist * amplitude * x), sin(progress * dist * amplitude * y)) / smoothness;
-    return mix(
-               getFromColor(p + offset, fromTexture, ratio, _fromR),
+    return mix(getFromColor(p + offset, fromTexture, ratio, _fromR),
                getToColor(p, toTexture, ratio, _toR),
                smoothstep(0.2, 1.0, progress)
                );

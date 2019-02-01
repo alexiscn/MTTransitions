@@ -38,7 +38,7 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 - [x] MTHeartTransition
 - [x] MTHexagonalizeTransition
 - [ ] MTInvertedPageCurlTransition
-- [ ]  MTKaleidoscopeTransition
+- [x]  MTKaleidoscopeTransition
 - [x] MTLinearBlurTransition
 - [ ] MTLumaTransition
 - [x] MTLuminanceMeltTransition
@@ -58,7 +58,7 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 - [x] MTSquaresWireTransition
 - [x] MTSqueezeTransition
 - [ ] MTStereoViewerTransition
-- [ ] MTSwapTransition
+- [x] MTSwapTransition
 - [ ] MTSwirlTransition
 - [ ] MTUndulatingBurnOutTransition
 - [x] MTWaterDropTransition

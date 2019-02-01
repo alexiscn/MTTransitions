@@ -25,8 +25,7 @@ fragment float4 CrosshatchFragment(VertexOut vertexIn [[ stage_in ]],
     
     float dist = distance(center, uv) / threshold;
     float r = progress - min(rand(float2(uv.y, 0.0)), rand(float2(0.0, uv.x)));
-    return mix(
-               getFromColor(uv, fromTexture, ratio, _fromR),
+    return mix(getFromColor(uv, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                mix(0.0,
                    mix(step(dist, r),1.0, smoothstep(1.0-fadeEdge, 1.0, progress)),

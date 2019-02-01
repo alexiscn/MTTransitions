@@ -21,8 +21,7 @@ fragment float4 DirectionalFragment(VertexOut vertexIn [[ stage_in ]],
     
     float2 p = uv + progress * sign(direction);
     float2 f = fract(p);
-    return mix(
-               getFromColor(f, fromTexture, ratio, _fromR),
+    return mix(getFromColor(f, fromTexture, ratio, _fromR),
                getToColor(f, toTexture, ratio, _toR),
                step(0.0, p.y) * step(p.y, 1.0) * step(0.0, p.x) * step(p.x, 1.0)
                );

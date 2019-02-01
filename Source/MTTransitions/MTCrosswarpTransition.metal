@@ -20,8 +20,7 @@ fragment float4 CrosswarpFragment(VertexOut vertexIn [[ stage_in ]],
     
     float x = progress;
     x = smoothstep(.0,1.0,(x * 2.0 + uv.x - 1.0));
-    return mix(
-               getFromColor((uv - 0.5) * (1.0 - x) + 0.5, fromTexture, ratio, _fromR),
+    return mix(getFromColor((uv - 0.5) * (1.0 - x) + 0.5, fromTexture, ratio, _fromR),
                getToColor((uv - 0.5) * x + 0.5, toTexture, ratio, _toR),
                x);
 }

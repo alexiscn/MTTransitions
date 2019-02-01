@@ -28,7 +28,7 @@ fragment float4 CircleFragment(VertexOut vertexIn [[ stage_in ]],
         if (progress < 0.5) {
             return getFromColor(uv, fromTexture, ratio, _fromR);
         } else {
-            return getFromColor(uv, toTexture, ratio, _toR);
+            return getToColor(uv, toTexture, ratio, _toR);
         }
     }
 }
