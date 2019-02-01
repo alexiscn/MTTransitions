@@ -12,12 +12,16 @@ import MTTransitions
 
 class ViewController: UIViewController {
 
-     private var imageView: MTIImageView!
+    private var imageView: MTIImageView!
     
     private var transition: MTTransition?
+    private var context: MTIContext?
+    private let generator = GifGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
         
         setupImageView()
         setupTransition()
@@ -43,6 +47,7 @@ class ViewController: UIViewController {
 
     @IBAction func buttonTapped(_ sender: Any) {
         
+        var images: [UIImage] = []
         var progress: Float = 0.0
         let t = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
             progress += 0.01
@@ -53,8 +58,22 @@ class ViewController: UIViewController {
 
             self.transition?.progress = progress
             self.imageView.image = self.transition?.outputImage
+            
+            if let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
+                images.append(UIImage(cgImage: cgImage!))
+            }
         }
         t.fire()
+    }
+    
+    private func generateGIFF(images: [UIImage], name: String) {
+        let path = NSHomeDirectory().appending("/Documents/\(name).gif")
+        let dest = URL(fileURLWithPath: path)
+        self.generator.generateGifFromImages(imagesArray: images, frameDelay: 0.1, destinationURL: dest) { (data, error) in
+            if let error = error {
+                print(error)
+            }
+        }
     }
     
     func resourceImage(named: String) -> MTIImage? {

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -359,16 +359,16 @@
 		01CE6A928A9906034582F0B79DBED629 /* MTCircleCropTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCircleCropTransition.swift; path = Source/MTTransitions/MTCircleCropTransition.swift; sourceTree = "<group>"; };
 		022974D71EF1EB1C123C5E26214D42D7 /* MTIFunctionDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIFunctionDescriptor.h; path = Frameworks/MetalPetal/MTIFunctionDescriptor.h; sourceTree = "<group>"; };
 		0287700013BB6DF5158F8C869237E730 /* MTITextureLoaderForiOS9.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTITextureLoaderForiOS9.m; path = Frameworks/MetalPetal/MTITextureLoaderForiOS9.m; sourceTree = "<group>"; };
-		03340E2A36F880623C81655372E63BD8 /* MTGlitchMemoriesTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTGlitchMemoriesTransition.metal; path = Source/MTTransitions/MTGlitchMemoriesTransition.metal; sourceTree = "<group>"; };
-		03AC4D9172AF6BDB59ACF6A0E8031ECA /* MetalPetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MetalPetal.framework; path = MetalPetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		03340E2A36F880623C81655372E63BD8 /* MTGlitchMemoriesTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTGlitchMemoriesTransition.metal; path = Source/MTTransitions/MTGlitchMemoriesTransition.metal; sourceTree = "<group>"; };
+		03AC4D9172AF6BDB59ACF6A0E8031ECA /* MetalPetal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetalPetal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		043E7AF3B497925F2417D81D3DBDF898 /* MTIMultilayerCompositeKernel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMultilayerCompositeKernel.h; path = Frameworks/MetalPetal/Kernels/MTIMultilayerCompositeKernel.h; sourceTree = "<group>"; };
 		052E3EA3061A64E15A2C5E09138530B8 /* MTIRGBToneCurveFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRGBToneCurveFilter.h; path = Frameworks/MetalPetal/Filters/MTIRGBToneCurveFilter.h; sourceTree = "<group>"; };
-		062261E71110B9370BD785DEB7959A8E /* MTSwapTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTSwapTransition.metal; path = Source/MTTransitions/MTSwapTransition.metal; sourceTree = "<group>"; };
+		062261E71110B9370BD785DEB7959A8E /* MTSwapTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTSwapTransition.metal; path = Source/MTTransitions/MTSwapTransition.metal; sourceTree = "<group>"; };
 		077007CC8965B1ACBF800707F3CB10E4 /* MTCrosshatchTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCrosshatchTransition.swift; path = Source/MTTransitions/MTCrosshatchTransition.swift; sourceTree = "<group>"; };
 		07A45C5C6C980D1364053736BF67C124 /* MTIMPSGaussianBlurFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSGaussianBlurFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSGaussianBlurFilter.h; sourceTree = "<group>"; };
 		07B644AE9A66417A799DB97CC432F5D5 /* MTTransitionLib.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTTransitionLib.h; path = Source/MTTransitions/MTTransitionLib.h; sourceTree = "<group>"; };
 		08EAD44DC9F2E8B3A4BEB40FF11445F9 /* MTIRenderPipeline.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIRenderPipeline.m; path = Frameworks/MetalPetal/MTIRenderPipeline.m; sourceTree = "<group>"; };
-		09D56FB3C4EA11EA6EBB00E92027620A /* MTDoorwayTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDoorwayTransition.metal; path = Source/MTTransitions/MTDoorwayTransition.metal; sourceTree = "<group>"; };
+		09D56FB3C4EA11EA6EBB00E92027620A /* MTDoorwayTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDoorwayTransition.metal; path = Source/MTTransitions/MTDoorwayTransition.metal; sourceTree = "<group>"; };
 		0A50ED884A15EE964BBEBB9A20DC3896 /* MTIContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIContext.h; path = Frameworks/MetalPetal/MTIContext.h; sourceTree = "<group>"; };
 		0A827BBBCDE2266A16836BAF5030B468 /* MTDoomScreenTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDoomScreenTransition.swift; path = Source/MTTransitions/MTDoomScreenTransition.swift; sourceTree = "<group>"; };
 		0C10420AFD4F0FED2687B6A3F438C417 /* Pods-MTTransitionsDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MTTransitionsDemo-frameworks.sh"; sourceTree = "<group>"; };
@@ -377,9 +377,9 @@
 		0E03E5572037DBCEB5EB3966316EF90F /* MTIError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIError.h; path = Frameworks/MetalPetal/MTIError.h; sourceTree = "<group>"; };
 		0EB5EC92756EC137F1511E3814DCFFE4 /* MTIMPSKernel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSKernel.m; path = Frameworks/MetalPetal/Kernels/MTIMPSKernel.m; sourceTree = "<group>"; };
 		0EDB17B462FB878F4BE1EB1328763A7B /* MTIMPSDefinitionFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSDefinitionFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSDefinitionFilter.h; sourceTree = "<group>"; };
-		0F757829DAA110E6D401F6C3270B6909 /* MTDirectionalwipeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDirectionalwipeTransition.metal; path = Source/MTTransitions/MTDirectionalwipeTransition.metal; sourceTree = "<group>"; };
+		0F757829DAA110E6D401F6C3270B6909 /* MTDirectionalwipeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDirectionalwipeTransition.metal; path = Source/MTTransitions/MTDirectionalwipeTransition.metal; sourceTree = "<group>"; };
 		0F80964512FEDD89EA3E5822385C3117 /* MTIPixellateFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIPixellateFilter.m; path = Frameworks/MetalPetal/Filters/MTIPixellateFilter.m; sourceTree = "<group>"; };
-		10F258289313F3B074CE1D889BC2843F /* MTBowTieVerticalTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTBowTieVerticalTransition.metal; path = Source/MTTransitions/MTBowTieVerticalTransition.metal; sourceTree = "<group>"; };
+		10F258289313F3B074CE1D889BC2843F /* MTBowTieVerticalTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTBowTieVerticalTransition.metal; path = Source/MTTransitions/MTBowTieVerticalTransition.metal; sourceTree = "<group>"; };
 		11E543F60A2DCB32577504E74A43F34D /* MTIContext+Rendering.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MTIContext+Rendering.h"; path = "Frameworks/MetalPetal/MTIContext+Rendering.h"; sourceTree = "<group>"; };
 		136864EDCFE2A71562828DD472D3F221 /* MTWaterDropTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWaterDropTransition.swift; path = Source/MTTransitions/MTWaterDropTransition.swift; sourceTree = "<group>"; };
 		147D4AE35BC07F6014069D87C1A69EBD /* MTICoreImageRendering.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICoreImageRendering.m; path = Frameworks/MetalPetal/MTICoreImageRendering.m; sourceTree = "<group>"; };
@@ -388,39 +388,39 @@
 		1667D0FD81B0181163E58B3921DD254A /* MTIHexagonalBokehBlurFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIHexagonalBokehBlurFilter.h; path = Frameworks/MetalPetal/Filters/MTIHexagonalBokehBlurFilter.h; sourceTree = "<group>"; };
 		173E7A99D7549C84022AD68385048A50 /* MTITextureLoaderForiOS9.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITextureLoaderForiOS9.h; path = Frameworks/MetalPetal/MTITextureLoaderForiOS9.h; sourceTree = "<group>"; };
 		17CAC19DE1E754B66E94375BEDB1DDA1 /* MTIMPSGaussianBlurFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSGaussianBlurFilter.m; path = Frameworks/MetalPetal/Filters/MTIMPSGaussianBlurFilter.m; sourceTree = "<group>"; };
-		188CE62052172EB9CB37AE7AB93ADFBD /* MTPolkaDotsCurtainTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTPolkaDotsCurtainTransition.metal; path = Source/MTTransitions/MTPolkaDotsCurtainTransition.metal; sourceTree = "<group>"; };
-		199BA34731B2C730953B41B4A2168EFB /* MTCannabisleafTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCannabisleafTransition.metal; path = Source/MTTransitions/MTCannabisleafTransition.metal; sourceTree = "<group>"; };
+		188CE62052172EB9CB37AE7AB93ADFBD /* MTPolkaDotsCurtainTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTPolkaDotsCurtainTransition.metal; path = Source/MTTransitions/MTPolkaDotsCurtainTransition.metal; sourceTree = "<group>"; };
+		199BA34731B2C730953B41B4A2168EFB /* MTCannabisleafTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCannabisleafTransition.metal; path = Source/MTTransitions/MTCannabisleafTransition.metal; sourceTree = "<group>"; };
 		19DF68D3492765FDDD0447D662E1B98C /* MTIMPSUnsharpMaskFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSUnsharpMaskFilter.m; path = Frameworks/MetalPetal/Filters/MTIMPSUnsharpMaskFilter.m; sourceTree = "<group>"; };
 		1A8D4DA9ADECF1D151A11F3CD69513B7 /* MTDirectionalWarpTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDirectionalWarpTransition.swift; path = Source/MTTransitions/MTDirectionalWarpTransition.swift; sourceTree = "<group>"; };
 		1C3F494083965E22E77729B73395411B /* MTWindowblindsTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWindowblindsTransition.swift; path = Source/MTTransitions/MTWindowblindsTransition.swift; sourceTree = "<group>"; };
 		1CCDB9FE0813F9AE5B1874A2A92D4603 /* MTRippleTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTRippleTransition.swift; path = Source/MTTransitions/MTRippleTransition.swift; sourceTree = "<group>"; };
-		1CE6E9CA72440D90DCE1F8FBA68B9BFC /* MTRandomsquaresTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTRandomsquaresTransition.metal; path = Source/MTTransitions/MTRandomsquaresTransition.metal; sourceTree = "<group>"; };
+		1CE6E9CA72440D90DCE1F8FBA68B9BFC /* MTRandomsquaresTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTRandomsquaresTransition.metal; path = Source/MTTransitions/MTRandomsquaresTransition.metal; sourceTree = "<group>"; };
 		1D0A161E5B604BF5C64D431A6BC844BE /* MTIImageRenderingContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIImageRenderingContext.h; path = Frameworks/MetalPetal/MTIImageRenderingContext.h; sourceTree = "<group>"; };
-		1D333D4F5020AF35D56C43307D9784C3 /* MTFadegrayscaleTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTFadegrayscaleTransition.metal; path = Source/MTTransitions/MTFadegrayscaleTransition.metal; sourceTree = "<group>"; };
+		1D333D4F5020AF35D56C43307D9784C3 /* MTFadegrayscaleTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTFadegrayscaleTransition.metal; path = Source/MTTransitions/MTFadegrayscaleTransition.metal; sourceTree = "<group>"; };
 		1E7E27D48E2EB68AC3347F4721455E00 /* MTIVertex.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIVertex.m; path = Frameworks/MetalPetal/MTIVertex.m; sourceTree = "<group>"; };
 		1F4ECC5FA64B601D1B033BECCB6A9BCE /* MTILayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTILayer.m; path = Frameworks/MetalPetal/MTILayer.m; sourceTree = "<group>"; };
 		1F957ACDA969740CE1457E67F8411024 /* MTIRenderPipeline.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRenderPipeline.h; path = Frameworks/MetalPetal/MTIRenderPipeline.h; sourceTree = "<group>"; };
-		20253206D12AF841D8FC4AE92CFCC560 /* MTCrosswarpTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCrosswarpTransition.metal; path = Source/MTTransitions/MTCrosswarpTransition.metal; sourceTree = "<group>"; };
+		20253206D12AF841D8FC4AE92CFCC560 /* MTCrosswarpTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCrosswarpTransition.metal; path = Source/MTTransitions/MTCrosswarpTransition.metal; sourceTree = "<group>"; };
 		20543A25CFB391B52C160BE326AE4826 /* MTHeartTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTHeartTransition.swift; path = Source/MTTransitions/MTHeartTransition.swift; sourceTree = "<group>"; };
-		20B4BFD80263EE794A902E360007D6DE /* MTFadeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTFadeTransition.metal; path = Source/MTTransitions/MTFadeTransition.metal; sourceTree = "<group>"; };
+		20B4BFD80263EE794A902E360007D6DE /* MTFadeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTFadeTransition.metal; path = Source/MTTransitions/MTFadeTransition.metal; sourceTree = "<group>"; };
 		211623A14877B3C31278FBD5461581C1 /* MTColourDistanceTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTColourDistanceTransition.swift; path = Source/MTTransitions/MTColourDistanceTransition.swift; sourceTree = "<group>"; };
 		2167AFD45F91191155A7A45D38DCF816 /* MTICVMetalTextureCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICVMetalTextureCache.m; path = Frameworks/MetalPetal/MTICVMetalTextureCache.m; sourceTree = "<group>"; };
 		21BBF5A5093EC4778295E70C11F607AD /* MTIHasher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIHasher.h; path = Frameworks/MetalPetal/MTIHasher.h; sourceTree = "<group>"; };
 		21E4C1F8EA106BD32820259FF1AE8C7A /* MTITextureDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTITextureDescriptor.m; path = Frameworks/MetalPetal/MTITextureDescriptor.m; sourceTree = "<group>"; };
-		220451031B7E7BB507515B41ACF90779 /* MTDisplacementTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDisplacementTransition.metal; path = Source/MTTransitions/MTDisplacementTransition.metal; sourceTree = "<group>"; };
-		231DEADEB8D6777729EFAE318CE03136 /* MTCubeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCubeTransition.metal; path = Source/MTTransitions/MTCubeTransition.metal; sourceTree = "<group>"; };
+		220451031B7E7BB507515B41ACF90779 /* MTDisplacementTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDisplacementTransition.metal; path = Source/MTTransitions/MTDisplacementTransition.metal; sourceTree = "<group>"; };
+		231DEADEB8D6777729EFAE318CE03136 /* MTCubeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCubeTransition.metal; path = Source/MTTransitions/MTCubeTransition.metal; sourceTree = "<group>"; };
 		238D5735A7B8CBA7617F3FB83E239A81 /* MTITransformFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTITransformFilter.m; path = Frameworks/MetalPetal/Filters/MTITransformFilter.m; sourceTree = "<group>"; };
 		23A225C9A261B52BC2F511FA7BAEDF6D /* MTLinearBlurTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTLinearBlurTransition.swift; path = Source/MTTransitions/MTLinearBlurTransition.swift; sourceTree = "<group>"; };
 		23D4576AFDC4874BDB53C93BDD121D09 /* MTDisplacementTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDisplacementTransition.swift; path = Source/MTTransitions/MTDisplacementTransition.swift; sourceTree = "<group>"; };
 		258AA66D34DDE8559A15CFDFCB5551EF /* MTKaleidoscopeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTKaleidoscopeTransition.swift; path = Source/MTTransitions/MTKaleidoscopeTransition.swift; sourceTree = "<group>"; };
-		25C134EDE5A2C556F3ED7B61A3D9859C /* MTITexturePool.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = MTITexturePool.mm; path = Frameworks/MetalPetal/MTITexturePool.mm; sourceTree = "<group>"; };
+		25C134EDE5A2C556F3ED7B61A3D9859C /* MTITexturePool.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = MTITexturePool.mm; path = Frameworks/MetalPetal/MTITexturePool.mm; sourceTree = "<group>"; };
 		25E62D234C6519D6FC8C6D6FF949687F /* MTIMultilayerCompositeKernel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMultilayerCompositeKernel.m; path = Frameworks/MetalPetal/Kernels/MTIMultilayerCompositeKernel.m; sourceTree = "<group>"; };
-		269F367FDF86A5505E548E807AE59F13 /* CLAHE.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = CLAHE.metal; path = Frameworks/MetalPetal/Shaders/CLAHE.metal; sourceTree = "<group>"; };
+		269F367FDF86A5505E548E807AE59F13 /* CLAHE.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = CLAHE.metal; path = Frameworks/MetalPetal/Shaders/CLAHE.metal; sourceTree = "<group>"; };
 		27D622D47B353319D4AF093F27B199AE /* MTIImagePromiseDebug.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIImagePromiseDebug.h; path = Frameworks/MetalPetal/MTIImagePromiseDebug.h; sourceTree = "<group>"; };
 		2945C6EE49D6366C2FC3AB62A5231BB2 /* MTIRenderPassOutputDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIRenderPassOutputDescriptor.m; path = Frameworks/MetalPetal/MTIRenderPassOutputDescriptor.m; sourceTree = "<group>"; };
 		29CD9430233970CAFB5D816F6C64E68F /* MTIHexagonalBokehBlurFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIHexagonalBokehBlurFilter.m; path = Frameworks/MetalPetal/Filters/MTIHexagonalBokehBlurFilter.m; sourceTree = "<group>"; };
 		2A470042992A1AC7D8E10EA6CE32E194 /* MTICVMetalTextureBridging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICVMetalTextureBridging.h; path = Frameworks/MetalPetal/MTICVMetalTextureBridging.h; sourceTree = "<group>"; };
-		2C02013CB44CDCD2EBDE4906FC097DE2 /* MTMosaicTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTMosaicTransition.metal; path = Source/MTTransitions/MTMosaicTransition.metal; sourceTree = "<group>"; };
+		2C02013CB44CDCD2EBDE4906FC097DE2 /* MTMosaicTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTMosaicTransition.metal; path = Source/MTTransitions/MTMosaicTransition.metal; sourceTree = "<group>"; };
 		2C31B24899CA866E3A4254B9D408C64E /* MTIChromaKeyBlendFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIChromaKeyBlendFilter.h; path = Frameworks/MetalPetal/Filters/MTIChromaKeyBlendFilter.h; sourceTree = "<group>"; };
 		2CF355C7AA086E4413C4A96E31802F10 /* MTCircleopenTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCircleopenTransition.swift; path = Source/MTTransitions/MTCircleopenTransition.swift; sourceTree = "<group>"; };
 		2D2D43936FD2D4ADF93F89B59C25DFD7 /* MTCrossZoomTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCrossZoomTransition.swift; path = Source/MTTransitions/MTCrossZoomTransition.swift; sourceTree = "<group>"; };
@@ -428,12 +428,12 @@
 		2F560AB9486191B0F969FC6419F1D437 /* MetalPetal-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MetalPetal-dummy.m"; sourceTree = "<group>"; };
 		328B6059180973183AA09C52AB69C4C4 /* MTILock.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTILock.m; path = Frameworks/MetalPetal/MTILock.m; sourceTree = "<group>"; };
 		34B21C2FD55BF8C423CF0528D6E5DC80 /* MTITransform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITransform.h; path = Frameworks/MetalPetal/MTITransform.h; sourceTree = "<group>"; };
-		364A1C99C47988655DF81DA4D4FDAF3C /* MTDreamyZoomTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDreamyZoomTransition.metal; path = Source/MTTransitions/MTDreamyZoomTransition.metal; sourceTree = "<group>"; };
+		364A1C99C47988655DF81DA4D4FDAF3C /* MTDreamyZoomTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDreamyZoomTransition.metal; path = Source/MTTransitions/MTDreamyZoomTransition.metal; sourceTree = "<group>"; };
 		378FD7AE9BAC8647237D2D49009E3E80 /* MTSimpleZoomTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTSimpleZoomTransition.swift; path = Source/MTTransitions/MTSimpleZoomTransition.swift; sourceTree = "<group>"; };
 		379DB860D6BBDABE3ACF4D3B1A1B8921 /* MTBurnTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTBurnTransition.swift; path = Source/MTTransitions/MTBurnTransition.swift; sourceTree = "<group>"; };
 		38B0C709F3506036E5C679837E07CBE0 /* MTBowTieHorizontalTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTBowTieHorizontalTransition.swift; path = Source/MTTransitions/MTBowTieHorizontalTransition.swift; sourceTree = "<group>"; };
 		38FC4F6B9714311C222850A5C2D8C6AE /* MTIHasher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIHasher.m; path = Frameworks/MetalPetal/MTIHasher.m; sourceTree = "<group>"; };
-		392160877D611EC1D442E8B4ADC98DA4 /* MultilayerCompositeShaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MultilayerCompositeShaders.metal; path = Frameworks/MetalPetal/Shaders/MultilayerCompositeShaders.metal; sourceTree = "<group>"; };
+		392160877D611EC1D442E8B4ADC98DA4 /* MultilayerCompositeShaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MultilayerCompositeShaders.metal; path = Frameworks/MetalPetal/Shaders/MultilayerCompositeShaders.metal; sourceTree = "<group>"; };
 		3BEADCBC74C3A32400ED6AADAC20DB14 /* MTDreamyZoomTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDreamyZoomTransition.swift; path = Source/MTTransitions/MTDreamyZoomTransition.swift; sourceTree = "<group>"; };
 		3EEC949221587AF99A698C2DD7349CDF /* MTIPixelFormat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIPixelFormat.m; path = Frameworks/MetalPetal/MTIPixelFormat.m; sourceTree = "<group>"; };
 		3F16066E2B8A65A94086278D65B8B898 /* MTIKernel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIKernel.h; path = Frameworks/MetalPetal/Kernels/MTIKernel.h; sourceTree = "<group>"; };
@@ -451,27 +451,27 @@
 		4CADA7A90A0C0BDFCB00B961AC5CAD3E /* MTIUnaryImageRenderingFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIUnaryImageRenderingFilter.h; path = Frameworks/MetalPetal/Filters/MTIUnaryImageRenderingFilter.h; sourceTree = "<group>"; };
 		4CFEEF51CD87C89FF54F2A4C74200DB3 /* MTZoomInCirclesTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTZoomInCirclesTransition.swift; path = Source/MTTransitions/MTZoomInCirclesTransition.swift; sourceTree = "<group>"; };
 		4DC902E8C64F172F904E9B1A1A275F8C /* MTIContext+Internal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MTIContext+Internal.h"; path = "Frameworks/MetalPetal/MTIContext+Internal.h"; sourceTree = "<group>"; };
-		4EC0CBE1A37B5529A2259527929E6779 /* MTRotateScaleFadeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTRotateScaleFadeTransition.metal; path = Source/MTTransitions/MTRotateScaleFadeTransition.metal; sourceTree = "<group>"; };
-		50A3507C622B6D1FD7AFCF955AFDA254 /* MTCrosshatchTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCrosshatchTransition.metal; path = Source/MTTransitions/MTCrosshatchTransition.metal; sourceTree = "<group>"; };
+		4EC0CBE1A37B5529A2259527929E6779 /* MTRotateScaleFadeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTRotateScaleFadeTransition.metal; path = Source/MTTransitions/MTRotateScaleFadeTransition.metal; sourceTree = "<group>"; };
+		50A3507C622B6D1FD7AFCF955AFDA254 /* MTCrosshatchTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCrosshatchTransition.metal; path = Source/MTTransitions/MTCrosshatchTransition.metal; sourceTree = "<group>"; };
 		50E5517D9CA83E388492E3128272853E /* MTRandomsquaresTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTRandomsquaresTransition.swift; path = Source/MTTransitions/MTRandomsquaresTransition.swift; sourceTree = "<group>"; };
 		510A98E353B24C8EA576DD08CD6BF66F /* MTIColorLookupFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIColorLookupFilter.h; path = Frameworks/MetalPetal/Filters/MTIColorLookupFilter.h; sourceTree = "<group>"; };
-		514529BDBEBBE694C1C1291867759C47 /* MTPerlinTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTPerlinTransition.metal; path = Source/MTTransitions/MTPerlinTransition.metal; sourceTree = "<group>"; };
+		514529BDBEBBE694C1C1291867759C47 /* MTPerlinTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTPerlinTransition.metal; path = Source/MTTransitions/MTPerlinTransition.metal; sourceTree = "<group>"; };
 		5157A533EA867927177BCE30B3C44E0E /* MTPolarFunctionTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTPolarFunctionTransition.swift; path = Source/MTTransitions/MTPolarFunctionTransition.swift; sourceTree = "<group>"; };
 		51EED85E3F4CDD64B0F05CCAE11965E5 /* Pods-MTTransitionsDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MTTransitionsDemo.modulemap"; sourceTree = "<group>"; };
-		52633AA64C1EF648B7A1315E896B435A /* Pods_MTTransitionsDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MTTransitionsDemo.framework; path = "Pods-MTTransitionsDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		52633AA64C1EF648B7A1315E896B435A /* Pods_MTTransitionsDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MTTransitionsDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B2BB33125B1DA914E20384F6766B80 /* MTPolkaDotsCurtainTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTPolkaDotsCurtainTransition.swift; path = Source/MTTransitions/MTPolkaDotsCurtainTransition.swift; sourceTree = "<group>"; };
-		5322AC50D82E461C867BCC1BDB2C3E9A /* MTRippleTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTRippleTransition.metal; path = Source/MTTransitions/MTRippleTransition.metal; sourceTree = "<group>"; };
+		5322AC50D82E461C867BCC1BDB2C3E9A /* MTRippleTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTRippleTransition.metal; path = Source/MTTransitions/MTRippleTransition.metal; sourceTree = "<group>"; };
 		5336D7E774AC2C1EE91D3713B0025DD0 /* MTIRenderPipelineKernel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRenderPipelineKernel.h; path = Frameworks/MetalPetal/Kernels/MTIRenderPipelineKernel.h; sourceTree = "<group>"; };
 		533E50F59F0D7B31922863EE09FFDC93 /* MTIGeometry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIGeometry.h; path = Frameworks/MetalPetal/MTIGeometry.h; sourceTree = "<group>"; };
-		53B0C89FED622B6C0DC7F3B53F59392A /* MTLinearBlurTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTLinearBlurTransition.metal; path = Source/MTTransitions/MTLinearBlurTransition.metal; sourceTree = "<group>"; };
+		53B0C89FED622B6C0DC7F3B53F59392A /* MTLinearBlurTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTLinearBlurTransition.metal; path = Source/MTTransitions/MTLinearBlurTransition.metal; sourceTree = "<group>"; };
 		53E5DFE964A9C215E76E5DDF01B6A868 /* MTSquareswireTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTSquareswireTransition.swift; path = Source/MTTransitions/MTSquareswireTransition.swift; sourceTree = "<group>"; };
 		540203EDB89A372CEC1D31413B4DA23B /* MTITextureDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITextureDescriptor.h; path = Frameworks/MetalPetal/MTITextureDescriptor.h; sourceTree = "<group>"; };
 		54CCDB0B6CD3C99FC2E594C70F233FF8 /* MetalPetal.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MetalPetal.modulemap; sourceTree = "<group>"; };
-		55C6A63E582C4AB1A56E51116B5062DE /* MTLumaTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTLumaTransition.metal; path = Source/MTTransitions/MTLumaTransition.metal; sourceTree = "<group>"; };
+		55C6A63E582C4AB1A56E51116B5062DE /* MTLumaTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTLumaTransition.metal; path = Source/MTTransitions/MTLumaTransition.metal; sourceTree = "<group>"; };
 		55CD89C9BA76AF8826C48D22EC33542C /* MTIMultilayerCompositingFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMultilayerCompositingFilter.m; path = Frameworks/MetalPetal/Filters/MTIMultilayerCompositingFilter.m; sourceTree = "<group>"; };
-		56C1FC65C7AC3E5F82093302633D1339 /* MTRadialTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTRadialTransition.metal; path = Source/MTTransitions/MTRadialTransition.metal; sourceTree = "<group>"; };
-		57DE5C2711028462684D983E97703A5D /* MTGridFlipTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTGridFlipTransition.metal; path = Source/MTTransitions/MTGridFlipTransition.metal; sourceTree = "<group>"; };
-		580EE900722D3CDA73D1B4D760206CAC /* MTInvertedPageCurlTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTInvertedPageCurlTransition.metal; path = Source/MTTransitions/MTInvertedPageCurlTransition.metal; sourceTree = "<group>"; };
+		56C1FC65C7AC3E5F82093302633D1339 /* MTRadialTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTRadialTransition.metal; path = Source/MTTransitions/MTRadialTransition.metal; sourceTree = "<group>"; };
+		57DE5C2711028462684D983E97703A5D /* MTGridFlipTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTGridFlipTransition.metal; path = Source/MTTransitions/MTGridFlipTransition.metal; sourceTree = "<group>"; };
+		580EE900722D3CDA73D1B4D760206CAC /* MTInvertedPageCurlTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTInvertedPageCurlTransition.metal; path = Source/MTTransitions/MTInvertedPageCurlTransition.metal; sourceTree = "<group>"; };
 		5845C253043F614A7D43E8E82A463F0E /* MTTransitions-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MTTransitions-dummy.m"; sourceTree = "<group>"; };
 		5867826CC91BDFA13D6A601C7E183DA6 /* MTIImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIImage.m; path = Frameworks/MetalPetal/MTIImage.m; sourceTree = "<group>"; };
 		61C17A2F4402F1074BD6B8314BFDECC4 /* MTIColorHalftoneFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIColorHalftoneFilter.h; path = Frameworks/MetalPetal/Filters/MTIColorHalftoneFilter.h; sourceTree = "<group>"; };
@@ -480,15 +480,15 @@
 		639046BB35F5F0B6D46B639BB27DC2E7 /* MTICVPixelBufferRendering.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICVPixelBufferRendering.m; path = Frameworks/MetalPetal/MTICVPixelBufferRendering.m; sourceTree = "<group>"; };
 		6439E4FF3F07C5F5F9E94D83DDE75FD5 /* MTIMPSHistogramFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSHistogramFilter.m; path = Frameworks/MetalPetal/Filters/MTIMPSHistogramFilter.m; sourceTree = "<group>"; };
 		66F2DFBF14A78A028E38341CD850ECD4 /* MTIRenderCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRenderCommand.h; path = Frameworks/MetalPetal/Kernels/MTIRenderCommand.h; sourceTree = "<group>"; };
-		68344672E6576AB3504FE4D81D2103A9 /* MTHeartTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTHeartTransition.metal; path = Source/MTTransitions/MTHeartTransition.metal; sourceTree = "<group>"; };
+		68344672E6576AB3504FE4D81D2103A9 /* MTHeartTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTHeartTransition.metal; path = Source/MTTransitions/MTHeartTransition.metal; sourceTree = "<group>"; };
 		686D0DDA542730F690BF9598D798C7AC /* MTIDefer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIDefer.h; path = Frameworks/MetalPetal/MTIDefer.h; sourceTree = "<group>"; };
 		68E91F92F2CDA232137E028AEE2141B2 /* Pods-MTTransitionsDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MTTransitionsDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		693A232695779E3FA734EBF4F5A7FD88 /* MTIUnaryImageRenderingFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIUnaryImageRenderingFilter.m; path = Frameworks/MetalPetal/Filters/MTIUnaryImageRenderingFilter.m; sourceTree = "<group>"; };
-		6947B9C4918790893F88D8BDBE2E9C0C /* BlendingShaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = BlendingShaders.metal; path = Frameworks/MetalPetal/Shaders/BlendingShaders.metal; sourceTree = "<group>"; };
-		69AC8ABB03982AA782450756672B5E81 /* MTKaleidoscopeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTKaleidoscopeTransition.metal; path = Source/MTTransitions/MTKaleidoscopeTransition.metal; sourceTree = "<group>"; };
-		69FF7B694F73A54B630EB57A80FA0A79 /* MTColorphaseTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTColorphaseTransition.metal; path = Source/MTTransitions/MTColorphaseTransition.metal; sourceTree = "<group>"; };
-		6A2F547E7328770E26658C1556FE5AC4 /* MTStereoViewerTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTStereoViewerTransition.metal; path = Source/MTTransitions/MTStereoViewerTransition.metal; sourceTree = "<group>"; };
-		6BC1050A3C84C075562CA2CA3B0E6DE0 /* MTWindTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWindTransition.metal; path = Source/MTTransitions/MTWindTransition.metal; sourceTree = "<group>"; };
+		6947B9C4918790893F88D8BDBE2E9C0C /* BlendingShaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = BlendingShaders.metal; path = Frameworks/MetalPetal/Shaders/BlendingShaders.metal; sourceTree = "<group>"; };
+		69AC8ABB03982AA782450756672B5E81 /* MTKaleidoscopeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTKaleidoscopeTransition.metal; path = Source/MTTransitions/MTKaleidoscopeTransition.metal; sourceTree = "<group>"; };
+		69FF7B694F73A54B630EB57A80FA0A79 /* MTColorphaseTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTColorphaseTransition.metal; path = Source/MTTransitions/MTColorphaseTransition.metal; sourceTree = "<group>"; };
+		6A2F547E7328770E26658C1556FE5AC4 /* MTStereoViewerTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTStereoViewerTransition.metal; path = Source/MTTransitions/MTStereoViewerTransition.metal; sourceTree = "<group>"; };
+		6BC1050A3C84C075562CA2CA3B0E6DE0 /* MTWindTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWindTransition.metal; path = Source/MTTransitions/MTWindTransition.metal; sourceTree = "<group>"; };
 		6BF9B757C611544583BD87E1196BDCFD /* MTPerlinTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTPerlinTransition.swift; path = Source/MTTransitions/MTPerlinTransition.swift; sourceTree = "<group>"; };
 		6C775D99DE795C189633F70F43AB5FD6 /* MTFadecolorTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTFadecolorTransition.swift; path = Source/MTTransitions/MTFadecolorTransition.swift; sourceTree = "<group>"; };
 		6C8E84AAC040FDC9C371F17157E352DA /* MTSwirlTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTSwirlTransition.swift; path = Source/MTTransitions/MTSwirlTransition.swift; sourceTree = "<group>"; };
@@ -496,19 +496,19 @@
 		6CFE725E6E732857406689545E779637 /* MTIShaderLib.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIShaderLib.h; path = Frameworks/MetalPetal/Shaders/MTIShaderLib.h; sourceTree = "<group>"; };
 		6F464C1AC26114B8449647A008A0BC39 /* MTIImagePromiseDebug.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIImagePromiseDebug.m; path = Frameworks/MetalPetal/MTIImagePromiseDebug.m; sourceTree = "<group>"; };
 		6F76061B6BF4714A60CE9602DC1B9856 /* MTMultiplyBlendTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTMultiplyBlendTransition.swift; path = Source/MTTransitions/MTMultiplyBlendTransition.swift; sourceTree = "<group>"; };
-		6FB50F0FFBE22D8DEC051C82935E2CD0 /* MTBowTieHorizontalTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTBowTieHorizontalTransition.metal; path = Source/MTTransitions/MTBowTieHorizontalTransition.metal; sourceTree = "<group>"; };
+		6FB50F0FFBE22D8DEC051C82935E2CD0 /* MTBowTieHorizontalTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTBowTieHorizontalTransition.metal; path = Source/MTTransitions/MTBowTieHorizontalTransition.metal; sourceTree = "<group>"; };
 		700DC8E45976ED0AF3FDE2C7AEE7FB8E /* MTICVPixelBufferPool.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICVPixelBufferPool.h; path = Frameworks/MetalPetal/MTICVPixelBufferPool.h; sourceTree = "<group>"; };
 		715529953A47F5D08D48E310C364064A /* MTIImageProperties.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIImageProperties.m; path = Frameworks/MetalPetal/MTIImageProperties.m; sourceTree = "<group>"; };
 		72B8C6ACB688CA22D7D91FE3077B1857 /* MTIColorMatrixFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIColorMatrixFilter.h; path = Frameworks/MetalPetal/Filters/MTIColorMatrixFilter.h; sourceTree = "<group>"; };
 		72BD81C700BB133195476B39F3347D3F /* MTISamplerDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTISamplerDescriptor.h; path = Frameworks/MetalPetal/MTISamplerDescriptor.h; sourceTree = "<group>"; };
-		73ADE6D4EA399680A777E1A92ACBBB8E /* MTCircleCropTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCircleCropTransition.metal; path = Source/MTTransitions/MTCircleCropTransition.metal; sourceTree = "<group>"; };
+		73ADE6D4EA399680A777E1A92ACBBB8E /* MTCircleCropTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCircleCropTransition.metal; path = Source/MTTransitions/MTCircleCropTransition.metal; sourceTree = "<group>"; };
 		751CCBC22CFC3FA29BBF83C02C0DC38B /* MTIMPSSobelFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSSobelFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSSobelFilter.h; sourceTree = "<group>"; };
 		7550CD77806713418D201B0537F57D7F /* MTCrazyParametricFunTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCrazyParametricFunTransition.swift; path = Source/MTTransitions/MTCrazyParametricFunTransition.swift; sourceTree = "<group>"; };
 		7856D6F441768BC1BF836B77487E74B9 /* MTPixelizeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTPixelizeTransition.swift; path = Source/MTTransitions/MTPixelizeTransition.swift; sourceTree = "<group>"; };
 		78DE2B7A0AFDF7EAFA1E00B9ACF94819 /* MTDirectionalTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDirectionalTransition.swift; path = Source/MTTransitions/MTDirectionalTransition.swift; sourceTree = "<group>"; };
 		78E0EFB80FB55B1F53CDC8676A467B3F /* MTFlyeyeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTFlyeyeTransition.swift; path = Source/MTTransitions/MTFlyeyeTransition.swift; sourceTree = "<group>"; };
-		794B41009917AFE06EA72840B856DF4F /* ColorConversionShaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = ColorConversionShaders.metal; path = Frameworks/MetalPetal/Shaders/ColorConversionShaders.metal; sourceTree = "<group>"; };
-		796512E05657F68AC374D60F1B5C1E40 /* MTFlyeyeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTFlyeyeTransition.metal; path = Source/MTTransitions/MTFlyeyeTransition.metal; sourceTree = "<group>"; };
+		794B41009917AFE06EA72840B856DF4F /* ColorConversionShaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = ColorConversionShaders.metal; path = Frameworks/MetalPetal/Shaders/ColorConversionShaders.metal; sourceTree = "<group>"; };
+		796512E05657F68AC374D60F1B5C1E40 /* MTFlyeyeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTFlyeyeTransition.metal; path = Source/MTTransitions/MTFlyeyeTransition.metal; sourceTree = "<group>"; };
 		79DB21150F87AA1BA32A862E44E0ACB9 /* Pods-MTTransitionsDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MTTransitionsDemo-dummy.m"; sourceTree = "<group>"; };
 		7AF1CA97B3DAA7C7960F05D9DAD0F3EF /* MTMosaicTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTMosaicTransition.swift; path = Source/MTTransitions/MTMosaicTransition.swift; sourceTree = "<group>"; };
 		7B516CB74373AB725D97514CD6875CCD /* MTIBlendWithMaskFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIBlendWithMaskFilter.m; path = Frameworks/MetalPetal/Filters/MTIBlendWithMaskFilter.m; sourceTree = "<group>"; };
@@ -517,16 +517,16 @@
 		7C565900DE15D09B62A0356724109518 /* MTFadeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTFadeTransition.swift; path = Source/MTTransitions/MTFadeTransition.swift; sourceTree = "<group>"; };
 		7E5562B8F2EE715B11AF2791F85C73B9 /* MTIMPSConvolutionFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSConvolutionFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSConvolutionFilter.h; sourceTree = "<group>"; };
 		7EFD263DDB631CFD90E0CDD841A6D375 /* MTIRenderPassOutputDescriptor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRenderPassOutputDescriptor.h; path = Frameworks/MetalPetal/MTIRenderPassOutputDescriptor.h; sourceTree = "<group>"; };
-		800A2E4C855AF68D968AFD9EE68C809A /* Halftone.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = Halftone.metal; path = Frameworks/MetalPetal/Shaders/Halftone.metal; sourceTree = "<group>"; };
+		800A2E4C855AF68D968AFD9EE68C809A /* Halftone.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = Halftone.metal; path = Frameworks/MetalPetal/Shaders/Halftone.metal; sourceTree = "<group>"; };
 		8161FCCE689BB813EAC2DD465C041CC4 /* MTButterflyWaveScrawlerTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTButterflyWaveScrawlerTransition.swift; path = Source/MTTransitions/MTButterflyWaveScrawlerTransition.swift; sourceTree = "<group>"; };
 		81E523965B7A8651C577F90AE8785FBD /* MetalPetal-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "MetalPetal-Info.plist"; sourceTree = "<group>"; };
-		821B3DB86538B71E42650934C6FE98BA /* MTSwirlTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTSwirlTransition.metal; path = Source/MTTransitions/MTSwirlTransition.metal; sourceTree = "<group>"; };
+		821B3DB86538B71E42650934C6FE98BA /* MTSwirlTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTSwirlTransition.metal; path = Source/MTTransitions/MTSwirlTransition.metal; sourceTree = "<group>"; };
 		82523C0950033BE7C1CBD9FE14FAA8E0 /* MTICropFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICropFilter.h; path = Frameworks/MetalPetal/Filters/MTICropFilter.h; sourceTree = "<group>"; };
 		82528EED4A2A78FDA5A752330C04C3B2 /* MTIColorMatrix.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIColorMatrix.m; path = Frameworks/MetalPetal/MTIColorMatrix.m; sourceTree = "<group>"; };
 		82AD630745D17CE279C6EB04BE3BDC2D /* MTIRenderGraphOptimization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRenderGraphOptimization.h; path = Frameworks/MetalPetal/MTIRenderGraphOptimization.h; sourceTree = "<group>"; };
 		82CB7CFD53F8A5EF8C5CDA33C29B3246 /* MTMorphTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTMorphTransition.swift; path = Source/MTTransitions/MTMorphTransition.swift; sourceTree = "<group>"; };
 		838DA4AC96161CFA1F736B0A17F73838 /* MTLumaTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTLumaTransition.swift; path = Source/MTTransitions/MTLumaTransition.swift; sourceTree = "<group>"; };
-		84083F4999C8961DD8829851A8FB45B4 /* MTCrossZoomTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCrossZoomTransition.metal; path = Source/MTTransitions/MTCrossZoomTransition.metal; sourceTree = "<group>"; };
+		84083F4999C8961DD8829851A8FB45B4 /* MTCrossZoomTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCrossZoomTransition.metal; path = Source/MTTransitions/MTCrossZoomTransition.metal; sourceTree = "<group>"; };
 		8438F6E86D264603FA9CCC7E0B8AD430 /* MTWipeDownTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWipeDownTransition.swift; path = Source/MTTransitions/MTWipeDownTransition.swift; sourceTree = "<group>"; };
 		846AA58562CA62652C30453ABA87E45A /* MTGlitchDisplaceTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTGlitchDisplaceTransition.swift; path = Source/MTTransitions/MTGlitchDisplaceTransition.swift; sourceTree = "<group>"; };
 		8471E2851419FC548C32ED00683AFCB8 /* MTIColorMatrix.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIColorMatrix.h; path = Frameworks/MetalPetal/MTIColorMatrix.h; sourceTree = "<group>"; };
@@ -538,8 +538,8 @@
 		8613100EC9DF17EE8F6958080586BDFC /* MTWipeRightTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWipeRightTransition.swift; path = Source/MTTransitions/MTWipeRightTransition.swift; sourceTree = "<group>"; };
 		86DB63C386982D343A119CD8DFC974E5 /* MTIDotScreenFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIDotScreenFilter.h; path = Frameworks/MetalPetal/Filters/MTIDotScreenFilter.h; sourceTree = "<group>"; };
 		87149F04CC84BD6660100F758773F6BC /* MTBowTieVerticalTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTBowTieVerticalTransition.swift; path = Source/MTTransitions/MTBowTieVerticalTransition.swift; sourceTree = "<group>"; };
-		882A37E90DCBA9C896BE2641323589CE /* MTTransitions.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = MTTransitions.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		88BA1E189980508A727138B8ADCB8000 /* MTBurnTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTBurnTransition.metal; path = Source/MTTransitions/MTBurnTransition.metal; sourceTree = "<group>"; };
+		882A37E90DCBA9C896BE2641323589CE /* MTTransitions.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = MTTransitions.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		88BA1E189980508A727138B8ADCB8000 /* MTBurnTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTBurnTransition.metal; path = Source/MTTransitions/MTBurnTransition.metal; sourceTree = "<group>"; };
 		897DEA35122A8EAD01FA00E9690D08B7 /* MTTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTTransition.swift; path = Source/MTTransitions/MTTransition.swift; sourceTree = "<group>"; };
 		898CAE213D97635ACFAD9259FCD949D1 /* MTIComputePipeline.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIComputePipeline.h; path = Frameworks/MetalPetal/MTIComputePipeline.h; sourceTree = "<group>"; };
 		8A800CD280862DCFBC1B67BB4E17B197 /* MTSqueezeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTSqueezeTransition.swift; path = Source/MTTransitions/MTSqueezeTransition.swift; sourceTree = "<group>"; };
@@ -547,25 +547,25 @@
 		8B48B0C8AC701997E4115EBAD7444F71 /* MTIMPSUnsharpMaskFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSUnsharpMaskFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSUnsharpMaskFilter.h; sourceTree = "<group>"; };
 		8BE8E85703715753A32A7C10F2178F0B /* MTIMPSConvolutionFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSConvolutionFilter.m; path = Frameworks/MetalPetal/Filters/MTIMPSConvolutionFilter.m; sourceTree = "<group>"; };
 		8DC0390BDB2567CEDD1CBE3AF9B6CC77 /* MTWipeLeftTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWipeLeftTransition.swift; path = Source/MTTransitions/MTWipeLeftTransition.swift; sourceTree = "<group>"; };
-		8DFD318151EF4723955747B235619E53 /* MTWipeUpTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWipeUpTransition.metal; path = Source/MTTransitions/MTWipeUpTransition.metal; sourceTree = "<group>"; };
+		8DFD318151EF4723955747B235619E53 /* MTWipeUpTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWipeUpTransition.metal; path = Source/MTTransitions/MTWipeUpTransition.metal; sourceTree = "<group>"; };
 		8E9281FA2FB9ABFE3950ACA583EE93FF /* MTWipeUpTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWipeUpTransition.swift; path = Source/MTTransitions/MTWipeUpTransition.swift; sourceTree = "<group>"; };
 		8F4EBB49D80F1EC93053FA6EC8D14A61 /* MTICLAHEFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICLAHEFilter.h; path = Frameworks/MetalPetal/Filters/MTICLAHEFilter.h; sourceTree = "<group>"; };
-		8FCBFA163DCE8730C38D874599BF60A5 /* MTCircleopenTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCircleopenTransition.metal; path = Source/MTTransitions/MTCircleopenTransition.metal; sourceTree = "<group>"; };
-		933500C0E8067DEF0259D70638DFC9E3 /* MTHexagonalizeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTHexagonalizeTransition.metal; path = Source/MTTransitions/MTHexagonalizeTransition.metal; sourceTree = "<group>"; };
+		8FCBFA163DCE8730C38D874599BF60A5 /* MTCircleopenTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCircleopenTransition.metal; path = Source/MTTransitions/MTCircleopenTransition.metal; sourceTree = "<group>"; };
+		933500C0E8067DEF0259D70638DFC9E3 /* MTHexagonalizeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTHexagonalizeTransition.metal; path = Source/MTTransitions/MTHexagonalizeTransition.metal; sourceTree = "<group>"; };
 		93FB691DB851F1312488DF27061B0C71 /* MTITextureDimensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTITextureDimensions.m; path = Frameworks/MetalPetal/MTITextureDimensions.m; sourceTree = "<group>"; };
-		943FDB2A6B30D45EB0AA0513C10ED7F9 /* MTAngularTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTAngularTransition.metal; path = Source/MTTransitions/MTAngularTransition.metal; sourceTree = "<group>"; };
+		943FDB2A6B30D45EB0AA0513C10ED7F9 /* MTAngularTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTAngularTransition.metal; path = Source/MTTransitions/MTAngularTransition.metal; sourceTree = "<group>"; };
 		94AD52BB7F7EADFA262E434A2064C9F8 /* MTSwapTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTSwapTransition.swift; path = Source/MTTransitions/MTSwapTransition.swift; sourceTree = "<group>"; };
-		96768DA3FBC032CB04AA620235D9055A /* MTWipeLeftTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWipeLeftTransition.metal; path = Source/MTTransitions/MTWipeLeftTransition.metal; sourceTree = "<group>"; };
+		96768DA3FBC032CB04AA620235D9055A /* MTWipeLeftTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWipeLeftTransition.metal; path = Source/MTTransitions/MTWipeLeftTransition.metal; sourceTree = "<group>"; };
 		968CB1D8507EC358CD940A1448B299D2 /* MTIImage+Promise.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MTIImage+Promise.h"; path = "Frameworks/MetalPetal/MTIImage+Promise.h"; sourceTree = "<group>"; };
 		969DF924A61ECCAC32E33C2C0EF7509F /* MTITexturePool.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITexturePool.h; path = Frameworks/MetalPetal/MTITexturePool.h; sourceTree = "<group>"; };
 		987C27C4BE0A58D4607A0C3D60437783 /* MTTransitions-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MTTransitions-prefix.pch"; sourceTree = "<group>"; };
 		98BC5FEB9BB10753BD9D4CB2E65D1A48 /* MTIImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIImageView.m; path = Frameworks/MetalPetal/UI/MTIImageView.m; sourceTree = "<group>"; };
 		99284CBCC69039F78F8F61CCA12171D7 /* MTIColorLookupFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIColorLookupFilter.m; path = Frameworks/MetalPetal/Filters/MTIColorLookupFilter.m; sourceTree = "<group>"; };
-		9A04DAD1B24217F81AECE0103521C683 /* MTWindowsliceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWindowsliceTransition.metal; path = Source/MTTransitions/MTWindowsliceTransition.metal; sourceTree = "<group>"; };
+		9A04DAD1B24217F81AECE0103521C683 /* MTWindowsliceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWindowsliceTransition.metal; path = Source/MTTransitions/MTWindowsliceTransition.metal; sourceTree = "<group>"; };
 		9A4783B250CB743E732B39B81AA8327E /* MTITransformFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITransformFilter.h; path = Frameworks/MetalPetal/Filters/MTITransformFilter.h; sourceTree = "<group>"; };
 		9A736753FEDA6A5CD8F6F8DEAB1E5EE1 /* MTIVector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIVector.h; path = Frameworks/MetalPetal/MTIVector.h; sourceTree = "<group>"; };
-		9C5F3915DBBA349614F9ADD018823651 /* MTUndulatingBurnOutTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTUndulatingBurnOutTransition.metal; path = Source/MTTransitions/MTUndulatingBurnOutTransition.metal; sourceTree = "<group>"; };
-		9DFFA3D46BECBD1565BED2C7FFD76489 /* MTWipeDownTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWipeDownTransition.metal; path = Source/MTTransitions/MTWipeDownTransition.metal; sourceTree = "<group>"; };
+		9C5F3915DBBA349614F9ADD018823651 /* MTUndulatingBurnOutTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTUndulatingBurnOutTransition.metal; path = Source/MTTransitions/MTUndulatingBurnOutTransition.metal; sourceTree = "<group>"; };
+		9DFFA3D46BECBD1565BED2C7FFD76489 /* MTWipeDownTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWipeDownTransition.metal; path = Source/MTTransitions/MTWipeDownTransition.metal; sourceTree = "<group>"; };
 		9EAB025A8DE47914FA90100704CB136F /* MTIFunctionDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIFunctionDescriptor.m; path = Frameworks/MetalPetal/MTIFunctionDescriptor.m; sourceTree = "<group>"; };
 		9EE9AD14E25AD2103927ECDBE316B273 /* MTIDefer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIDefer.m; path = Frameworks/MetalPetal/MTIDefer.m; sourceTree = "<group>"; };
 		9FAC973E7E517E8E016B18B8E09D7BDD /* MTIRGBToneCurveFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIRGBToneCurveFilter.m; path = Frameworks/MetalPetal/Filters/MTIRGBToneCurveFilter.m; sourceTree = "<group>"; };
@@ -580,63 +580,63 @@
 		A73DA4AF4AAAB45598A02121DAA6ACE5 /* MTIComputePipeline.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIComputePipeline.m; path = Frameworks/MetalPetal/MTIComputePipeline.m; sourceTree = "<group>"; };
 		A74CA5AAFFEAB4957D275EDEAE34C799 /* MTICoreImageRendering.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICoreImageRendering.h; path = Frameworks/MetalPetal/MTICoreImageRendering.h; sourceTree = "<group>"; };
 		A9DB607BCC1C6E30B9E57E98964EF128 /* MTIAlphaPremultiplicationFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIAlphaPremultiplicationFilter.h; path = Frameworks/MetalPetal/Filters/MTIAlphaPremultiplicationFilter.h; sourceTree = "<group>"; };
-		A9EF1450E78D01EAAA444C20087DC0A0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		A9EF1450E78D01EAAA444C20087DC0A0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ACAD698C1B3C10B2E918BB6E7AB3B1B5 /* MTIMemoryWarningObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMemoryWarningObserver.h; path = Frameworks/MetalPetal/MTIMemoryWarningObserver.h; sourceTree = "<group>"; };
 		ADC8C6FEB0C6B2649DD2C6CFFCAE272B /* MTIDrawableRendering.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIDrawableRendering.h; path = Frameworks/MetalPetal/MTIDrawableRendering.h; sourceTree = "<group>"; };
 		AE8C315849752C4AE639B6BFD35746B7 /* MTIImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIImageView.h; path = Frameworks/MetalPetal/UI/MTIImageView.h; sourceTree = "<group>"; };
 		AFBD8C27E7B05CBB87F2D52AA3770F4E /* MTCircleTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCircleTransition.swift; path = Source/MTTransitions/MTCircleTransition.swift; sourceTree = "<group>"; };
 		B09769C893C57B49DD62BA66B79440E1 /* MTIColorMatrixFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIColorMatrixFilter.m; path = Frameworks/MetalPetal/Filters/MTIColorMatrixFilter.m; sourceTree = "<group>"; };
 		B107C1689B166F7EABC36B27323CBA88 /* MTICLAHEFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICLAHEFilter.m; path = Frameworks/MetalPetal/Filters/MTICLAHEFilter.m; sourceTree = "<group>"; };
-		B222D19DA94DA0BA7358D9E6B53B7E26 /* MTCrazyParametricFunTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCrazyParametricFunTransition.metal; path = Source/MTTransitions/MTCrazyParametricFunTransition.metal; sourceTree = "<group>"; };
-		B2E038916EF3EBA7069C48A9BDC22FB0 /* MTWindowBlindsTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWindowBlindsTransition.metal; path = Source/MTTransitions/MTWindowBlindsTransition.metal; sourceTree = "<group>"; };
+		B222D19DA94DA0BA7358D9E6B53B7E26 /* MTCrazyParametricFunTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCrazyParametricFunTransition.metal; path = Source/MTTransitions/MTCrazyParametricFunTransition.metal; sourceTree = "<group>"; };
+		B2E038916EF3EBA7069C48A9BDC22FB0 /* MTWindowBlindsTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWindowBlindsTransition.metal; path = Source/MTTransitions/MTWindowBlindsTransition.metal; sourceTree = "<group>"; };
 		B2FCAFC00358A23D5826942013F9FD46 /* MTIKernel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIKernel.m; path = Frameworks/MetalPetal/Kernels/MTIKernel.m; sourceTree = "<group>"; };
 		B32126D3D115888782D2DC74143F7441 /* MTIMPSBoxBlurFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSBoxBlurFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSBoxBlurFilter.h; sourceTree = "<group>"; };
-		B36AB396275697EEE1A5B13BA8A38FE3 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B36AB396275697EEE1A5B13BA8A38FE3 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B3E77D312B8387386D1B8402D68175CC /* MTIImageOrientation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIImageOrientation.m; path = Frameworks/MetalPetal/MTIImageOrientation.m; sourceTree = "<group>"; };
-		B431788ECB3DF4CE630ED5FC851A98D6 /* MTLuminanceMeltTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTLuminanceMeltTransition.metal; path = Source/MTTransitions/MTLuminanceMeltTransition.metal; sourceTree = "<group>"; };
-		B6F04288FD592817C8E2847184D4CC27 /* Shaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = Shaders.metal; path = Frameworks/MetalPetal/Shaders/Shaders.metal; sourceTree = "<group>"; };
-		B7B6FC12E61CB76997F392E334E9F0DC /* MTPolarFunctionTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTPolarFunctionTransition.metal; path = Source/MTTransitions/MTPolarFunctionTransition.metal; sourceTree = "<group>"; };
-		B8B336C81EF2827A52628263554ECC93 /* MTIImageRenderingContext.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = MTIImageRenderingContext.mm; path = Frameworks/MetalPetal/MTIImageRenderingContext.mm; sourceTree = "<group>"; };
+		B431788ECB3DF4CE630ED5FC851A98D6 /* MTLuminanceMeltTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTLuminanceMeltTransition.metal; path = Source/MTTransitions/MTLuminanceMeltTransition.metal; sourceTree = "<group>"; };
+		B6F04288FD592817C8E2847184D4CC27 /* Shaders.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = Frameworks/MetalPetal/Shaders/Shaders.metal; sourceTree = "<group>"; };
+		B7B6FC12E61CB76997F392E334E9F0DC /* MTPolarFunctionTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTPolarFunctionTransition.metal; path = Source/MTTransitions/MTPolarFunctionTransition.metal; sourceTree = "<group>"; };
+		B8B336C81EF2827A52628263554ECC93 /* MTIImageRenderingContext.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = MTIImageRenderingContext.mm; path = Frameworks/MetalPetal/MTIImageRenderingContext.mm; sourceTree = "<group>"; };
 		B8C75CC3E857EEB0EC0003DB56E46267 /* MTTransitions.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MTTransitions.xcconfig; sourceTree = "<group>"; };
 		B91EAE66AE215E99AFE933E08448874A /* MTUndulatingBurnOutTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTUndulatingBurnOutTransition.swift; path = Source/MTTransitions/MTUndulatingBurnOutTransition.swift; sourceTree = "<group>"; };
 		B9E55DE209F8EEC814CE6FB3D51A3846 /* MTInvertedPageCurlTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTInvertedPageCurlTransition.swift; path = Source/MTTransitions/MTInvertedPageCurlTransition.swift; sourceTree = "<group>"; };
 		BA38E91CE14F2932AD433A7DFC3D9F36 /* MTICVPixelBufferPromise.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICVPixelBufferPromise.m; path = Frameworks/MetalPetal/MTICVPixelBufferPromise.m; sourceTree = "<group>"; };
 		BAD13ABA9CF94C82AEE646DA0CFA613E /* MTIAlphaPremultiplicationFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIAlphaPremultiplicationFilter.m; path = Frameworks/MetalPetal/Filters/MTIAlphaPremultiplicationFilter.m; sourceTree = "<group>"; };
-		BBAE276E247C8BC75C3D06B1566C427C /* MTGlitchDisplaceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTGlitchDisplaceTransition.metal; path = Source/MTTransitions/MTGlitchDisplaceTransition.metal; sourceTree = "<group>"; };
+		BBAE276E247C8BC75C3D06B1566C427C /* MTGlitchDisplaceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTGlitchDisplaceTransition.metal; path = Source/MTTransitions/MTGlitchDisplaceTransition.metal; sourceTree = "<group>"; };
 		BC7EA92039F86FEF5F67B31A2D57873F /* MTIError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIError.m; path = Frameworks/MetalPetal/MTIError.m; sourceTree = "<group>"; };
 		BD76FA4E73ACC2FC590B97DB569AD102 /* MTCubeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTCubeTransition.swift; path = Source/MTTransitions/MTCubeTransition.swift; sourceTree = "<group>"; };
 		BDB29EFDC48865D9F9A5048905480683 /* MTTransitions-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MTTransitions-umbrella.h"; sourceTree = "<group>"; };
 		BE69B10CE15A592A2DA20D1FE9B9F031 /* MTICVPixelBufferPromise.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICVPixelBufferPromise.h; path = Frameworks/MetalPetal/MTICVPixelBufferPromise.h; sourceTree = "<group>"; };
 		BEE5CAF74AEAAD2F408D117662FEA771 /* MTWindTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWindTransition.swift; path = Source/MTTransitions/MTWindTransition.swift; sourceTree = "<group>"; };
 		BF19EDE132510A874E81549D96352DAD /* MTITextureDimensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITextureDimensions.h; path = Frameworks/MetalPetal/MTITextureDimensions.h; sourceTree = "<group>"; };
-		BFDA963F62C6B98F795F662ACD7A1DB4 /* MTSimpleZoomTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTSimpleZoomTransition.metal; path = Source/MTTransitions/MTSimpleZoomTransition.metal; sourceTree = "<group>"; };
+		BFDA963F62C6B98F795F662ACD7A1DB4 /* MTSimpleZoomTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTSimpleZoomTransition.metal; path = Source/MTTransitions/MTSimpleZoomTransition.metal; sourceTree = "<group>"; };
 		C02A398BF2AA6156A9A04C990441BA02 /* MTIContext+Rendering.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "MTIContext+Rendering.m"; path = "Frameworks/MetalPetal/MTIContext+Rendering.m"; sourceTree = "<group>"; };
 		C0DE945925E42C2FC12FF54BA82E20F1 /* MTWindowsliceTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTWindowsliceTransition.swift; path = Source/MTTransitions/MTWindowsliceTransition.swift; sourceTree = "<group>"; };
 		C139B1FE85F0120F0BCC64E67EBA28E3 /* MTIMask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMask.m; path = Frameworks/MetalPetal/MTIMask.m; sourceTree = "<group>"; };
 		C28760C70854A982B7BFE4C0D0F4A557 /* MTIImageOrientation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIImageOrientation.h; path = Frameworks/MetalPetal/MTIImageOrientation.h; sourceTree = "<group>"; };
-		C34B5DE45AB8DF7A068C5A4CDC1F5DF0 /* MTWaterDropTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWaterDropTransition.metal; path = Source/MTTransitions/MTWaterDropTransition.metal; sourceTree = "<group>"; };
-		C358CF6536AC4BCB76E59BE2E6D4D74B /* MTSqueezeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTSqueezeTransition.metal; path = Source/MTTransitions/MTSqueezeTransition.metal; sourceTree = "<group>"; };
+		C34B5DE45AB8DF7A068C5A4CDC1F5DF0 /* MTWaterDropTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWaterDropTransition.metal; path = Source/MTTransitions/MTWaterDropTransition.metal; sourceTree = "<group>"; };
+		C358CF6536AC4BCB76E59BE2E6D4D74B /* MTSqueezeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTSqueezeTransition.metal; path = Source/MTTransitions/MTSqueezeTransition.metal; sourceTree = "<group>"; };
 		C38711CC72729F1EB4F0CFA80D175FFA /* Pods-MTTransitionsDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MTTransitionsDemo-umbrella.h"; sourceTree = "<group>"; };
-		C3995AB821DA0B996C3313DB312AB54B /* HighPassSkinSmoothing.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = HighPassSkinSmoothing.metal; path = Frameworks/MetalPetal/Shaders/HighPassSkinSmoothing.metal; sourceTree = "<group>"; };
+		C3995AB821DA0B996C3313DB312AB54B /* HighPassSkinSmoothing.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = HighPassSkinSmoothing.metal; path = Frameworks/MetalPetal/Shaders/HighPassSkinSmoothing.metal; sourceTree = "<group>"; };
 		C6998FCA54A1478C38B224FD43470D5A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		C6FCA31FEFA40B4FC5663EBCC84F0D53 /* MTICVMetalTextureCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICVMetalTextureCache.h; path = Frameworks/MetalPetal/MTICVMetalTextureCache.h; sourceTree = "<group>"; };
 		C88E5C8577C3B15F3D4EB8D4D474C1A3 /* MTIImagePromise.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIImagePromise.h; path = Frameworks/MetalPetal/MTIImagePromise.h; sourceTree = "<group>"; };
 		C8BD52459C9AB50C31AA87BE66243481 /* MTIRenderCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIRenderCommand.m; path = Frameworks/MetalPetal/Kernels/MTIRenderCommand.m; sourceTree = "<group>"; };
-		C8BF8BA51D9FAFAF091C1135990287A6 /* MTTransitions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MTTransitions.framework; path = MTTransitions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8BF8BA51D9FAFAF091C1135990287A6 /* MTTransitions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MTTransitions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C972BD5D218C4B72605F320575F8E744 /* MTIPixelFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIPixelFormat.h; path = Frameworks/MetalPetal/MTIPixelFormat.h; sourceTree = "<group>"; };
 		C9DD7B53C49601E4422B97B955B27D53 /* MTICVPixelBufferPool.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICVPixelBufferPool.m; path = Frameworks/MetalPetal/MTICVPixelBufferPool.m; sourceTree = "<group>"; };
-		CA1F82C9F936AB6CD9131224A1E0BBB1 /* MTButterflyWaveScrawlerTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTButterflyWaveScrawlerTransition.metal; path = Source/MTTransitions/MTButterflyWaveScrawlerTransition.metal; sourceTree = "<group>"; };
+		CA1F82C9F936AB6CD9131224A1E0BBB1 /* MTButterflyWaveScrawlerTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTButterflyWaveScrawlerTransition.metal; path = Source/MTTransitions/MTButterflyWaveScrawlerTransition.metal; sourceTree = "<group>"; };
 		CA3F8E4BA6752BAA1810AACE14529F4F /* MTIColor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIColor.m; path = Frameworks/MetalPetal/MTIColor.m; sourceTree = "<group>"; };
-		CB169CA8977ED53DFA4D176D453AFBE8 /* MTColourDistanceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTColourDistanceTransition.metal; path = Source/MTTransitions/MTColourDistanceTransition.metal; sourceTree = "<group>"; };
+		CB169CA8977ED53DFA4D176D453AFBE8 /* MTColourDistanceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTColourDistanceTransition.metal; path = Source/MTTransitions/MTColourDistanceTransition.metal; sourceTree = "<group>"; };
 		CB5236FDD5E99C3E05C785A1BC7C8797 /* MTIRenderTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIRenderTask.m; path = Frameworks/MetalPetal/MTIRenderTask.m; sourceTree = "<group>"; };
 		CB6EB8727453A5A3D8B182539EB8A826 /* MTStereoViewerTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTStereoViewerTransition.swift; path = Source/MTTransitions/MTStereoViewerTransition.swift; sourceTree = "<group>"; };
 		CBF98D3BCDA733BBD1DB6ABFF6EB9FD8 /* MTIVector.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIVector.m; path = Frameworks/MetalPetal/MTIVector.m; sourceTree = "<group>"; };
 		CC00710485C215C2A9F0DBF5180EC5DE /* MTIImage+Filters.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MTIImage+Filters.h"; path = "Frameworks/MetalPetal/Filters/MTIImage+Filters.h"; sourceTree = "<group>"; };
 		CDB9EF96F949D198B2B00D57E3DFB0AD /* MTITextureLoader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTITextureLoader.h; path = Frameworks/MetalPetal/MTITextureLoader.h; sourceTree = "<group>"; };
-		CDBB4EE003D4E7CD1C61FD03781DC8CA /* MTPinwheelTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTPinwheelTransition.metal; path = Source/MTTransitions/MTPinwheelTransition.metal; sourceTree = "<group>"; };
-		CE3DDF201CBDE2915DD51DB53FC20BCC /* MTSquaresWireTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTSquaresWireTransition.metal; path = Source/MTTransitions/MTSquaresWireTransition.metal; sourceTree = "<group>"; };
-		CFA491BDBD9A1C93FA2C531748F116E0 /* MTCircleTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTCircleTransition.metal; path = Source/MTTransitions/MTCircleTransition.metal; sourceTree = "<group>"; };
-		CFE61DD91D698774D0AF2B23881743BF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		CDBB4EE003D4E7CD1C61FD03781DC8CA /* MTPinwheelTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTPinwheelTransition.metal; path = Source/MTTransitions/MTPinwheelTransition.metal; sourceTree = "<group>"; };
+		CE3DDF201CBDE2915DD51DB53FC20BCC /* MTSquaresWireTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTSquaresWireTransition.metal; path = Source/MTTransitions/MTSquaresWireTransition.metal; sourceTree = "<group>"; };
+		CFA491BDBD9A1C93FA2C531748F116E0 /* MTCircleTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTCircleTransition.metal; path = Source/MTTransitions/MTCircleTransition.metal; sourceTree = "<group>"; };
+		CFE61DD91D698774D0AF2B23881743BF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D0AD850F4DE86C983A07AAA23528D529 /* MTIRenderPipelineKernel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIRenderPipelineKernel.m; path = Frameworks/MetalPetal/Kernels/MTIRenderPipelineKernel.m; sourceTree = "<group>"; };
 		D2520FBACB382A6A71E503D66D5F8708 /* MTIAlphaType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIAlphaType.h; path = Frameworks/MetalPetal/MTIAlphaType.h; sourceTree = "<group>"; };
 		D3C486169CA21FB4CD97020D32E49F1B /* MTIHighPassSkinSmoothingFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIHighPassSkinSmoothingFilter.h; path = Frameworks/MetalPetal/Filters/MTIHighPassSkinSmoothingFilter.h; sourceTree = "<group>"; };
@@ -644,44 +644,44 @@
 		D5492BAADB5E2A136E011C8983269CAE /* MTIChromaKeyBlendFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIChromaKeyBlendFilter.m; path = Frameworks/MetalPetal/Filters/MTIChromaKeyBlendFilter.m; sourceTree = "<group>"; };
 		D5611EA7E367A4A790FAD8A5C67EE252 /* MTISamplerDescriptor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTISamplerDescriptor.m; path = Frameworks/MetalPetal/MTISamplerDescriptor.m; sourceTree = "<group>"; };
 		D6227D7057D569A023F39722531927EF /* MTIPrint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIPrint.m; path = Frameworks/MetalPetal/MTIPrint.m; sourceTree = "<group>"; };
-		D6618254AA7D1832790F138039745AB5 /* LensBlur.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = LensBlur.metal; path = Frameworks/MetalPetal/Shaders/LensBlur.metal; sourceTree = "<group>"; };
-		D74E1BADA7B398A5EA38FEA8A88E7986 /* MTMorphTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTMorphTransition.metal; path = Source/MTTransitions/MTMorphTransition.metal; sourceTree = "<group>"; };
+		D6618254AA7D1832790F138039745AB5 /* LensBlur.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = LensBlur.metal; path = Frameworks/MetalPetal/Shaders/LensBlur.metal; sourceTree = "<group>"; };
+		D74E1BADA7B398A5EA38FEA8A88E7986 /* MTMorphTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTMorphTransition.metal; path = Source/MTTransitions/MTMorphTransition.metal; sourceTree = "<group>"; };
 		D7812330FFC1F94CCF5A95CCDC3A4D4B /* MTITextureLoader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTITextureLoader.m; path = Frameworks/MetalPetal/MTITextureLoader.m; sourceTree = "<group>"; };
 		D79D9316D0E0C4EC2C7B9CB4112889A7 /* MTIWeakToStrongObjectsMapTable.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIWeakToStrongObjectsMapTable.m; path = Frameworks/MetalPetal/MTIWeakToStrongObjectsMapTable.m; sourceTree = "<group>"; };
 		D857FB417F1A770767C4F6A1818CE3E8 /* MTIVector+SIMD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MTIVector+SIMD.h"; path = "Frameworks/MetalPetal/MTIVector+SIMD.h"; sourceTree = "<group>"; };
 		D909D2DED1C57491FB69ACEBA691E629 /* MTIMPSBoxBlurFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSBoxBlurFilter.m; path = Frameworks/MetalPetal/Filters/MTIMPSBoxBlurFilter.m; sourceTree = "<group>"; };
-		D9AA76E4AEE5E314828610E040475B75 /* MTBounceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTBounceTransition.metal; path = Source/MTTransitions/MTBounceTransition.metal; sourceTree = "<group>"; };
+		D9AA76E4AEE5E314828610E040475B75 /* MTBounceTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTBounceTransition.metal; path = Source/MTTransitions/MTBounceTransition.metal; sourceTree = "<group>"; };
 		DC403199E9F89079E6E682BBC6275BD4 /* MTIAlphaType.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIAlphaType.m; path = Frameworks/MetalPetal/MTIAlphaType.m; sourceTree = "<group>"; };
 		DCF68FFAC70E1650FD1D0C2625731D73 /* MTDoorwayTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDoorwayTransition.swift; path = Source/MTTransitions/MTDoorwayTransition.swift; sourceTree = "<group>"; };
 		DD877D2D63608D968BF0A1B705533C79 /* MTICropFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTICropFilter.m; path = Frameworks/MetalPetal/Filters/MTICropFilter.m; sourceTree = "<group>"; };
 		DE4A36906519656BC06D497A4A94AAED /* MTDirectionalwipeTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTDirectionalwipeTransition.swift; path = Source/MTTransitions/MTDirectionalwipeTransition.swift; sourceTree = "<group>"; };
 		DE7F15D3169E86E0B09F637AC3E4B33D /* Pods-MTTransitionsDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MTTransitionsDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		DF362E66837905ACB62662D1450A8007 /* MTPixelizeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTPixelizeTransition.metal; path = Source/MTTransitions/MTPixelizeTransition.metal; sourceTree = "<group>"; };
+		DF362E66837905ACB62662D1450A8007 /* MTPixelizeTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTPixelizeTransition.metal; path = Source/MTTransitions/MTPixelizeTransition.metal; sourceTree = "<group>"; };
 		DF63FE375FD310B5A0AB0F3B13DCD2B1 /* MTIFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIFilter.h; path = Frameworks/MetalPetal/Filters/MTIFilter.h; sourceTree = "<group>"; };
 		DFED1201FB56BD0DBAA7CDE4CD7AA0C9 /* MTIImage+Filters.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "MTIImage+Filters.m"; path = "Frameworks/MetalPetal/Filters/MTIImage+Filters.m"; sourceTree = "<group>"; };
 		E048B0726D7A542F932DEE6E6FF7E885 /* MetalPetal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MetalPetal.h; path = Frameworks/MetalPetal/MetalPetal.h; sourceTree = "<group>"; };
 		E179B743398CDCEF1B65D3C761B4A0C7 /* MTIComputePipelineKernel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIComputePipelineKernel.h; path = Frameworks/MetalPetal/Kernels/MTIComputePipelineKernel.h; sourceTree = "<group>"; };
 		E238232641B1BB73AE0C88DBFD049E23 /* MTRadialTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTRadialTransition.swift; path = Source/MTTransitions/MTRadialTransition.swift; sourceTree = "<group>"; };
-		E2C2D92D8A9FCA7E6C8BC9FFD1A9C75B /* MTDoomScreenTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDoomScreenTransition.metal; path = Source/MTTransitions/MTDoomScreenTransition.metal; sourceTree = "<group>"; };
+		E2C2D92D8A9FCA7E6C8BC9FFD1A9C75B /* MTDoomScreenTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDoomScreenTransition.metal; path = Source/MTTransitions/MTDoomScreenTransition.metal; sourceTree = "<group>"; };
 		E51AEA9CA14EF9BD93132293AE0DD3E8 /* MTIPixellateFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIPixellateFilter.h; path = Frameworks/MetalPetal/Filters/MTIPixellateFilter.h; sourceTree = "<group>"; };
 		E56FACABE644F142E82170353A203A69 /* MTIBlendModes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIBlendModes.h; path = Frameworks/MetalPetal/MTIBlendModes.h; sourceTree = "<group>"; };
 		E6C1F222CCE249171F8D667E1A58BAAD /* MTIRenderTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIRenderTask.h; path = Frameworks/MetalPetal/MTIRenderTask.h; sourceTree = "<group>"; };
-		E79CE29E4C36431492D3510F24C23C49 /* MTZoomInCirclesTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTZoomInCirclesTransition.metal; path = Source/MTTransitions/MTZoomInCirclesTransition.metal; sourceTree = "<group>"; };
+		E79CE29E4C36431492D3510F24C23C49 /* MTZoomInCirclesTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTZoomInCirclesTransition.metal; path = Source/MTTransitions/MTZoomInCirclesTransition.metal; sourceTree = "<group>"; };
 		EA141787E5A44CAE68B4D20A03BC00E0 /* MTIContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIContext.m; path = Frameworks/MetalPetal/MTIContext.m; sourceTree = "<group>"; };
-		EA94DC8C50F411917CEFE1BAC9E0E12D /* MTWipeRightTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTWipeRightTransition.metal; path = Source/MTTransitions/MTWipeRightTransition.metal; sourceTree = "<group>"; };
-		EC7633B7548BB415754F376794D72EA9 /* MTFadecolorTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTFadecolorTransition.metal; path = Source/MTTransitions/MTFadecolorTransition.metal; sourceTree = "<group>"; };
-		ED3986399F3803051FEB2584F491678D /* MTDirectionalWarpTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDirectionalWarpTransition.metal; path = Source/MTTransitions/MTDirectionalWarpTransition.metal; sourceTree = "<group>"; };
+		EA94DC8C50F411917CEFE1BAC9E0E12D /* MTWipeRightTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTWipeRightTransition.metal; path = Source/MTTransitions/MTWipeRightTransition.metal; sourceTree = "<group>"; };
+		EC7633B7548BB415754F376794D72EA9 /* MTFadecolorTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTFadecolorTransition.metal; path = Source/MTTransitions/MTFadecolorTransition.metal; sourceTree = "<group>"; };
+		ED3986399F3803051FEB2584F491678D /* MTDirectionalWarpTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDirectionalWarpTransition.metal; path = Source/MTTransitions/MTDirectionalWarpTransition.metal; sourceTree = "<group>"; };
 		ED82C93AECD110C1E119B6669D7D7536 /* MTIColor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIColor.h; path = Frameworks/MetalPetal/MTIColor.h; sourceTree = "<group>"; };
 		ED90CB97B4DD39E1111AE96206D14A27 /* MTIImageProperties.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIImageProperties.h; path = Frameworks/MetalPetal/MTIImageProperties.h; sourceTree = "<group>"; };
 		EE4F19B9C472A8B3B9D73951862A3758 /* MTIVibranceFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIVibranceFilter.h; path = Frameworks/MetalPetal/Filters/MTIVibranceFilter.h; sourceTree = "<group>"; };
 		EF21A47CE03EB4BC075C81F4328E522C /* MetalPetal.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MetalPetal.xcconfig; sourceTree = "<group>"; };
-		F0BA85BD860BF391130CA896D449408E /* MTMultiplyBlendTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTMultiplyBlendTransition.metal; path = Source/MTTransitions/MTMultiplyBlendTransition.metal; sourceTree = "<group>"; };
+		F0BA85BD860BF391130CA896D449408E /* MTMultiplyBlendTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTMultiplyBlendTransition.metal; path = Source/MTTransitions/MTMultiplyBlendTransition.metal; sourceTree = "<group>"; };
 		F39C9F36D7839EBFA23BAE27B45480DF /* MTIMemoryWarningObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMemoryWarningObserver.m; path = Frameworks/MetalPetal/MTIMemoryWarningObserver.m; sourceTree = "<group>"; };
 		F43D5C303537F4F35D07C23713E6AB70 /* MTICVMetalTextureBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTICVMetalTextureBridge.h; path = Frameworks/MetalPetal/MTICVMetalTextureBridge.h; sourceTree = "<group>"; };
 		F653EFE2D9D3FB01F677D16AC6F32BCD /* MTIMPSHistogramFilter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MTIMPSHistogramFilter.h; path = Frameworks/MetalPetal/Filters/MTIMPSHistogramFilter.h; sourceTree = "<group>"; };
-		F9E8802FD506036997BBA78E2FD85E18 /* MTDirectionalTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDirectionalTransition.metal; path = Source/MTTransitions/MTDirectionalTransition.metal; sourceTree = "<group>"; };
+		F9E8802FD506036997BBA78E2FD85E18 /* MTDirectionalTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDirectionalTransition.metal; path = Source/MTTransitions/MTDirectionalTransition.metal; sourceTree = "<group>"; };
 		FA4E651CC990577202136DE4C37EC8F6 /* Assets.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = Assets.bundle; path = Source/MTTransitions/Assets.bundle; sourceTree = "<group>"; };
-		FA7C8E06CEC0F79F7C6DB00E6FE8C5F8 /* MTDreamyTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; name = MTDreamyTransition.metal; path = Source/MTTransitions/MTDreamyTransition.metal; sourceTree = "<group>"; };
+		FA7C8E06CEC0F79F7C6DB00E6FE8C5F8 /* MTDreamyTransition.metal */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.metal; name = MTDreamyTransition.metal; path = Source/MTTransitions/MTDreamyTransition.metal; sourceTree = "<group>"; };
 		FB90C33A5F511CCBFD487D25D9B91F72 /* MTColorphaseTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MTColorphaseTransition.swift; path = Source/MTTransitions/MTColorphaseTransition.swift; sourceTree = "<group>"; };
 		FC6E886A60F1572D143561F83565A2C5 /* MTTransitions.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MTTransitions.modulemap; sourceTree = "<group>"; };
 		FCA76E85BC298A9F2FAD170AAB970E33 /* MTIMPSSobelFilter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MTIMPSSobelFilter.m; path = Frameworks/MetalPetal/Filters/MTIMPSSobelFilter.m; sourceTree = "<group>"; };
@@ -1144,7 +1144,6 @@
 				C08F6BE3C8850899181BA6EA4C99D49F /* Core */,
 				10294C0179F4C01FAFFFCDD94B0B00CA /* Support Files */,
 			);
-			name = MetalPetal;
 			path = MetalPetal;
 			sourceTree = "<group>";
 		};
@@ -1359,7 +1358,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1010;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1680,7 +1679,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8C75CC3E857EEB0EC0003DB56E46267 /* MTTransitions.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1695,11 +1693,7 @@
 				INFOPLIST_FILE = "Target Support Files/MTTransitions/MTTransitions-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/MTTransitions/MTTransitions.modulemap";
 				PRODUCT_MODULE_NAME = MTTransitions;
 				PRODUCT_NAME = MTTransitions;
@@ -1781,7 +1775,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EF21A47CE03EB4BC075C81F4328E522C /* MetalPetal.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1794,11 +1787,7 @@
 				INFOPLIST_FILE = "Target Support Files/MetalPetal/MetalPetal-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/MetalPetal/MetalPetal.modulemap";
 				PRODUCT_MODULE_NAME = MetalPetal;
 				PRODUCT_NAME = MetalPetal;
@@ -1817,7 +1806,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EF21A47CE03EB4BC075C81F4328E522C /* MetalPetal.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1830,11 +1818,7 @@
 				INFOPLIST_FILE = "Target Support Files/MetalPetal/MetalPetal-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/MetalPetal/MetalPetal.modulemap";
 				PRODUCT_MODULE_NAME = MetalPetal;
 				PRODUCT_NAME = MetalPetal;
@@ -1853,7 +1837,6 @@
 			baseConfigurationReference = 85098DF9793E800ED6E48CCA3099E9E3 /* Pods-MTTransitionsDemo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1867,11 +1850,7 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo.modulemap";
 				OTHER_LDFLAGS = "";
@@ -1941,8 +1920,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -1952,7 +1930,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8C75CC3E857EEB0EC0003DB56E46267 /* MTTransitions.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1967,11 +1944,7 @@
 				INFOPLIST_FILE = "Target Support Files/MTTransitions/MTTransitions-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/MTTransitions/MTTransitions.modulemap";
 				PRODUCT_MODULE_NAME = MTTransitions;
 				PRODUCT_NAME = MTTransitions;
@@ -1991,7 +1964,6 @@
 			baseConfigurationReference = A0DFE006943E4DCE46D45E5F4B1215EF /* Pods-MTTransitionsDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -2005,11 +1977,7 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo.modulemap";
 				OTHER_LDFLAGS = "";
