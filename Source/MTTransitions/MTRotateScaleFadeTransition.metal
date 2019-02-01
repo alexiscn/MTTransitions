@@ -41,8 +41,7 @@ fragment float4 RotateScaleFadeFragment(VertexOut vertexIn [[ stage_in ]],
         rotatedUv.y < 0.0 || rotatedUv.y > 1.0)
         return backColor;
     
-    return mix(
-               getFromColor(rotatedUv, fromTexture, ratio, _fromR),
+    return mix(getFromColor(rotatedUv, fromTexture, ratio, _fromR),
                getToColor(rotatedUv, toTexture, ratio, _toR),
                progress);
 }

@@ -22,8 +22,7 @@ fragment float4 RandomsquaresFragment(VertexOut vertexIn [[ stage_in ]],
     
     float r = rand(floor(float2(size) * uv));
     float m = smoothstep(0.0, -smoothness, r - (progress * (1.0 + smoothness)));
-    return mix(
-               getFromColor(uv, fromTexture, ratio, _fromR),
+    return mix(getFromColor(uv, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                m);
     

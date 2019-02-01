@@ -11,10 +11,10 @@ public class MTLumaTransition: MTTransition {
     override var fragmentName: String {
         return "LumaFragment"
     }
-
-//    override var parameters: [String: Any] {
-//        return [
-//            "luma": luma
-//        ]
-//    }
+    
+    override var samplers: [String : String] {
+        return [
+            "luma": "spiral-1.png"
+        ]
+    }
 }

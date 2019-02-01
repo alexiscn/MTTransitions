@@ -7,7 +7,7 @@
 
 import MetalPetal
 
-public class MTSquareswireTransition: MTTransition {
+public class MTSquaresWireTransition: MTTransition {
     
     public var direction: CGPoint = CGPoint(x: 0, y: 0) 
 
@@ -16,7 +16,7 @@ public class MTSquareswireTransition: MTTransition {
     public var smoothness: Float = 1.6 
 
     override var fragmentName: String {
-        return "SquareswireFragment"
+        return "SquaresWireFragment"
     }
 
     override var parameters: [String: Any] {

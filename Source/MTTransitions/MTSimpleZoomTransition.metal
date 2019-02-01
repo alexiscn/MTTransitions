@@ -26,8 +26,7 @@ fragment float4 SimpleZoomFragment(VertexOut vertexIn [[ stage_in ]],
     
     float nQuick = clamp(zoom_quickness,0.2,1.0);
     
-    return mix(
-               getFromColor(simple_zoom(uv, smoothstep(0.0, nQuick, progress)), fromTexture, ratio, _fromR),
+    return mix(getFromColor(simple_zoom(uv, smoothstep(0.0, nQuick, progress)), fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                smoothstep(nQuick-0.2, 1.0, progress)
                );

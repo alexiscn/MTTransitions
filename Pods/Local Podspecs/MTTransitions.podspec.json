@@ -1,13 +1,13 @@
 {
   "name": "MTTransitions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": {
     "type": "MIT"
   },
   "requires_arc": true,
   "source": {
     "git": "https://github.com/alexiscn/MTTransitions.git",
-    "tag": "0.0.2"
+    "tag": "0.0.3"
   },
   "summary": "MTTransitions",
   "homepage": "https://github.com/alexiscn/MTTransitions",

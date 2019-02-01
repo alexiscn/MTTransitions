@@ -25,8 +25,7 @@ fragment float4 PixelizeFragment(VertexOut vertexIn [[ stage_in ]],
     float dist = steps>0 ? ceil(d * float(steps)) / float(steps) : d;
     float2 squareSize = 2.0 * dist / float2(squaresMin);
     float2 p = dist>0.0 ? (floor(uv / squareSize) + 0.5) * squareSize : uv;
-    return mix(
-               getFromColor(p, fromTexture, ratio, _fromR),
+    return mix(getFromColor(p, fromTexture, ratio, _fromR),
                getToColor(p, toTexture, ratio, _toR),
                progress);
 }

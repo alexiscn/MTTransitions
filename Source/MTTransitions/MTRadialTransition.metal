@@ -8,15 +8,22 @@
 
 using namespace metalpetal;
 
-
-//const float PI = 3.141592653589;
-//
-//float4 transition(float2 p) {
-//  float2 rp = p*2.-1.;
-//  return mix(
-//    getToColor(p),
-//    getFromColor(p),
-//    smoothstep(0., smoothness, atan(rp.y,rp.x) - (progress-.5) * PI * 2.5)
-//  );
-//}
+fragment float4 RadialFragment(VertexOut vertexIn [[ stage_in ]],
+                               texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                               texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                               constant float & smoothness [[ buffer(0) ]],
+                               constant float & ratio [[ buffer(1) ]],
+                               constant float & progress [[ buffer(2) ]],
+                               sampler textureSampler [[ sampler(0) ]])
+{
+    float2 uv = vertexIn.textureCoordinate;
+    float _fromR = fromTexture.get_width()/fromTexture.get_height();
+    float _toR = toTexture.get_width()/toTexture.get_height();
+    
+    float2 rp = uv * 2.0 - 1.0;
+    return mix(getToColor(uv, toTexture, ratio, _toR),
+               getFromColor(uv, fromTexture, ratio, _fromR),
+               smoothstep(0.0, smoothness, atan2(rp.y,rp.x) - (progress - 0.5) * PI * 2.5)
+               );
+}
 

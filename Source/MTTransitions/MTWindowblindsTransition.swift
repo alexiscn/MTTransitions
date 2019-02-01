@@ -5,9 +5,9 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
-public class MTWindowblindsTransition: MTTransition {
+public class MTWindowBlindsTransition: MTTransition {
     
     override var fragmentName: String {
-        return "WindowblindsFragment"
+        return "WindowBlindsFragment"
     }
 }

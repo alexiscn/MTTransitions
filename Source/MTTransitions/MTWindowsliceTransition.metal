@@ -7,9 +7,7 @@
 
 using namespace metalpetal;
 
-
-
-fragment float4 WindowsliceFragment(VertexOut vertexIn [[ stage_in ]],
+fragment float4 WindowSliceFragment(VertexOut vertexIn [[ stage_in ]],
                 texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                 texture2d<float, access::sample> toTexture [[ texture(1) ]],
                 constant float & count [[ buffer(0) ]],
@@ -24,8 +22,7 @@ fragment float4 WindowsliceFragment(VertexOut vertexIn [[ stage_in ]],
     
     float pr = smoothstep(-smoothness, 0.0, uv.x - progress * (1.0 + smoothness));
     float s = step(pr, fract(count * uv.x));
-    return mix(
-               getFromColor(uv, fromTexture, ratio, _fromR),
+    return mix(getFromColor(uv, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                s);
 }

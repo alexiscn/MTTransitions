@@ -7,7 +7,7 @@
 
 using namespace metalpetal;
 
-fragment float4 WindowblindsFragment(VertexOut vertexIn [[ stage_in ]],
+fragment float4 WindowBlindsFragment(VertexOut vertexIn [[ stage_in ]],
                 texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                 texture2d<float, access::sample> toTexture [[ texture(1) ]],
                 constant float & ratio [[ buffer(0) ]],
