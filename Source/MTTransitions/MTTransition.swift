@@ -30,8 +30,13 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         guard let input = inputImage, let dest = destImage else {
             return inputImage
         }
-        let images: [MTIImage] = [input, dest]
+        var images: [MTIImage] = [input, dest]
         let outputDescriptors = [ MTIRenderPassOutputDescriptor(dimensions: MTITextureDimensions(cgSize: input.size), pixelFormat: outputPixelFormat)]
+        
+        for key in samplers.keys {
+            let name = samplers[key]!
+            images.append(samplerImage(name: name)!)
+        }
         
         var params = parameters
         params["ratio"] = Float(512.0/400.0)
@@ -46,5 +51,18 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         let fragmentDescriptor = MTIFunctionDescriptor(name: fragmentName, libraryURL: MTIDefaultLibraryURLForBundle(Bundle(for: MTTransition.self)))
         let kernel = MTIRenderPipelineKernel(vertexFunctionDescriptor: vertexDescriptor, fragmentFunctionDescriptor: fragmentDescriptor)
         return kernel
+    }
+    
+    private func samplerImage(name: String) -> MTIImage? {
+        let bundle = Bundle(for: MTTransition.self)
+        let bundleUrl = bundle.url(forResource: "Assets", withExtension: "bundle")!
+        let resourceBundle = Bundle(url: bundleUrl)!
+        
+        if let imageUrl = resourceBundle.url(forResource: name, withExtension: nil) {
+            let ciImage = CIImage(contentsOf: imageUrl)
+            return MTIImage(ciImage: ciImage!, isOpaque: true)
+        }
+        return nil
+        
     }
 }

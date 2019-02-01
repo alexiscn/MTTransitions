@@ -16,7 +16,6 @@ public class MTBurnTransition: MTTransition {
     }
 
     override var parameters: [String: Any] {
-        
         return [
             "color": MTIVector(value: simd_float3(color.red, color.green, color.blue))
         ]

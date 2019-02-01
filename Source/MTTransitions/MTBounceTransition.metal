@@ -29,8 +29,7 @@ fragment float4 BounceFragment(VertexOut vertexIn [[ stage_in ]],
     float d = uv.y - y;
     float4 shadow = ((d/shadowHeight) * shadowColour.a) + (1.0 - shadowColour.a);
     float4 smooth = step(d, shadowHeight) * (1.0 - mix(shadow, 1.0, smoothstep(0.95, 1.0, progress)));
-    return mix(
-               mix(getToColor(uv, toTexture, ratio, _toR), shadowColour, smooth),
+    return mix(mix(getToColor(uv, toTexture, ratio, _toR), shadowColour, smooth),
                getFromColor(float2(uv.x, uv.y + (1.0 - y)), fromTexture, ratio, _fromR),
                step(d, 0.0)
     );

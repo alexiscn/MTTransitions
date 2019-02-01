@@ -25,7 +25,7 @@ fragment float4 AngularFragment(VertexOut vertexIn [[ stage_in ]],
     normalizedAngle = normalizedAngle - floor(normalizedAngle);
     return mix(
                getFromColor(uv, fromTexture, ratio, _fromR),
-               getFromColor(uv, toTexture, ratio, _toR),
+               getToColor(uv, toTexture, ratio, _toR),
                step(normalizedAngle, progress));
 }
 
