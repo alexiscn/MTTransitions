@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     }
     
     private func setupTransition() {
-        transition = MTDisplacementTransition()
+        transition = MTPixelizeTransition()
         transition?.inputImage = resourceImage(named: "1")
         transition?.destImage = resourceImage(named: "2")
     }

@@ -23,8 +23,7 @@ fragment float4 RippleFragment(VertexOut vertexIn [[ stage_in ]],
     float2 dir = uv - float2(.5);
     float dist = length(dir);
     float2 offset = dir * (sin(progress * dist * amplitude - progress * speed) + .5) / 30.;
-    return mix(
-               getFromColor(uv + offset, fromTexture, ratio, _fromR),
+    return mix(getFromColor(uv + offset, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                smoothstep(0.2, 1.0, progress)
                );

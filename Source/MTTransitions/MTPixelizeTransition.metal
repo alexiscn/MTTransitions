@@ -11,7 +11,7 @@ using namespace metalpetal;
 fragment float4 PixelizeFragment(VertexOut vertexIn [[ stage_in ]],
                                  texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                  texture2d<float, access::sample> toTexture [[ texture(1) ]],
-                                 constant float2 & squaresMin [[ buffer(0) ]],
+                                 constant uint2 & squaresMin [[ buffer(0) ]],
                                  constant int & steps [[ buffer(1) ]],
                                  constant float & ratio [[ buffer(2) ]],
                                  constant float & progress [[ buffer(3) ]],
@@ -22,7 +22,7 @@ fragment float4 PixelizeFragment(VertexOut vertexIn [[ stage_in ]],
     float _toR = toTexture.get_width()/toTexture.get_height();
     
     float d = min(progress, 1.0 - progress);
-    float dist = steps>0 ? ceil(d * float(steps)) / float(steps) : d;
+    float dist = steps >0 ? ceil(d * float(steps)) / float(steps) : d;
     float2 squareSize = 2.0 * dist / float2(squaresMin);
     float2 p = dist>0.0 ? (floor(uv / squareSize) + 0.5) * squareSize : uv;
     return mix(getFromColor(p, fromTexture, ratio, _fromR),

@@ -176,51 +176,49 @@ float3x3 scale2d(float x, float y) {
 //    return black;
 //  }
 //}
-//
-//float4 transition(float2 uv) {
-//  float a;
-//  float2 p=uv.xy/float2(1.0).xy;
-//  float3 p3 = float3(p.xy, 1.0); // for 2D matrix transforms
-//
-//  // corner is warped to represent to size after mapping to 1.0, 1.0
-//  float2 corner_size = float2(corner_radius / ratio, corner_radius);
-//
-//  if (progress <= 0.0) {
-//    // 0.0: start with the base frame always
-//    return getFromColor(p);
-//  } else if (progress < 0.1) {
-//    // 0.0-0.1: zoom out and add rounded corners
-//    a = progress / 0.1;
-//    return  simple_sample_with_corners_from(p, corner_size * a, a);
-//  } else if (progress < 0.48) {
-//    // 0.1-0.48: Split original image apart
-//    a = (progress - 0.1)/0.38;
-//    return get_cross_rotated(p3, a, corner_size, ratio);
-//  } else if (progress < 0.9) {
-//    // 0.48-0.52: black
-//    // 0.52 - 0.9: unmask new image
-//    return get_cross_masked(p3, (progress - 0.52)/0.38, corner_size, ratio);
-//  } else if (progress < 1.0) {
-//    // zoom out and add rounded corners
-//    a = (1.0 - progress) / 0.1;
-//    return simple_sample_with_corners_to(p, corner_size * a, a);
-//  } else {
-//    // 1.0 end with base frame
-//    return getToColor(p);
-//  }
-//}
 
-
+/*
 fragment float4 StereoViewerFragment(VertexOut vertexIn [[ stage_in ]],
-                              texture2d<float, access::sample> fromTexture [[ texture(0) ]],
-                              texture2d<float, access::sample> toTexture [[ texture(1) ]],
-                              constant float & ratio [[ buffer(0) ]],
-                              constant float & progress [[ buffer(1) ]],
-                              sampler textureSampler [[ sampler(0) ]])
+                                     texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                                     texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                                     constant float & cornerRadius [[ buffer(0) ]],
+                                     constant float & zoom [[ buffer(1) ]],
+                                     constant float & ratio [[ buffer(2) ]],
+                                     constant float & progress [[ buffer(3) ]],
+                                     sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
     float _fromR = fromTexture.get_width()/fromTexture.get_height();
     float _toR = toTexture.get_width()/toTexture.get_height();
     
-    return float4(1.0);
+    float a;
+    float2 p = uv.xy/float2(1.0).xy;
+    float3 p3 = float3(p.xy, 1.0); // for 2D matrix transforms
+    // corner is warped to represent to size after mapping to 1.0, 1.0
+    float2 corner_size = float2(cornerRadius / ratio, cornerRadius);
+    
+    if (progress <= 0.0) {
+        // 0.0: start with the base frame always
+        return getFromColor(p, fromTexture, ratio, _fromR);
+    } else if (progress < 0.1) {
+        // 0.0-0.1: zoom out and add rounded corners
+        a = progress / 0.1;
+        return simple_sample_with_corners_from(p, corner_size * a, a);
+    } else if (progress < 0.48) {
+        // 0.1-0.48: Split original image apart
+        a = (progress - 0.1)/0.38;
+        return get_cross_rotated(p3, a, corner_size, ratio);
+    } else if (progress < 0.9) {
+        // 0.48-0.52: black
+        // 0.52 - 0.9: unmask new image
+        return get_cross_masked(p3, (progress - 0.52)/0.38, corner_size, ratio);
+    } else if (progress < 1.0) {
+        // zoom out and add rounded corners
+        a = (1.0 - progress) / 0.1;
+        return simple_sample_with_corners_to(p, corner_size * a, a);
+    } else {
+        // 1.0 end with base frame
+        return getToColor(p, toTexture, ratio, _toR);
+    }
 }
+*/

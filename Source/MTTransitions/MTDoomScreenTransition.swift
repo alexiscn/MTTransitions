@@ -29,7 +29,7 @@ public class MTDoomScreeTransition: MTTransition {
     override var parameters: [String: Any] {
         return [
             "dripScale": dripScale, 
-            "bars": bars, 
+            "bars": Int32(bars), 
             "noise": noise, 
             "frequency": frequency, 
             "amplitude": amplitude

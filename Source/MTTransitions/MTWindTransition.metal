@@ -20,9 +20,8 @@ fragment float4 WindFragment(VertexOut vertexIn [[ stage_in ]],
     float _toR = toTexture.get_width()/toTexture.get_height();
     float r = rand(float2(0, uv.y));
     float m = smoothstep(0.0, -size, uv.x*(1.0-size) + size*r - (progress * (1.0 + size)));
-    return mix(
-               getFromColor(uv, fromTexture, ratio, _fromR),
-               getFromColor(uv, toTexture, ratio, _toR),
+    return mix(getFromColor(uv, fromTexture, ratio, _fromR),
+               getToColor(uv, toTexture, ratio, _toR),
                m);
 }
 

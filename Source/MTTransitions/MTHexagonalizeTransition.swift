@@ -17,7 +17,7 @@ public class MTHexagonalizeTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "steps": steps, 
+            "steps": Int32(steps), 
             "horizontalHexagons": horizontalHexagons
         ]
     }

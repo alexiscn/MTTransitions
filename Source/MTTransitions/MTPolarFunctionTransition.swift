@@ -12,4 +12,10 @@ public class MTPolarFunctionTransition: MTTransition {
     override var fragmentName: String {
         return "PolarFunctionFragment"
     }
+    
+    override var parameters: [String : Any] {
+        return [
+            "segments": Int32(segments)
+        ]
+    }
 }

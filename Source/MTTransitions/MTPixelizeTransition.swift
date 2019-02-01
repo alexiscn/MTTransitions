@@ -6,11 +6,14 @@
 //
 
 import MetalPetal
+import simd
 
 public class MTPixelizeTransition: MTTransition {
     
-    public var squaresMin: CGSize = CGSize(width: 10, height: 10) 
-
+    // minimum number of squares (when the effect is at its higher level)
+    public var squaresMin: int2 = int2(20, 20)
+    
+    // zero disable the stepping
     public var steps: Int = 50 
 
     override var fragmentName: String {
@@ -19,8 +22,8 @@ public class MTPixelizeTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "squaresMin": MTIVector(value: squaresMin), 
-            "steps": steps
+            "squaresMin": MTIVector(value: squaresMin),
+            "steps": Int32(steps)
         ]
     }
 }

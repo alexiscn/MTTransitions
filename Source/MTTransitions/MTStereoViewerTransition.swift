@@ -7,7 +7,7 @@
 
 public class MTStereoViewerTransition: MTTransition {
     
-    public var corner_radius: Float = 0.22 
+    public var cornerRadius: Float = 0.22
 
     public var zoom: Float = 0.88 
 
@@ -17,7 +17,7 @@ public class MTStereoViewerTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "corner_radius": corner_radius, 
+            "cornerRadius": cornerRadius,
             "zoom": zoom
         ]
     }

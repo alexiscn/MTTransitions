@@ -11,7 +11,6 @@ float2 simple_zoom(float2 uv, float amount) {
     return 0.5 + ((uv - 0.5) * (1.0-amount));
 }
 
-
 fragment float4 SimpleZoomFragment(VertexOut vertexIn [[ stage_in ]],
                                    texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                    texture2d<float, access::sample> toTexture [[ texture(1) ]],

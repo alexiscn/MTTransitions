@@ -17,8 +17,8 @@ public class MTMosaicTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "endy": endy, 
-            "endx": endx
+            "endy": Int32(endy),
+            "endx": Int32(endx)
         ]
     }
 }
