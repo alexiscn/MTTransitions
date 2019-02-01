@@ -105,32 +105,29 @@ float4 unscreen(float4 c) {
 //  return getToColor(p);
 //}
 //
-//// Basic 2D affine transform matrix helpers
-//// These really shouldn't be used in a fragment shader - I should work out the
-//// the math for a translate & rotate function as a pair of dot products instead
-//
-//mat3 rotate2d(float angle, float ratio) {
-//  float s = sin(angle);
-//  float c = cos(angle);
-//  return mat3(
-//    c, s ,0.0,
-//    -s, c, 0.0,
-//    0.0, 0.0, 1.0);
-//}
-//
-//mat3 translate2d(float x, float y) {
-//  return mat3(
-//    1.0, 0.0, 0,
-//    0.0, 1.0, 0,
-//    -x, -y, 1.0);
-//}
-//
-//mat3 scale2d(float x, float y) {
-//  return mat3(
-//    x, 0.0, 0,
-//    0.0, y, 0,
-//    0, 0, 1.0);
-//}
+
+// Basic 2D affine transform matrix helpers
+// These really shouldn't be used in a fragment shader - I should work out the
+// the math for a translate & rotate function as a pair of dot products instead
+float3x3 rotate2d(float angle, float ratio) {
+    float s = sin(angle);
+    float c = cos(angle);
+    return float3x3(c, s ,0.0,
+                    -s, c, 0.0,
+                    0.0, 0.0, 1.0);
+}
+
+float3x3 translate2d(float x, float y) {
+    return float3x3(1.0, 0.0, 0,
+                    0.0, 1.0, 0,
+                    -x, -y, 1.0);
+}
+
+float3x3 scale2d(float x, float y) {
+    return float3x3(x, 0.0, 0,
+                    0.0, y, 0,
+                    0, 0, 1.0);
+}
 //
 //// Split an image and rotate one up and one down along off screen pivot points
 //float4 get_cross_rotated(float3 p3, float angle, float2 corner_size, float ratio) {
@@ -213,3 +210,17 @@ float4 unscreen(float4 c) {
 //  }
 //}
 
+
+fragment float4 StereoViewerFragment(VertexOut vertexIn [[ stage_in ]],
+                              texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                              texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                              constant float & ratio [[ buffer(0) ]],
+                              constant float & progress [[ buffer(1) ]],
+                              sampler textureSampler [[ sampler(0) ]])
+{
+    float2 uv = vertexIn.textureCoordinate;
+    float _fromR = fromTexture.get_width()/fromTexture.get_height();
+    float _toR = toTexture.get_width()/toTexture.get_height();
+    
+    return float4(1.0);
+}

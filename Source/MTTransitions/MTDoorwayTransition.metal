@@ -1,11 +1,11 @@
 // License: MIT 
+// Author: gre
 
 #include <metal_stdlib>
 #include "MTIShaderLib.h"
 #include "MTTransitionLib.h"
 
 using namespace metalpetal;
-// author: gre
 
 //const float4 black = float4(0.0, 0.0, 0.0, 1.0);
 //const float2 boundMin = float2(0.0, 0.0);

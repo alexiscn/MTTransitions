@@ -12,26 +12,26 @@
 
 using namespace metalpetal;
 
-//
-//float Linear_ease(in float begin, in float change, in float duration, in float time) {
-//    return change * time / duration + begin;
-//}
-//
-//float Exponential_easeInOut(in float begin, in float change, in float duration, in float time) {
-//    if (time == 0.0)
-//        return begin;
-//    else if (time == duration)
-//        return begin + change;
-//    time = time / (duration / 2.0);
-//    if (time < 1.0)
-//        return change / 2.0 * pow(2.0, 10.0 * (time - 1.0)) + begin;
-//    return change / 2.0 * (-pow(2.0, -10.0 * (time - 1.0)) + 2.0) + begin;
-//}
-//
-//float Sinusoidal_easeInOut(in float begin, in float change, in float duration, in float time) {
-//    return -change / 2.0 * (cos(PI * time / duration) - 1.0) + begin;
-//}
-//
+// TODO
+float Linear_ease(float begin, float change, float duration, float time) {
+    return change * time / duration + begin;
+}
+
+float Exponential_easeInOut(float begin, float change, float duration, float time) {
+    if (time == 0.0)
+        return begin;
+    else if (time == duration)
+        return begin + change;
+    time = time / (duration / 2.0);
+    if (time < 1.0)
+        return change / 2.0 * pow(2.0, 10.0 * (time - 1.0)) + begin;
+    return change / 2.0 * (-pow(2.0, -10.0 * (time - 1.0)) + 2.0) + begin;
+}
+
+float Sinusoidal_easeInOut(float begin, float change, float duration, float time) {
+    return -change / 2.0 * (cos(PI * time / duration) - 1.0) + begin;
+}
+
 //
 //float3 crossFade(in float2 uv, in float dissolve) {
 //    return mix(getFromColor(uv, fromTexture, ratio, _fromR).rgb, getFromColor(uv, toTexture, ratio, _toR).rgb, dissolve);

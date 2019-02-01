@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MTTransitions'
-  s.version      = '0.0.1'
+  s.version      = '0.0.2'
   s.license = 'MIT'
   s.requires_arc = true
   s.source = { :git => 'https://github.com/alexiscn/MTTransitions.git', :tag => s.version.to_s }
@@ -11,7 +11,8 @@ Pod::Spec.new do |s|
   s.author          = { 'xushuifeng' => 'shuifengxu@gmail.com' }
   s.platform        = :ios
   s.swift_version   = '4.2'
-  s.source_files    =  'Source/**/*.{swift,metal,h}'
+  s.source_files    = 'Source/**/*.{swift,metal,h}'
+  s.resource  = 'Source/**/Assets.bundle'
   s.ios.deployment_target = '11.0'
   s.xcconfig = { 'MTL_HEADER_SEARCH_PATHS' => '${PODS_CONFIGURATION_BUILD_DIR}/MetalPetal/MetalPetal.framework/Headers'}
   

@@ -24,6 +24,8 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     var parameters: [String: Any] { return [:] }
     
+    var samplers: [String: String] { return [:] }
+    
     public var outputImage: MTIImage? {
         guard let input = inputImage, let dest = destImage else {
             return inputImage

@@ -7,9 +7,6 @@
 
 using namespace metalpetal;
 
-// Usage: fromStep and toStep must be in [0.0, 1.0] range 
-// and all(fromStep) must be < all(toStep)
-
 fragment float4 ColorphaseFragment(VertexOut vertexIn [[ stage_in ]],
                                    texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                    texture2d<float, access::sample> toTexture [[ texture(1) ]],

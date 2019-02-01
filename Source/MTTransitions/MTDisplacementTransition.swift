@@ -5,6 +5,7 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
+// TODO: displacementMap should be parameter
 public class MTDisplacementTransition: MTTransition {
     
     public var strength: Float = 0.5 
@@ -16,7 +17,12 @@ public class MTDisplacementTransition: MTTransition {
     override var parameters: [String: Any] {
         return [
             "strength": strength, 
-           // "displacementMap": displacementMap
+        ]
+    }
+    
+    override var samplers: [String : String] {
+        return [
+            "displacementMap": "displacementMap.jpg"
         ]
     }
 }
