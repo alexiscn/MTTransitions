@@ -11,7 +11,6 @@ float4 blend(float4 a, float4 b) {
     return a * b;
 }
 
-
 fragment float4 MultiplyBlendFragment(VertexOut vertexIn [[ stage_in ]],
                                       texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                       texture2d<float, access::sample> toTexture [[ texture(1) ]],
@@ -26,10 +25,9 @@ fragment float4 MultiplyBlendFragment(VertexOut vertexIn [[ stage_in ]],
     
     float4 blended = blend(getFromColor(uv, fromTexture, ratio, _fromR), getFromColor(uv, toTexture, ratio, _toR));
     
-    if (progress < 0.5)
+    if (progress < 0.5) {
         return mix(getFromColor(uv, fromTexture, ratio, _fromR), blended, 2.0 * progress);
-    else
+    } else {
         return mix(blended, getFromColor(uv, toTexture, ratio, _toR), 2.0 * progress - 1.0);
+    }
 }
-
-

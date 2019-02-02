@@ -24,8 +24,7 @@ fragment float4 FlyeyeFragment(VertexOut vertexIn [[ stage_in ]],
     float inv = 1.0 - progress;
     float2 disp = size*float2(cos(zoom*uv.x), sin(zoom*uv.y));
     float4 texTo = getToColor(uv + inv*disp, toTexture, ratio, _toR);
-    float4 texFrom = float4(
-                            getFromColor(uv + progress*disp*(1.0 - colorSeparation), fromTexture, ratio, _fromR).r,
+    float4 texFrom = float4(getFromColor(uv + progress*disp*(1.0 - colorSeparation), fromTexture, ratio, _fromR).r,
                             getFromColor(uv + progress*disp, fromTexture, ratio, _fromR).g,
                             getFromColor(uv + progress*disp*(1.0 + colorSeparation), fromTexture, ratio, _fromR).b,
                             1.0);

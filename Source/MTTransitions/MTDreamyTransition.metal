@@ -24,8 +24,7 @@ fragment float4 DreamyFragment(VertexOut vertexIn [[ stage_in ]],
     float _fromR = fromTexture.get_width()/fromTexture.get_height();
     float _toR = toTexture.get_width()/toTexture.get_height();
     
-    return mix(
-               getFromColor(uv + offset(progress, uv.x, 0.0), fromTexture, ratio, _fromR),
+    return mix(getFromColor(uv + offset(progress, uv.x, 0.0), fromTexture, ratio, _fromR),
                getToColor(uv + offset(1.0-progress, uv.x, 3.14), toTexture, ratio, _toR),
                progress);
 }

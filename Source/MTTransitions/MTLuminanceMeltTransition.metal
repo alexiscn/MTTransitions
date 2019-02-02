@@ -121,8 +121,7 @@ fragment float4 LuminanceMeltFragment(VertexOut vertexIn [[ stage_in ]],
         float m;
         if(above){
             m = dist <= r && luminance(getFromColor(p, fromTexture, ratio, _fromR))>l_threshold ? 1.0 : (progress*progress*progress);
-        }
-        else{
+        } else{
             m = dist <= r && luminance(getFromColor(p, fromTexture, ratio, _fromR))<l_threshold ? 1.0 : (progress*progress*progress);
         }
         return mix(getFromColor(p, fromTexture, ratio, _fromR),

@@ -25,9 +25,10 @@ fragment float4 PolarFunctionFragment(VertexOut vertexIn [[ stage_in ]],
     float radius = (cos(float(segments) * angle) + 4.0) / 4.0;
     float difference = length(uv - float2(0.5, 0.5));
     
-    if (difference > radius * progress)
+    if (difference > radius * progress) {
         return getFromColor(uv, fromTexture, ratio, _fromR);
-    else
+    } else {
         return getFromColor(uv, toTexture, ratio, _toR);
+    }
 }
 

@@ -25,8 +25,7 @@ fragment float4 CircleopenFragment(VertexOut vertexIn [[ stage_in ]],
     
     float x = opening ? progress : 1.-progress;
     float m = smoothstep(-smoothness, 0.0, SQRT_2*distance(center, uv) - x*(1.+smoothness));
-    return mix(
-               getFromColor(uv, fromTexture, ratio, _fromR),
+    return mix(getFromColor(uv, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                opening ? 1.-m : m
                );

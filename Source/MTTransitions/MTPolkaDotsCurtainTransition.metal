@@ -22,5 +22,5 @@ fragment float4 PolkaDotsCurtainFragment(VertexOut vertexIn [[ stage_in ]],
     
     //const float SQRT_2 = 1.414213562373;
     bool nextImage = distance(fract(uv * dots), float2(0.5, 0.5)) < ( progress / distance(uv, center));
-    return nextImage ? getFromColor(uv, toTexture, ratio, _toR) : getToColor(uv, fromTexture, ratio, _fromR);
+    return nextImage ? getToColor(uv, toTexture, ratio, _toR) : getFromColor(uv, fromTexture, ratio, _fromR);
 }

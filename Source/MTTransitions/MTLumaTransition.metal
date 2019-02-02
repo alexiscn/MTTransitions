@@ -7,7 +7,6 @@
 
 using namespace metalpetal;
 
-
 fragment float4 LumaFragment(VertexOut vertexIn [[ stage_in ]],
                              texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                              texture2d<float, access::sample> toTexture [[ texture(1) ]],
@@ -23,8 +22,7 @@ fragment float4 LumaFragment(VertexOut vertexIn [[ stage_in ]],
     constexpr sampler s(coord::normalized, address::clamp_to_edge, filter::linear);
     float r = luma.sample(s, uv).r;
     
-    return mix(
-               getFromColor(uv, toTexture, ratio, _toR),
+    return mix(getFromColor(uv, toTexture, ratio, _toR),
                getToColor(uv, fromTexture, ratio, _fromR),
                step(progress, r)
                );

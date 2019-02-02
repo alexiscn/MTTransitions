@@ -25,8 +25,7 @@ fragment float4 PinwheelFragment(VertexOut vertexIn [[ stage_in ]],
     float modPos = mod(circPos, 3.1415 / 4.);
     float s = sign(progress - modPos);
     
-    return mix(
-               getToColor(p, toTexture, ratio, _toR),
+    return mix(getToColor(p, toTexture, ratio, _toR),
                getFromColor(p, fromTexture, ratio, _fromR),
                step(s, 0.5));
 }
