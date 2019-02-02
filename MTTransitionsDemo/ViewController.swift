@@ -14,28 +14,36 @@ class ViewController: UIViewController {
 
     private var imageView: MTIImageView!
     
-    private var transition: MTTransition?
-    private var context: MTIContext?
-    private let generator = GifGenerator()
+    private let duration: Double = 2.0
+    
+    private var fromIndex: Int = 0
+    private var toIndex: Int = 1
+    
+    private weak var timer: CADisplayLink?
+    private var startTime: CFTimeInterval?
     
     private var index: Int = 0
     
+    private var transition: MTTransition?
     private var transitions: [MTTransition] = TransitionManager.shared.allTransitions
+    private var images: [MTIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
-        
+        fromIndex = 0
+        toIndex = Int.random(in: 1...8)
+        setupImages()
         setupImageView()
-        
-        doTransition()
+        setupTransition()
+        //setupTimer()
+        animate()
     }
     
     private func setupImageView() {
         imageView = MTIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = resourceImage(named: "1")
+        imageView.image = images[0]
         view.addSubview(imageView)
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
@@ -44,71 +52,109 @@ class ViewController: UIViewController {
         imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 400.0/512.0).isActive = true
     }
     
-    private func setupTransition() {
-        transition = transitions[index]
-        transition?.inputImage = resourceImage(named: "1")
-        transition?.destImage = resourceImage(named: "2")
-    }
-
-    @IBAction func buttonTapped(_ sender: Any) {
-        //doTransition()
+    private func setupImages() {
+        for i in 1...9 {
+            if let imageUrl = Bundle.main.url(forResource: String(i), withExtension: "jpg") {
+                let ciImage = CIImage(contentsOf: imageUrl)
+                images.append(MTIImage(ciImage: ciImage!, isOpaque: true))
+            }
+        }
     }
     
-    private func doTransition() {
+    private func setupTimer() {
+        let timer = CADisplayLink(target: self, selector: #selector(render))
+        timer.add(to: .main, forMode: .common)
+        self.timer = timer
+    }
+    
+    @objc private func render(sender: CADisplayLink) {
+        let startTime: CFTimeInterval
+        if let time = self.startTime {
+            startTime = time
+        } else {
+            startTime = sender.timestamp
+            self.startTime = startTime
+        }
         
-        setupTransition()
-        
-        // var images: [UIImage] = []
+        var progress = (sender.timestamp - startTime) / duration
+        if progress > 1 {
+            self.transition?.progress = 1.0
+            self.imageView.image = self.transition?.outputImage
+            print(1.0)
+            
+            self.startTime = nil
+            index += 1
+            if index < transitions.count {
+                self.fromIndex = self.toIndex
+                var i = Int.random(in: 0...8)
+                while i == self.fromIndex {
+                     i = Int.random(in: 0...8)
+                }
+                self.toIndex = i
+                setupTransition()
+            } else {
+                self.timer?.invalidate()
+                self.timer = nil
+                print("Finished")
+            }
+            return
+        }
+        progress = min(progress, 1.0)
+        print(progress)
+        self.transition?.progress = Float(progress)
+        self.imageView.image = self.transition?.outputImage
+    }
+    
+    private func setupTransition() {
+        transition = transitions[index]
+        transition?.inputImage = images[fromIndex]
+        transition?.destImage = images[toIndex]
+        transition?.progress = 0.0
+        imageView.image = images[fromIndex]
+    }
+    
+    private func animate() {
+
+        transition = transitions[index]
+        transition?.inputImage = images[fromIndex]
+        transition?.destImage = images[toIndex]
+        imageView.image = images[fromIndex]
+
         var progress: Int = 0
-        let t = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
-            progress += 1
-            if progress >= 100 {
-                
+        let interval = duration / 100.0
+        let t = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { timer in
+            if progress > 100 {
                 timer.invalidate()
                 self.index += 1
                 if self.index < self.transitions.count {
-                    self.doTransition()
+                    self.fromIndex = self.toIndex
+                    var i = Int.random(in: 0...8)
+                    while i == self.fromIndex {
+                         i = Int.random(in: 0...8)
+                    }
+                    self.toIndex = i
+                    self.animate()
                 } else {
                     print("Finished")
                 }
+                return
             }
             progress = min(100, progress)
+            print(Float(progress) / Float(100))
             self.transition?.progress = Float(progress) / Float(100)
             self.imageView.image = self.transition?.outputImage
-            
-//            if progress == 50, let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
-//                let img = UIImage(cgImage: cgImage!)
-//                if let data = img.jpegData(compressionQuality: 1.0) {
-//                    let name = NSStringFromClass(self.transition!.classForCoder)
-//                    let path = NSHomeDirectory().appending("/Documents/\(name).jpg")
-//                    let url = URL(fileURLWithPath: path)
-//                    try? data.write(to: url)
-//                }
-//            }
-//            if let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
-//                let img = UIImage(cgImage: cgImage!)
-//                images.append(img)
-//            }
+            progress += 1
         }
         t.fire()
     }
     
-    private func generateGIFF(images: [UIImage], name: String) {
-        let path = NSHomeDirectory().appending("/Documents/\(name).gif")
-        let dest = URL(fileURLWithPath: path)
-        self.generator.generateGifFromImages(imagesArray: images, frameDelay: 0.1, destinationURL: dest) { (data, error) in
-            if let error = error {
-                print(error)
-            }
-        }
-    }
-    
-    func resourceImage(named: String) -> MTIImage? {
-        if let imageUrl = Bundle.main.url(forResource: named, withExtension: "jpg") {
-            let ciImage = CIImage(contentsOf: imageUrl)
-            return MTIImage(ciImage: ciImage!, isOpaque: true)
-        }
-        return nil
-    }
+//    private func generateThumbnails(_ image: UIImage) {
+//        if let data = image.jpegData(compressionQuality: 1.0) {
+//            let name = NSStringFromClass(self.transition!.classForCoder)
+//            let path = NSHomeDirectory().appending("/Documents/\(name).jpg")
+//            let url = URL(fileURLWithPath: path)
+//            try? data.write(to: url)
+//        }
+//    }
 }
 

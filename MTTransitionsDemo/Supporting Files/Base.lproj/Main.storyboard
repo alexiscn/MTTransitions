@@ -17,21 +17,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xoo-QR-cFz">
-                                <rect key="frame" x="153" y="495" width="69" height="30"/>
-                                <state key="normal" title="Transition"/>
-                                <connections>
-                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uo1-Zz-C5S"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="Xoo-QR-cFz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="475" id="57q-PS-5fr"/>
-                            <constraint firstItem="Xoo-QR-cFz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="153" id="LIT-5B-6EY"/>
-                            <constraint firstItem="Xoo-QR-cFz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="n0s-YI-OeX"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
