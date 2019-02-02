@@ -5,7 +5,7 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
-public class MTDoomScreeTransition: MTTransition {
+public class MTDoomScreenTransition: MTTransition {
     
     // How much the bars seem to "run" from the middle of the screen first (sticking to the sides). 0 = no drip, 1 = curved drip
     public var dripScale: Float = 0.5 

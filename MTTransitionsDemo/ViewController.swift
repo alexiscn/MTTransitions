@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     }
     
     private func setupTransition() {
-        transition = MTUndulatingBurnOutTransition()
+        transition = MTAngularTransition()
         transition?.inputImage = resourceImage(named: "1")
         transition?.destImage = resourceImage(named: "2")
     }

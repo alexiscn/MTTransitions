@@ -5,7 +5,7 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
-public class MTLuminance_meltTransition: MTTransition {
+public class MTLuminanceMeltTransition: MTTransition {
     
     /// direction of movement :  0 : up, 1, down
     public var direction: Bool = true

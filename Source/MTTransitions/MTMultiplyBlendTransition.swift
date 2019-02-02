@@ -5,7 +5,7 @@
 //  Created by alexiscn on 2019/1/28.
 //
 
-public class MTMultiply_blendTransition: MTTransition {
+public class MTMultiplyBlendTransition: MTTransition {
     
     override var fragmentName: String {
         return "MultiplyBlendFragment"
