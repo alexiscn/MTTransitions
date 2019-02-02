@@ -12,35 +12,35 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 - [x] MTCannabisleafTransition
 - [x] MTCircleCropTransition
 - [x] MTCircleTransition
-- [x] MTCircleopenTransition
-- [x] MTColorphaseTransition
+- [x] MTCircleOpenTransition
+- [x] MTColorPhaseTransition
 - [x] MTColourDistanceTransition
 - [x] MTCrazyParametricFunTransition
-- [ ] MTCrossZoomTransition
-- [x] MTCrosshatchTransition
-- [x] MTCrosswarpTransition
-- [ ] MTCubeTransition
+- [x] MTCrossZoomTransition
+- [x] MTCrossHatchTransition
+- [x] MTCrossWarpTransition
+- [x] MTCubeTransition
 - [x] MTDirectionalTransition
 - [x] MTDirectionalWarpTransition
-- [x] MTDirectionalwipeTransition
+- [x] MTDirectionalWipeTransition
 - [x] MTDisplacementTransition
 - [x] MTDoomScreenTransition
-- [ ] MTDoorwayTransition
+- [x] MTDoorwayTransition
 - [x] MTDreamyTransition
 - [x] MTDreamyZoomTransition
 - [x] MTFadeTransition
-- [x] MTFadecolorTransition
+- [x] MTFadeColorTransition
 - [x] MTFadegrayscaleTransition
 - [x] MTFlyeyeTransition
-- [ ] MTGlitchDisplaceTransition
+- [x] MTGlitchDisplaceTransition
 - [x] MTGlitchMemoriesTransition
 - [x] MTGridFlipTransition
 - [x] MTHeartTransition
 - [x] MTHexagonalizeTransition
 - [ ] MTInvertedPageCurlTransition
-- [x]  MTKaleidoscopeTransition
+- [x] MTKaleidoScopeTransition
 - [x] MTLinearBlurTransition
-- [ ] MTLumaTransition
+- [x] MTLumaTransition
 - [x] MTLuminanceMeltTransition
 - [x] MTMorphTransition
 - [x] MTMosaicTransition
@@ -51,7 +51,7 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 - [x] MTPolarFunctionTransition
 - [x] MTPolkaDotsCurtainTransition
 - [x] MTRadialTransition
-- [x] MTRandomsquaresTransition
+- [x] MTRandomSquaresTransition
 - [x] MTRippleTransition
 - [x] MTRotateScaleFadeTransition
 - [x] MTSimpleZoomTransition
@@ -59,8 +59,8 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 - [x] MTSqueezeTransition
 - [ ] MTStereoViewerTransition
 - [x] MTSwapTransition
-- [ ] MTSwirlTransition
-- [ ] MTUndulatingBurnOutTransition
+- [x] MTSwirlTransition
+- [x] MTUndulatingBurnOutTransition
 - [x] MTWaterDropTransition
 - [x] MTWindTransition
 - [x] MTWindowBlindsTransition
