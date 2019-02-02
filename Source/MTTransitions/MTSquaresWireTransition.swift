@@ -1,5 +1,5 @@
 //
-//  MTSquareswireTransition.swift
+//  MTSquaresWireTransition.swift
 //  MTTransitions
 //
 //  Created by alexiscn on 2019/1/28.
@@ -9,7 +9,7 @@ import MetalPetal
 
 public class MTSquaresWireTransition: MTTransition {
     
-    public var direction: CGPoint = CGPoint(x: 0, y: 0) 
+    public var direction: CGPoint = CGPoint(x: 1.0, y: -0.5) 
 
     public var squares: CGSize = CGSize(width: 10, height: 10) 
 

@@ -11,7 +11,7 @@ import MetalPetal
 
 public class MTCircleTransition: MTTransition {
     
-    public var center: CGPoint = CGPoint(x: 0, y: 0) 
+    public var center: CGPoint = CGPoint(x: 0.5, y: 0.5) 
 
     public var backColor: MTIColor = MTIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
 

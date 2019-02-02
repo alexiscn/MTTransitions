@@ -7,7 +7,7 @@
 
 using namespace metalpetal;
 
-fragment float4 KaleidoscopeFragment(VertexOut vertexIn [[ stage_in ]],
+fragment float4 KaleidoScopeFragment(VertexOut vertexIn [[ stage_in ]],
                                      texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                      texture2d<float, access::sample> toTexture [[ texture(1) ]],
                                      constant float & angle [[ buffer(0) ]],

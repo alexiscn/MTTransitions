@@ -9,7 +9,7 @@ import MetalPetal
 
 public class MTDirectionalwarpTransition: MTTransition {
     
-    public var direction: CGPoint = CGPoint(x: 0, y: 0) 
+    public var direction: CGPoint = CGPoint(x: -1.0, y: 1.0) 
 
     override var fragmentName: String {
         return "DirectionalwarpFragment"

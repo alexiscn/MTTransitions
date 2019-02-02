@@ -1,11 +1,11 @@
 //
-//  MTKaleidoscopeTransition.swift
+//  MTKaleidoScopeTransition.swift
 //  MTTransitions
 //
 //  Created by alexiscn on 2019/1/28.
 //
 
-public class MTKaleidoscopeTransition: MTTransition {
+public class MTKaleidoScopeTransition: MTTransition {
     
     public var angle: Float = 1 
 
@@ -14,7 +14,7 @@ public class MTKaleidoscopeTransition: MTTransition {
     public var power: Float = 1.5 
 
     override var fragmentName: String {
-        return "KaleidoscopeFragment"
+        return "KaleidoScopeFragment"
     }
 
     override var parameters: [String: Any] {

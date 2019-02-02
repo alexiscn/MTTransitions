@@ -13,7 +13,7 @@ public class MTUndulatingBurnOutTransition: MTTransition {
 
     public var smoothness: Float = 0.03 
 
-    public var center: CGPoint = CGPoint(x: 0, y: 0) 
+    public var center: CGPoint = CGPoint(x: 0.5, y: 0.5) 
 
     override var fragmentName: String {
         return "UndulatingBurnOutFragment"

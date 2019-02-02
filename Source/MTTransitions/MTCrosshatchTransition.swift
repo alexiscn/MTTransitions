@@ -10,7 +10,7 @@ public class MTCrosshatchTransition: MTTransition {
     
     public var threshold: Float = 3 
 
-    public var center: CGPoint = CGPoint(x: 0, y: 0) 
+    public var center: CGPoint = CGPoint(x: 0.5, y: 0.5) 
 
     public var fadeEdge: Float = 0.1 
 
