@@ -28,7 +28,8 @@ class ViewController: UIViewController {
         context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
         
         setupImageView()
-        setupTransition()
+        
+        doTransition()
     }
     
     private func setupImageView() {
@@ -50,7 +51,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func buttonTapped(_ sender: Any) {
-        doTransition()
+        //doTransition()
     }
     
     private func doTransition() {
@@ -75,16 +76,15 @@ class ViewController: UIViewController {
             self.transition?.progress = Float(progress) / Float(100)
             self.imageView.image = self.transition?.outputImage
             
-            if progress == 50, let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
-                let img = UIImage(cgImage: cgImage!)
-                if let data = img.jpegData(compressionQuality: 1.0) {
-                    let name = NSStringFromClass(self.transition!.classForCoder)
-                    let path = NSHomeDirectory().appending("/Documents/\(name).jpg")
-                    let url = URL(fileURLWithPath: path)
-                    try? data.write(to: url)
-                }
-            }
-
+//            if progress == 50, let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
+//                let img = UIImage(cgImage: cgImage!)
+//                if let data = img.jpegData(compressionQuality: 1.0) {
+//                    let name = NSStringFromClass(self.transition!.classForCoder)
+//                    let path = NSHomeDirectory().appending("/Documents/\(name).jpg")
+//                    let url = URL(fileURLWithPath: path)
+//                    try? data.write(to: url)
+//                }
+//            }
 //            if let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
 //                let img = UIImage(cgImage: cgImage!)
 //                images.append(img)
