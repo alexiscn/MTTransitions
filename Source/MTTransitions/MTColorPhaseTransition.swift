@@ -1,5 +1,5 @@
 //
-//  MTColorphaseTransition.swift
+//  MTColorPhaseTransition.swift
 //  MTTransitions
 //
 //  Created by alexiscn on 2019/1/28.
@@ -7,7 +7,7 @@
 
 import MetalPetal
 
-public class MTColorphaseTransition: MTTransition {
+public class MTColorPhaseTransition: MTTransition {
     
     // Usage: fromStep and toStep must be in [0.0, 1.0] range
     // and all(fromStep) must be < all(toStep)
@@ -16,7 +16,7 @@ public class MTColorphaseTransition: MTTransition {
     public var toStep: MTIColor = MTIColor(red: 0.6, green: 0.8, blue: 1.0, alpha: 1.0)
 
     override var fragmentName: String {
-        return "ColorphaseFragment"
+        return "ColorPhaseFragment"
     }
 
     override var parameters: [String: Any] {

@@ -7,7 +7,7 @@
 
 public class MTSimpleZoomTransition: MTTransition {
     
-    public var zoom_quickness: Float = 0.8 
+    public var zoomQuickness: Float = 0.8
 
     override var fragmentName: String {
         return "SimpleZoomFragment"
@@ -15,7 +15,7 @@ public class MTSimpleZoomTransition: MTTransition {
 
     override var parameters: [String: Any] {
         return [
-            "zoom_quickness": zoom_quickness
+            "zoomQuickness": zoomQuickness
         ]
     }
 }

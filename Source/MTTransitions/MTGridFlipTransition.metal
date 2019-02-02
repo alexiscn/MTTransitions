@@ -8,7 +8,7 @@
 
 using namespace metalpetal;
 
-float getDelta(float2 p, float2 size) {
+float getDelta(float2 p, int2 size) {
     float2 rectanglePos = floor(float2(size) * p);
     float2 rectangleSize = float2(1.0 / float2(size).x, 1.0 / float2(size).y);
     float top = rectangleSize.y * (rectanglePos.y + 1.0);
@@ -20,7 +20,7 @@ float getDelta(float2 p, float2 size) {
     return min(minX, minY);
 }
 
-float getDividerSize(float2 size, float dividerWidth) {
+float getDividerSize(int2 size, float dividerWidth) {
     float2 rectangleSize = float2(1.0 / float2(size).x, 1.0 / float2(size).y);
     return min(rectangleSize.x, rectangleSize.y) * dividerWidth;
 }
@@ -32,7 +32,7 @@ fragment float4 GridFlipFragment(VertexOut vertexIn [[ stage_in ]],
                                  constant float & randomness [[ buffer(1) ]],
                                  constant float & pause [[ buffer(2) ]],
                                  constant float & dividerWidth [[ buffer(3) ]],
-                                 constant float2 & size [[ buffer(4) ]],
+                                 constant int2 & size [[ buffer(4) ]],
                                  constant float & ratio [[ buffer(5) ]],
                                  constant float & progress [[ buffer(6) ]],
                                  sampler textureSampler [[ sampler(0) ]])

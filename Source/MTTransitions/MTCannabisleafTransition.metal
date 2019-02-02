@@ -29,7 +29,7 @@ fragment float4 CannabisleafFragment(VertexOut vertexIn [[ stage_in ]],
     
     float4 a = getFromColor(uv, fromTexture, ratio, _fromR);
     float4 b = getToColor(uv, toTexture, ratio, _toR);
-    float4 c = 1.0 - step(1.0 - length(leaf_uv) + r*(1.0 + sin(o))*(1.0 + 0.9 * cos(80.*o))*(1.0 + 0.1*cos(24.0*o))*(0.9+0.05*cos(200.0*o)), 1.0);
+    float4 c = 1.0 - step(1.0 - length(leaf_uv) + r*(1.0 + sin(o))*(1.0 + 0.9 * cos(8.0*o))*(1.0 + 0.1*cos(24.0*o))*(0.9+0.05*cos(200.0*o)), 1.0);
     return mix(a, b, c);
 }
 

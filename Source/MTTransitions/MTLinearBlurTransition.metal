@@ -22,8 +22,7 @@ fragment float4 LinearBlurFragment(VertexOut vertexIn [[ stage_in ]],
     const int passes = 6;
     float4 c1 = float4(0.0);
     float4 c2 = float4(0.0);
-//    float disp = intensity * (0.5 - distance(0.5, progress));
-    float disp = intensity * (0.5 - (0.5 - progress));
+    float disp = intensity * (0.5 - abs(0.5 - progress));
     for (int xi = 0; xi < passes; xi++) {
         float x = float(xi) / float(passes) - 0.5;
         for (int yi=0; yi<passes; yi++)

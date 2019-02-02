@@ -6,6 +6,7 @@
 //
 
 import MetalPetal
+import simd
 
 public class MTGridFlipTransition: MTTransition {
     
@@ -17,7 +18,7 @@ public class MTGridFlipTransition: MTTransition {
 
     public var dividerWidth: Float = 0.05 
 
-    public var size: CGSize = CGSize(width: 10, height: 10) 
+    public var size: int2 = int2(4, 4)
 
     override var fragmentName: String {
         return "GridFlipFragment"
@@ -29,7 +30,7 @@ public class MTGridFlipTransition: MTTransition {
             "randomness": randomness, 
             "pause": pause, 
             "dividerWidth": dividerWidth, 
-            "size": size
+            "size": MTIVector(value: size)
         ]
     }
 }

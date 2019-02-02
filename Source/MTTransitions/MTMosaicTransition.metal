@@ -12,12 +12,13 @@ using namespace metalpetal;
 #define POW3(X) X*X*X
 
 float2 mosaicRotate(float2 v, float a) {
-  float2x2 rm = float2x2(cos(a), -sin(a), sin(a), cos(a));
+  float2x2 rm = float2x2(cos(a), -sin(a),
+                         sin(a), cos(a));
   return rm*v;
 }
 
 float cosInterpolation(float x) {
-    return -cos(x*PI)/2.+.5;
+    return -cos(x*M_PI_F)/2.0 + 0.5;
 }
 
 fragment float4 MosaicFragment(VertexOut vertexIn [[ stage_in ]],
@@ -35,19 +36,19 @@ fragment float4 MosaicFragment(VertexOut vertexIn [[ stage_in ]],
     
     float2 p = uv.xy / float2(1.0).xy - 0.5;
     float2 rp = p;
-    float rpr = (progress*2.-1.);
-    float z = -(rpr*rpr*2.) + 3.;
+    float rpr = (progress * 2.0 - 1.0);
+    float z = -(rpr * rpr * 2.0) + 3.0;
     float az = abs(z);
     rp *= az;
-    rp += mix(float2(0.5, 0.5), float2(float(endx) + .5, float(endy) + .5), POW2(cosInterpolation(progress)));
-    float2 mrp = fmod(rp, 1.0);
+    rp += mix(float2(0.5, 0.5), float2(float(endx) + 0.5, float(endy) + 0.5), POW2(cosInterpolation(progress)));
+    float2 mrp =  rp - 1.0 * floor(rp/1.0);
     float2 crp = rp;
     bool onEnd = int(floor(crp.x)) == endx && int(floor(crp.y)) == endy;
     if(!onEnd) {
-        float ang = float(int(rand(floor(crp))*4.))*.5*PI;
-        mrp = float2(.5) + mosaicRotate(mrp-float2(.5), ang);
+        float ang = float(int(rand(floor(crp)) * 4.0)) * 0.5 * M_PI_F;
+        mrp = float2(0.5) + mosaicRotate(mrp - float2(0.5), ang);
     }
-    if(onEnd || rand(floor(crp))>.5) {
+    if(onEnd || rand(floor(crp)) > 0.5) {
         return getToColor(mrp, toTexture, ratio, _toR);
     } else {
         return getFromColor(mrp, fromTexture, ratio, _fromR);

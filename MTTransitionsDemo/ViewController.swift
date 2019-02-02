@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     }
     
     private func setupTransition() {
-        transition = MTAngularTransition()
+        transition = MTWindTransition()
         transition?.inputImage = resourceImage(named: "1")
         transition?.destImage = resourceImage(named: "2")
     }
@@ -54,6 +54,7 @@ class ViewController: UIViewController {
             if progress >= 1.0 {
                 timer.invalidate()
             }
+            progress = min(1.0, progress)
             self.transition?.progress = progress
             self.imageView.image = self.transition?.outputImage
             

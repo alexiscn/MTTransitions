@@ -7,8 +7,6 @@
 
 using namespace metalpetal;
 
-// TODO
-/*
 float2 cube_project (float2 p, float floating) {
     return p * float2(1.0, -1.2) + float2(0.0, -floating/100.);
 }
@@ -23,15 +21,11 @@ bool cube_inBounds (float2 p) {
 float2 cube_xskew (float2 p, float persp, float center) {
     float x = mix(p.x, 1.0-p.x, center);
     return (
-            (
-             float2( x, (p.y - 0.5*(1.0-persp) * x) / (1.0+(persp-1.0)*x) )
-             - float2(0.5-distance(center, 0.5), 0.0)
-             )
-            * float2(0.5 / distance(center, 0.5) * (center<0.5 ? 1.0 : -1.0), 1.0)
+            (float2( x, (p.y - 0.5*(1.0-persp) * x) / (1.0+(persp-1.0)*x) ) - float2(0.5-abs(center - 0.5), 0.0))
+            * float2(0.5 / abs(center - 0.5) * (center<0.5 ? 1.0 : -1.0), 1.0)
             + float2(center<0.5 ? 0.0 : 1.0, 0.0)
             );
 }
-
 
 fragment float4 CubeFragment(VertexOut vertexIn [[ stage_in ]],
                              texture2d<float, access::sample> fromTexture [[ texture(0) ]],
@@ -48,7 +42,7 @@ fragment float4 CubeFragment(VertexOut vertexIn [[ stage_in ]],
     float _fromR = fromTexture.get_width()/fromTexture.get_height();
     float _toR = toTexture.get_width()/toTexture.get_height();
     
-    float uz = unzoom * 2.0*(0.5 - distance(0.5, progress));
+    float uz = unzoom * 2.0*(0.5 - abs(0.5 - progress));
     float2 p = -uz*0.5+(1.0+uz) * uv;
     float2 fromP = cube_xskew((p - float2(progress, 0.0)) / float2(1.0 - progress, 1.0),
                          1.0 - mix(progress, 0.0, persp),
@@ -75,4 +69,3 @@ fragment float4 CubeFragment(VertexOut vertexIn [[ stage_in ]],
     }
     return c;
 }
-*/

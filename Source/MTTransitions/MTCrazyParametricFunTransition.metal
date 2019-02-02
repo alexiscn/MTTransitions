@@ -7,16 +7,16 @@
 
 using namespace metalpetal;
 
-fragment float4 CrazyParametricFragment(VertexOut vertexIn [[ stage_in ]],
-                                        texture2d<float, access::sample> fromTexture [[ texture(0) ]],
-                                        texture2d<float, access::sample> toTexture [[ texture(1) ]],
-                                        constant float & a [[ buffer(0) ]],
-                                        constant float & b [[ buffer(1) ]],
-                                        constant float & smoothness [[ buffer(2) ]],
-                                        constant float & amplitude [[ buffer(3) ]],
-                                        constant float & ratio [[ buffer(4) ]],
-                                       constant float & progress [[ buffer(5) ]],
-                                       sampler textureSampler [[ sampler(0) ]])
+fragment float4 CrazyParametricFunFragment(VertexOut vertexIn [[ stage_in ]],
+                                           texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                                           texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                                           constant float & a [[ buffer(0) ]],
+                                           constant float & b [[ buffer(1) ]],
+                                           constant float & smoothness [[ buffer(2) ]],
+                                           constant float & amplitude [[ buffer(3) ]],
+                                           constant float & ratio [[ buffer(4) ]],
+                                           constant float & progress [[ buffer(5) ]],
+                                           sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
     float _fromR = fromTexture.get_width()/fromTexture.get_height();

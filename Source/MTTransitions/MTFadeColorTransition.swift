@@ -1,5 +1,5 @@
 //
-//  MTFadecolorTransition.swift
+//  MTFadeColorTransition.swift
 //  MTTransitions
 //
 //  Created by alexiscn on 2019/1/28.
@@ -7,7 +7,7 @@
 
 import MetalPetal
 
-public class MTFadecolorTransition: MTTransition {
+public class MTFadeColorTransition: MTTransition {
     
     public var color: MTIColor = MTIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 
@@ -15,7 +15,7 @@ public class MTFadecolorTransition: MTTransition {
     public var colorPhase: Float = 0.4 
 
     override var fragmentName: String {
-        return "FadecolorFragment"
+        return "FadeColorFragment"
     }
 
     override var parameters: [String: Any] {

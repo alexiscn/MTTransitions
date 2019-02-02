@@ -1,5 +1,5 @@
 //
-//  MTDirectionalwarpTransition.swift
+//  MTDirectionalWarpTransition.swift
 //  MTTransitions
 //
 //  Created by alexiscn on 2019/1/28.

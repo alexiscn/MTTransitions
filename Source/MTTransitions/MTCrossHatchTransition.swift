@@ -1,12 +1,12 @@
 //
-//  MTCrosshatchTransition.swift
+//  MTCrossHatchTransition.swift
 //  MTTransitions
 //
 //  Created by alexiscn on 2019/1/28.
 //
 import MetalPetal
 
-public class MTCrosshatchTransition: MTTransition {
+public class MTCrossHatchTransition: MTTransition {
     
     public var threshold: Float = 3 
 
@@ -15,7 +15,7 @@ public class MTCrosshatchTransition: MTTransition {
     public var fadeEdge: Float = 0.1 
 
     override var fragmentName: String {
-        return "CrosshatchFragment"
+        return "CrossHatchFragment"
     }
 
     override var parameters: [String: Any] {

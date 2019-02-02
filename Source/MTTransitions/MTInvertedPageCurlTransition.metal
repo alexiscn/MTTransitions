@@ -40,21 +40,12 @@
 
 using namespace metalpetal;
 
-/*
-//const float MIN_AMOUNT = -0.16;
-//const float MAX_AMOUNT = 1.5;
-//float amount = progress * (MAX_AMOUNT - MIN_AMOUNT) + MIN_AMOUNT;
-//
-//const float PI = 3.141592653589793;
+// TODO: Effects not right
 
-//float cylinderCenter = amount;
-//// 360 degrees * amount
-//float cylinderAngle = 2.0 * PI * amount;
-//
-#define cylinderRadius 1.0/PI/2.0;
+#define cylinderRadius 1.0/M_PI_F/2.0
 
 float3 hitPoint(float hitAngle, float yc, float3 point, float3x3 rrotation) {
-    float hitPoint = hitAngle / (2.0 * PI);
+    float hitPoint = hitAngle / (2.0 * M_PI_F);
     point.y = hitPoint;
     return rrotation * point;
 }
@@ -73,39 +64,53 @@ float4 antiAlias(float4 color1, float4 color2, float distanc){
 float distanceToEdge(float3 point) {
     float dx = abs(point.x > 0.5 ? 1.0 - point.x : point.x);
     float dy = abs(point.y > 0.5 ? 1.0 - point.y : point.y);
-    if (point.x < 0.0) dx = -point.x;
-    if (point.x > 1.0) dx = point.x - 1.0;
-    if (point.y < 0.0) dy = -point.y;
-    if (point.y > 1.0) dy = point.y - 1.0;
-    if ((point.x < 0.0 || point.x > 1.0) && (point.y < 0.0 || point.y > 1.0)) return sqrt(dx * dx + dy * dy);
+    if (point.x < 0.0) {
+        dx = -point.x;
+    }
+    if (point.x > 1.0) {
+        dx = point.x - 1.0;
+    }
+    if (point.y < 0.0) {
+        dy = -point.y;
+    }
+    if (point.y > 1.0) {
+        dy = point.y - 1.0;
+    }
+    if ((point.x < 0.0 || point.x > 1.0) && (point.y < 0.0 || point.y > 1.0)) {
+        return sqrt(dx * dx + dy * dy);
+    }
     return min(dx, dy);
 }
 
-float4 seeThrough(float yc, float2 p, float3x3 rotation, float3x3 rrotation)
-{
-    float hitAngle = PI - (acos(yc / cylinderRadius) - cylinderAngle);
+float4 seeThrough(float yc, float2 p, float3x3 rotation, float3x3 rrotation, float amount, float ratio, texture2d<float, access::sample> fromTexture, float _fromR, texture2d<float, access::sample> toTexture, float _toR) {
+    float cylinderAngle = 2.0 * M_PI_F * amount;
+    float hitAngle = M_PI_F - (acos(yc / cylinderRadius) - cylinderAngle);
     float3 point = hitPoint(hitAngle, yc, rotation * float3(p, 1.0), rrotation);
-    if (yc <= 0.0 && (point.x < 0.0 || point.y < 0.0 || point.x > 1.0 || point.y > 1.0))
-    {
-        return getToColor(p);
+    if (yc <= 0.0 && (point.x < 0.0 || point.y < 0.0 || point.x > 1.0 || point.y > 1.0)) {
+        return getToColor(p, toTexture, ratio, _toR);
     }
     
-    if (yc > 0.0) return getFromColor(p);
+    if (yc > 0.0) {
+        return getFromColor(p, fromTexture, ratio, _fromR);
+    }
     
-    float4 color = getFromColor(point.xy);
+    float4 color = getFromColor(point.xy, fromTexture, ratio, _fromR);
     float4 tcolor = float4(0.0);
     
     return antiAlias(color, tcolor, distanceToEdge(point));
 }
 
-float4 seeThroughWithShadow(float yc, float2 p, float3 point, float3x3 rotation, float3x3 rrotation)
-{
+float4 seeThroughWithShadow(float yc, float2 p, float3 point, float3x3 rotation, float3x3 rrotation, float amount, float ratio, texture2d<float, access::sample> fromTexture, float _fromR, texture2d<float, access::sample> toTexture, float _toR) {
     float shadow = distanceToEdge(point) * 30.0;
     shadow = (1.0 - shadow) / 3.0;
     
-    if (shadow < 0.0) shadow = 0.0; else shadow *= amount;
+    if (shadow < 0.0) {
+        shadow = 0.0;
+    } else {
+        shadow *= amount;
+    }
     
-    float4 shadowColor = seeThrough(yc, p, rotation, rrotation);
+    float4 shadowColor = seeThrough(yc, p, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
     shadowColor.r -= shadow;
     shadowColor.g -= shadow;
     shadowColor.b -= shadow;
@@ -113,50 +118,52 @@ float4 seeThroughWithShadow(float yc, float2 p, float3 point, float3x3 rotation,
     return shadowColor;
 }
 
-float4 backside(float yc, float3 point) {
-    float4 color = getFromColor(point.xy);
+float4 backside(float yc, float3 point, float ratio, texture2d<float, access::sample> fromTexture, float _fromR) {
+    float4 color = getFromColor(point.xy, fromTexture, ratio, _fromR);
     float gray = (color.r + color.b + color.g) / 15.0;
-    gray += (8.0 / 10.0) * (pow(1.0 - abs(yc / cylinderRadius), 2.0 / 10.0) / 2.0 + (5.0 / 10.0));
+    gray += (8.0 / 10.0) * (pow(1.0 - abs(yc/cylinderRadius), 2.0 / 10.0) / 2.0 + (5.0 / 10.0));
     color.rgb = float3(gray);
     return color;
 }
 
-float4 behindSurface(float2 p, float yc, float3 point, mat3 rrotation)
-{
+float4 behindSurface(float2 p, float yc, float3 point, float3x3 rrotation,float amount, float cylinderAngle, float ratio, texture2d<float, access::sample> toTexture, float _toR) {
     float shado = (1.0 - ((-cylinderRadius - yc) / amount * 7.0)) / 6.0;
     shado *= 1.0 - abs(point.x - 0.5);
     
     yc = (-cylinderRadius - cylinderRadius - yc);
     
-    float hitAngle = (acos(yc / cylinderRadius) + cylinderAngle) - PI;
+    float hitAngle = (acos(yc / cylinderRadius) + cylinderAngle) - M_PI_F;
     point = hitPoint(hitAngle, yc, point, rrotation);
     
-    if (yc < 0.0 && point.x >= 0.0 && point.y >= 0.0 && point.x <= 1.0 && point.y <= 1.0 && (hitAngle < PI || amount > 0.5))
-    {
+    if (yc < 0.0 && point.x >= 0.0 && point.y >= 0.0 && point.x <= 1.0 && point.y <= 1.0 && (hitAngle < M_PI_F || amount > 0.5)) {
         shado = 1.0 - (sqrt(pow(point.x - 0.5, 2.0) + pow(point.y - 0.5, 2.0)) / (71.0 / 100.0));
         shado *= pow(-yc / cylinderRadius, 3.0);
         shado *= 0.5;
-    }
-    else
-    {
+    } else {
         shado = 0.0;
     }
-    return float4(getToColor(p).rgb - shado, 1.0);
+    return float4(getToColor(p, toTexture, ratio, _toR).rgb - shado, 1.0);
 }
 
 
-fragment float4 InvertedPageFragment(VertexOut vertexIn [[ stage_in ]],
-                                     texture2d<float, access::sample> fromTexture [[ texture(0) ]],
-                                     texture2d<float, access::sample> toTexture [[ texture(1) ]],
-                                     constant float & ratio [[ buffer(0) ]],
-                                     constant float & progress [[ buffer(1) ]],
-                                     sampler textureSampler [[ sampler(0) ]])
+fragment float4 InvertedPageCurlFragment(VertexOut vertexIn [[ stage_in ]],
+                                         texture2d<float, access::sample> fromTexture [[ texture(0) ]],
+                                         texture2d<float, access::sample> toTexture [[ texture(1) ]],
+                                         constant float & ratio [[ buffer(0) ]],
+                                         constant float & progress [[ buffer(1) ]],
+                                         sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
     float _fromR = fromTexture.get_width()/fromTexture.get_height();
     float _toR = toTexture.get_width()/toTexture.get_height();
     
-    const float angle = 100.0 * PI / 180.0;
+    const float MIN_AMOUNT = -0.16;
+    const float MAX_AMOUNT = 1.5;
+    float amount = progress * (MAX_AMOUNT - MIN_AMOUNT) + MIN_AMOUNT;
+    float cylinderCenter = amount;
+    float cylinderAngle = 2.0 * M_PI_F * amount; // 360 degrees * amount
+    
+    const float angle = 100.0 * M_PI_F / 180.0;
     float c = cos(-angle);
     float s = sin(-angle);
     
@@ -176,7 +183,7 @@ fragment float4 InvertedPageFragment(VertexOut vertexIn [[ stage_in ]],
     
     if (yc < -cylinderRadius) {
         // Behind surface
-        return behindSurface(uv,yc, point, rrotation);
+        return behindSurface(uv, yc, point, rrotation, amount, cylinderAngle, ratio, toTexture, _toR);
     }
     
     if (yc > cylinderRadius) {
@@ -184,20 +191,20 @@ fragment float4 InvertedPageFragment(VertexOut vertexIn [[ stage_in ]],
         return getFromColor(uv, fromTexture, ratio, _fromR);
     }
     
-    float hitAngle = (acos(yc / cylinderRadius) + cylinderAngle) - PI;
+    float hitAngle = (acos(yc/cylinderRadius) + cylinderAngle) - M_PI_F;
     
-    float hitAngleMod = mod(hitAngle, 2.0 * PI);
-    if ((hitAngleMod > PI && amount < 0.5) || (hitAngleMod > PI/2.0 && amount < 0.0)) {
-        return seeThrough(yc, uv, rotation, rrotation);
+    float hitAngleMod = mod(hitAngle, 2.0 * M_PI_F);
+    if ((hitAngleMod > M_PI_F && amount < 0.5) || (hitAngleMod > M_PI_F/2.0 && amount < 0.0)) {
+        return seeThrough(yc, uv, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
     }
     
     point = hitPoint(hitAngle, yc, point, rrotation);
     
     if (point.x < 0.0 || point.y < 0.0 || point.x > 1.0 || point.y > 1.0) {
-        return seeThroughWithShadow(yc, p, point, rotation, rrotation);
+        return seeThroughWithShadow(yc, uv, point, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
     }
     
-    float4 color = backside(yc, point);
+    float4 color = backside(yc, point, ratio, fromTexture, _fromR);
     
     float4 otherColor;
     if (yc < 0.0) {
@@ -211,9 +218,8 @@ fragment float4 InvertedPageFragment(VertexOut vertexIn [[ stage_in ]],
     
     color = antiAlias(color, otherColor, cylinderRadius - abs(yc));
     
-    float4 cl = seeThroughWithShadow(yc, p, point, rotation, rrotation);
+    float4 cl = seeThroughWithShadow(yc, uv, point, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
     float dist = distanceToEdge(point);
     
     return antiAlias(color, cl, dist);
 }
-*/
