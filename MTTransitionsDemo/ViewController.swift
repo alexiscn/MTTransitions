@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         setupImages()
         setupImageView()
         setupTransition()
-        //setupTimer()
+//        setupTimer()
         animate()
     }
     
@@ -109,16 +109,14 @@ class ViewController: UIViewController {
         transition = transitions[index]
         transition?.inputImage = images[fromIndex]
         transition?.destImage = images[toIndex]
-        transition?.progress = 0.0
-        imageView.image = images[fromIndex]
+        //transition?.progress = 0.0
+        //imageView.image = images[fromIndex]
     }
     
     private func animate() {
-
         transition = transitions[index]
         transition?.inputImage = images[fromIndex]
         transition?.destImage = images[toIndex]
-        imageView.image = images[fromIndex]
 
         var progress: Int = 0
         let interval = duration / 100.0
