@@ -15,8 +15,8 @@ fragment float4 WipeDownFragment(VertexOut vertexIn [[ stage_in ]],
                                  sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
-    float _fromR = fromTexture.get_width()/fromTexture.get_height();
-    float _toR = toTexture.get_width()/toTexture.get_height();
+    float _fromR = float(fromTexture.get_width())/float(fromTexture.get_height());
+    float _toR = float(toTexture.get_width())/float(toTexture.get_height());
 
     float2 p = uv.xy/float2(1.0).xy;
     float4 a = getFromColor(uv, fromTexture, ratio, _fromR);

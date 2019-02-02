@@ -36,14 +36,13 @@ class ViewController: UIViewController {
         setupImages()
         setupImageView()
         setupTransition()
-//        setupTimer()
-        animate()
+        setupTimer()
     }
     
     private func setupImageView() {
         imageView = MTIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = images[0]
+        imageView.image = images[fromIndex]
         view.addSubview(imageView)
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
@@ -78,9 +77,7 @@ class ViewController: UIViewController {
         
         var progress = (sender.timestamp - startTime) / duration
         if progress > 1 {
-            self.transition?.progress = 1.0
-            self.imageView.image = self.transition?.outputImage
-            print(1.0)
+            update(progress: 1.0)
             
             self.startTime = nil
             index += 1
@@ -100,50 +97,19 @@ class ViewController: UIViewController {
             return
         }
         progress = min(progress, 1.0)
-        print(progress)
-        self.transition?.progress = Float(progress)
-        self.imageView.image = self.transition?.outputImage
+        update(progress: Float(progress))
+    }
+    
+    private func update(progress: Float) {
+        transition?.progress = progress
+        imageView.image = self.transition?.outputImage
     }
     
     private func setupTransition() {
         transition = transitions[index]
         transition?.inputImage = images[fromIndex]
         transition?.destImage = images[toIndex]
-        //transition?.progress = 0.0
         //imageView.image = images[fromIndex]
-    }
-    
-    private func animate() {
-        transition = transitions[index]
-        transition?.inputImage = images[fromIndex]
-        transition?.destImage = images[toIndex]
-
-        var progress: Int = 0
-        let interval = duration / 100.0
-        let t = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { timer in
-            if progress > 100 {
-                timer.invalidate()
-                self.index += 1
-                if self.index < self.transitions.count {
-                    self.fromIndex = self.toIndex
-                    var i = Int.random(in: 0...8)
-                    while i == self.fromIndex {
-                         i = Int.random(in: 0...8)
-                    }
-                    self.toIndex = i
-                    self.animate()
-                } else {
-                    print("Finished")
-                }
-                return
-            }
-            progress = min(100, progress)
-            print(Float(progress) / Float(100))
-            self.transition?.progress = Float(progress) / Float(100)
-            self.imageView.image = self.transition?.outputImage
-            progress += 1
-        }
-        t.fire()
     }
     
 //    private func generateThumbnails(_ image: UIImage) {

@@ -17,8 +17,8 @@ fragment float4 RandomSquaresFragment(VertexOut vertexIn [[ stage_in ]],
                                       sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
-    float _fromR = fromTexture.get_width()/fromTexture.get_height();
-    float _toR = toTexture.get_width()/toTexture.get_height();
+    float _fromR = float(fromTexture.get_width())/float(fromTexture.get_height());
+    float _toR = float(toTexture.get_width())/float(toTexture.get_height());
     
     float r = rand(floor(float2(size) * uv));
     float m = smoothstep(0.0, -smoothness, r - (progress * (1.0 + smoothness)));

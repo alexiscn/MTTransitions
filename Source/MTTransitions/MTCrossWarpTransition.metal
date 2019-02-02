@@ -15,8 +15,8 @@ fragment float4 CrossWarpFragment(VertexOut vertexIn [[ stage_in ]],
                                   sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
-    float _fromR = fromTexture.get_width()/fromTexture.get_height();
-    float _toR = toTexture.get_width()/toTexture.get_height();
+    float _fromR = float(fromTexture.get_width())/float(fromTexture.get_height());
+    float _toR = float(toTexture.get_width())/float(toTexture.get_height());
     
     float x = progress;
     x = smoothstep(.0,1.0,(x * 2.0 + uv.x - 1.0));

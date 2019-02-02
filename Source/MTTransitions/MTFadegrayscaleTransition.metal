@@ -20,8 +20,8 @@ fragment float4 FadegrayscaleFragment(VertexOut vertexIn [[ stage_in ]],
                                       sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
-    float _fromR = fromTexture.get_width()/fromTexture.get_height();
-    float _toR = toTexture.get_width()/toTexture.get_height();
+    float _fromR = float(fromTexture.get_width())/float(fromTexture.get_height());
+    float _toR = float(toTexture.get_width())/float(toTexture.get_height());
     float4 fc = getFromColor(uv, fromTexture, ratio, _fromR);
     float4 tc = getFromColor(uv, toTexture, ratio, _toR);
     return mix(mix(float4(grayscale(fc.rgb), 1.0), fc, smoothstep(1.0-intensity, 0.0, progress)),

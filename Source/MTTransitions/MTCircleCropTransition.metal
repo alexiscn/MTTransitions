@@ -17,8 +17,8 @@ fragment float4 CircleCropFragment(VertexOut vertexIn [[ stage_in ]],
                                    sampler textureSampler [[ sampler(0) ]])
 {
     float2 uv = vertexIn.textureCoordinate;
-    float _fromR = fromTexture.get_width()/fromTexture.get_height();
-    float _toR = toTexture.get_width()/toTexture.get_height();
+    float _fromR = float(fromTexture.get_width())/float(fromTexture.get_height());
+    float _toR = float(toTexture.get_width())/float(toTexture.get_height());
  
     float2 ratio2 = float2(1.0, 1.0 / ratio);
     float s = pow(2.0 * abs(progress - 0.5), 3.0);
