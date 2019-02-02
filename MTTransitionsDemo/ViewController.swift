@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     }
     
     private func setupTransition() {
-        transition = MTStereoViewerTransition()
+        transition = MTInvertedPageCurlTransition()
         transition?.inputImage = resourceImage(named: "1")
         transition?.destImage = resourceImage(named: "2")
     }

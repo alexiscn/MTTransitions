@@ -40,9 +40,9 @@
 
 using namespace metalpetal;
 
-// TODO: Effects not right
-
-#define cylinderRadius 1.0/M_PI_F/2.0
+constexpr constant float scale = 512.0;
+constexpr constant float sharpness = 3.0;
+constexpr constant float cylinderRadius = 1.0/M_PI_F/2.0;
 
 float3 hitPoint(float hitAngle, float yc, float3 point, float3x3 rrotation) {
     float hitPoint = hitAngle / (2.0 * M_PI_F);
@@ -51,17 +51,14 @@ float3 hitPoint(float hitAngle, float yc, float3 point, float3x3 rrotation) {
 }
 
 float4 antiAlias(float4 color1, float4 color2, float distanc){
-    const float scale = 512.0;
-    const float sharpness = 3.0;
-    
-    distanc *= scale;
-    if (distanc < 0.0) {
+    float distance = distanc * scale;
+    if (distance < 0.0) {
         return color2;
     }
-    if (distanc > 2.0) {
+    if (distance > 2.0) {
         return color1;
     }
-    float dd = pow(1.0 - distanc / 2.0, sharpness);
+    float dd = pow(1.0 - distance / 2.0, sharpness);
     return ((color2 - color1) * dd) + color1;
 }
 
@@ -86,7 +83,11 @@ float distanceToEdge(float3 point) {
     return min(dx, dy);
 }
 
-float4 seeThrough(float yc, float2 p, float3x3 rotation, float3x3 rrotation, float amount, float ratio, texture2d<float, access::sample> fromTexture, float _fromR, texture2d<float, access::sample> toTexture, float _toR) {
+float4 seeThrough(float yc, float2 p, float3x3 rotation, float3x3 rrotation,
+                  float amount, float ratio,
+                  texture2d<float, access::sample> fromTexture, float _fromR,
+                  texture2d<float, access::sample> toTexture, float _toR) {
+
     float cylinderAngle = 2.0 * M_PI_F * amount;
     float hitAngle = M_PI_F - (acos(yc / cylinderRadius) - cylinderAngle);
     float3 point = hitPoint(hitAngle, yc, rotation * float3(p, 1.0), rrotation);
@@ -104,20 +105,23 @@ float4 seeThrough(float yc, float2 p, float3x3 rotation, float3x3 rrotation, flo
     return antiAlias(color, tcolor, distanceToEdge(point));
 }
 
-float4 seeThroughWithShadow(float yc, float2 p, float3 point, float3x3 rotation, float3x3 rrotation, float amount, float ratio, texture2d<float, access::sample> fromTexture, float _fromR, texture2d<float, access::sample> toTexture, float _toR) {
+float4 seeThroughWithShadow(float yc, float2 p, float3 point, float3x3 rotation, float3x3 rrotation,
+                            float amount, float ratio,
+                            texture2d<float, access::sample> fromTexture, float _fromR,
+                            texture2d<float, access::sample> toTexture, float _toR) {
     float shadow = distanceToEdge(point) * 30.0;
     shadow = (1.0 - shadow) / 3.0;
     
     if (shadow < 0.0) {
         shadow = 0.0;
     } else {
-        shadow *= amount;
+        shadow = shadow * amount;
     }
     
     float4 shadowColor = seeThrough(yc, p, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
-    shadowColor.r -= shadow;
-    shadowColor.g -= shadow;
-    shadowColor.b -= shadow;
+    shadowColor.r = shadowColor.r - shadow;
+    shadowColor.g = shadowColor.g - shadow;
+    shadowColor.b = shadowColor.b - shadow;
     
     return shadowColor;
 }
@@ -131,6 +135,7 @@ float4 backside(float yc, float3 point, float ratio, texture2d<float, access::sa
 }
 
 float4 behindSurface(float2 p, float yc, float3 point, float3x3 rrotation,float amount, float cylinderAngle, float ratio, texture2d<float, access::sample> toTexture, float _toR) {
+    float cylinderRadius =  1.0/M_PI_F/2.0;
     float shado = (1.0 - ((-cylinderRadius - yc) / amount * 7.0)) / 6.0;
     shado *= 1.0 - abs(point.x - 0.5);
     
@@ -196,8 +201,7 @@ fragment float4 InvertedPageCurlFragment(VertexOut vertexIn [[ stage_in ]],
     }
     
     float hitAngle = (acos(yc/cylinderRadius) + cylinderAngle) - M_PI_F;
-    
-    float hitAngleMod = hitAngle - 2.0 * M_PI_F * floor(hitAngle/(2.0 * M_PI_F)); //mod(hitAngle, 2.0 * M_PI_F);
+    float hitAngleMod = mod(hitAngle, 2.0 * M_PI_F);
     if ((hitAngleMod > M_PI_F && amount < 0.5) || (hitAngleMod > M_PI_F/2.0 && amount < 0.0)) {
         return seeThrough(yc, uv, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
     }

@@ -38,7 +38,7 @@ Support Following Transitions:
 - [x] MTGridFlipTransition
 - [x] MTHeartTransition
 - [x] MTHexagonalizeTransition
-- [ ] MTInvertedPageCurlTransition
+- [x] MTInvertedPageCurlTransition
 - [x] MTKaleidoScopeTransition
 - [x] MTLinearBlurTransition
 - [x] MTLumaTransition
