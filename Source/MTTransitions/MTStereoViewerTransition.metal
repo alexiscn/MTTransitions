@@ -1,7 +1,3 @@
-// Tunable parameters
-// How much to zoom (out) for the effect ~ 0.5 - 1.0
-// Corner radius as a fraction of the image height
-
 // Author: Ted Schundler
 // License: BSD 2 Clause
 // Free for use and modification by anyone with credit
@@ -74,39 +70,39 @@ float4 unscreen(float4 c) {
 }
 
 // Grab a pixel, only if it isn't masked out by the rounded corners
-//float4 sample_with_corners_from(float2 p, float2 corner_size, float zoom) {
-//  p = (p - 0.5) / zoom + 0.5;
-//  if (!test_rounded_mask(p, corner_size)) {
-//    return black;
-//  }
-//  return unscreen(getFromColor(p));
-//}
-//
-//float4 sample_with_corners_to(float2 p, float2 corner_size, float zoom) {
-//  p = (p - 0.5) / zoom + 0.5;
-//  if (!test_rounded_mask(p, corner_size)) {
-//    return black;
-//  }
-//  return unscreen(getToColor(p));
-//}
-//
-//// special sampling used when zooming - extra zoom parameter and don't unscreen
-//float4 simple_sample_with_corners_from(float2 p, float2 corner_size, float zoom_amt) {
-//  p = (p - 0.5) / (1.0 - zoom_amt + zoom * zoom_amt) + 0.5;
-//  if (!test_rounded_mask(p, corner_size)) {
-//    return black;
-//  }
-//  return getFromColor(p);
-//}
-//
-//float4 simple_sample_with_corners_to(float2 p, float2 corner_size, float zoom_amt) {
-//  p = (p - 0.5) / (1.0 - zoom_amt + zoom * zoom_amt) + 0.5;
-//  if (!test_rounded_mask(p, corner_size)) {
-//    return black;
-//  }
-//  return getToColor(p);
-//}
-//
+float4 sample_with_corners_from(float2 p, float2 corner_size, float zoom, float ratio, texture2d<float, access::sample> fromTexture, float _fromR) {
+    p = (p - 0.5) / zoom + 0.5;
+    if (!test_rounded_mask(p, corner_size)) {
+        return black;
+    }
+    return unscreen(getFromColor(p, fromTexture, ratio, _fromR));
+}
+
+float4 sample_with_corners_to(float2 p, float2 corner_size, float zoom, float ratio, texture2d<float, access::sample> toTexture, float _toR) {
+    p = (p - 0.5) / zoom + 0.5;
+    if (!test_rounded_mask(p, corner_size)) {
+        return black;
+    }
+    return unscreen(getToColor(p, toTexture, ratio, _toR));
+}
+
+// special sampling used when zooming - extra zoom parameter and don't unscreen
+float4 simple_sample_with_corners_from(float2 p, float2 corner_size, float zoom_amt, float zoom, float ratio, texture2d<float, access::sample> fromTexture, float _fromR) {
+    p = (p - 0.5) / (1.0 - zoom_amt + zoom * zoom_amt) + 0.5;
+    if (!test_rounded_mask(p, corner_size)) {
+        return black;
+    }
+    return getFromColor(p, fromTexture, ratio, _fromR);
+}
+
+float4 simple_sample_with_corners_to(float2 p, float2 corner_size, float zoom_amt, float zoom, float ratio, texture2d<float, access::sample> toTexture, float _toR) {
+    p = (p - 0.5) / (1.0 - zoom_amt + zoom * zoom_amt) + 0.5;
+    if (!test_rounded_mask(p, corner_size)) {
+        return black;
+    }
+    return getToColor(p, toTexture, ratio, _toR);
+}
+
 
 // Basic 2D affine transform matrix helpers
 // These really shouldn't be used in a fragment shader - I should work out the
@@ -130,56 +126,56 @@ float3x3 scale2d(float x, float y) {
                     0.0, y, 0,
                     0, 0, 1.0);
 }
-//
-//// Split an image and rotate one up and one down along off screen pivot points
-//float4 get_cross_rotated(float3 p3, float angle, float2 corner_size, float ratio) {
-//  angle = angle * angle; // easing
-//  angle /= 2.4; // works out to be a good number of radians
-//
-//  mat3 center_and_scale = translate2d(-0.5, -0.5) * scale2d(1.0, ratio);
-//  mat3 unscale_and_uncenter = scale2d(1.0, 1.0/ratio) * translate2d(0.5,0.5);
-//  mat3 slide_left = translate2d(-2.0,0.0);
-//  mat3 slide_right = translate2d(2.0,0.0);
-//  mat3 rotate = rotate2d(angle, ratio);
-//
-//  mat3 op_a = center_and_scale * slide_right * rotate * slide_left * unscale_and_uncenter;
-//  mat3 op_b = center_and_scale * slide_left * rotate * slide_right * unscale_and_uncenter;
-//
-//  float4 a = sample_with_corners_from((op_a * p3).xy, corner_size);
-//  float4 b = sample_with_corners_from((op_b * p3).xy, corner_size);
-//
-//  return screen(a, b);
-//}
-//
-//// Image stays put, but this time move two masks
-//float4 get_cross_masked(float3 p3, float angle, float2 corner_size, float ratio) {
-//  angle = 1.0 - angle;
-//  angle = angle * angle; // easing
-//  angle /= 2.4;
-//
-//  float4 img;
-//
-//  mat3 center_and_scale = translate2d(-0.5, -0.5) * scale2d(1.0, ratio);
-//  mat3 unscale_and_uncenter = scale2d(1.0 / zoom, 1.0 / (zoom * ratio)) * translate2d(0.5,0.5);
-//  mat3 slide_left = translate2d(-2.0,0.0);
-//  mat3 slide_right = translate2d(2.0,0.0);
-//  mat3 rotate = rotate2d(angle, ratio);
-//
-//  mat3 op_a = center_and_scale * slide_right * rotate * slide_left * unscale_and_uncenter;
-//  mat3 op_b = center_and_scale * slide_left * rotate * slide_right * unscale_and_uncenter;
-//
-//  bool mask_a = test_rounded_mask((op_a * p3).xy, corner_size);
-//  bool mask_b = test_rounded_mask((op_b * p3).xy, corner_size);
-//
-//  if (mask_a || mask_b) {
-//    img = sample_with_corners_to(p3.xy, corner_size);
-//    return screen(mask_a ? img : black, mask_b ? img : black);
-//  } else {
-//    return black;
-//  }
-//}
 
-/*
+// Split an image and rotate one up and one down along off screen pivot points
+float4 get_cross_rotated(float3 p3, float angle, float2 corner_size, float ratio, float zoom, texture2d<float, access::sample> fromTexture, float _fromR) {
+    angle = angle * angle; // easing
+    angle /= 2.4; // works out to be a good number of radians
+    
+    float3x3 center_and_scale = translate2d(-0.5, -0.5) * scale2d(1.0, ratio);
+    float3x3 unscale_and_uncenter = scale2d(1.0, 1.0/ratio) * translate2d(0.5,0.5);
+    float3x3 slide_left = translate2d(-2.0,0.0);
+    float3x3 slide_right = translate2d(2.0,0.0);
+    float3x3 rotate = rotate2d(angle, ratio);
+    
+    float3x3 op_a = center_and_scale * slide_right * rotate * slide_left * unscale_and_uncenter;
+    float3x3 op_b = center_and_scale * slide_left * rotate * slide_right * unscale_and_uncenter;
+    
+    float4 a = sample_with_corners_from((op_a * p3).xy, corner_size, zoom, ratio, fromTexture, _fromR);
+    float4 b = sample_with_corners_from((op_b * p3).xy, corner_size, zoom, ratio, fromTexture, _fromR);
+    
+    return screen(a, b);
+}
+
+// Image stays put, but this time move two masks
+float4 get_cross_masked(float3 p3, float angle, float2 corner_size, float ratio, float zoom, texture2d<float, access::sample> toTexture, float _toR) {
+    angle = 1.0 - angle;
+    angle = angle * angle; // easing
+    angle /= 2.4;
+    
+    float4 img;
+    
+    float3x3 center_and_scale = translate2d(-0.5, -0.5) * scale2d(1.0, ratio);
+    float3x3 unscale_and_uncenter = scale2d(1.0 / zoom, 1.0 / (zoom * ratio)) * translate2d(0.5,0.5);
+    float3x3 slide_left = translate2d(-2.0,0.0);
+    float3x3 slide_right = translate2d(2.0,0.0);
+    float3x3 rotate = rotate2d(angle, ratio);
+    
+    float3x3 op_a = center_and_scale * slide_right * rotate * slide_left * unscale_and_uncenter;
+    float3x3 op_b = center_and_scale * slide_left * rotate * slide_right * unscale_and_uncenter;
+    
+    bool mask_a = test_rounded_mask((op_a * p3).xy, corner_size);
+    bool mask_b = test_rounded_mask((op_b * p3).xy, corner_size);
+    
+    if (mask_a || mask_b) {
+        img = sample_with_corners_to(p3.xy, corner_size, zoom, ratio, toTexture, _toR);
+        return screen(mask_a ? img : black, mask_b ? img : black);
+    } else {
+        return black;
+    }
+}
+
+
 fragment float4 StereoViewerFragment(VertexOut vertexIn [[ stage_in ]],
                                      texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                      texture2d<float, access::sample> toTexture [[ texture(1) ]],
@@ -205,22 +201,21 @@ fragment float4 StereoViewerFragment(VertexOut vertexIn [[ stage_in ]],
     } else if (progress < 0.1) {
         // 0.0-0.1: zoom out and add rounded corners
         a = progress / 0.1;
-        return simple_sample_with_corners_from(p, corner_size * a, a);
+        return simple_sample_with_corners_from(p, corner_size * a, a, zoom, ratio, fromTexture, _fromR);
     } else if (progress < 0.48) {
         // 0.1-0.48: Split original image apart
         a = (progress - 0.1)/0.38;
-        return get_cross_rotated(p3, a, corner_size, ratio);
+        return get_cross_rotated(p3, a, corner_size, ratio, zoom, fromTexture, _fromR);
     } else if (progress < 0.9) {
         // 0.48-0.52: black
         // 0.52 - 0.9: unmask new image
-        return get_cross_masked(p3, (progress - 0.52)/0.38, corner_size, ratio);
+        return get_cross_masked(p3, (progress - 0.52)/0.38, corner_size, ratio, zoom, toTexture, _toR);
     } else if (progress < 1.0) {
         // zoom out and add rounded corners
         a = (1.0 - progress) / 0.1;
-        return simple_sample_with_corners_to(p, corner_size * a, a);
+        return simple_sample_with_corners_to(p, corner_size * a, a, zoom, ratio, toTexture, _toR);
     } else {
         // 1.0 end with base frame
         return getToColor(p, toTexture, ratio, _toR);
     }
 }
-*/

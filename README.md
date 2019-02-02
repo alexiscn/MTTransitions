@@ -2,6 +2,7 @@
 
 Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 
+Support Following Transitions:
 
 - [x] MTAngularTransition
 - [x] MTBounceTransition
@@ -57,7 +58,7 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 - [x] MTSimpleZoomTransition
 - [x] MTSquaresWireTransition
 - [x] MTSqueezeTransition
-- [ ] MTStereoViewerTransition
+- [x] MTStereoViewerTransition
 - [x] MTSwapTransition
 - [x] MTSwirlTransition
 - [x] MTUndulatingBurnOutTransition

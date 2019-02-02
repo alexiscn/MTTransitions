@@ -55,8 +55,12 @@ float4 antiAlias(float4 color1, float4 color2, float distanc){
     const float sharpness = 3.0;
     
     distanc *= scale;
-    if (distanc < 0.0) return color2;
-    if (distanc > 2.0) return color1;
+    if (distanc < 0.0) {
+        return color2;
+    }
+    if (distanc > 2.0) {
+        return color1;
+    }
     float dd = pow(1.0 - distanc / 2.0, sharpness);
     return ((color2 - color1) * dd) + color1;
 }
@@ -158,7 +162,7 @@ fragment float4 InvertedPageCurlFragment(VertexOut vertexIn [[ stage_in ]],
     float _toR = toTexture.get_width()/toTexture.get_height();
     
     const float MIN_AMOUNT = -0.16;
-    const float MAX_AMOUNT = 1.5;
+    const float MAX_AMOUNT = 1.3;
     float amount = progress * (MAX_AMOUNT - MIN_AMOUNT) + MIN_AMOUNT;
     float cylinderCenter = amount;
     float cylinderAngle = 2.0 * M_PI_F * amount; // 360 degrees * amount
@@ -193,7 +197,7 @@ fragment float4 InvertedPageCurlFragment(VertexOut vertexIn [[ stage_in ]],
     
     float hitAngle = (acos(yc/cylinderRadius) + cylinderAngle) - M_PI_F;
     
-    float hitAngleMod = mod(hitAngle, 2.0 * M_PI_F);
+    float hitAngleMod = hitAngle - 2.0 * M_PI_F * floor(hitAngle/(2.0 * M_PI_F)); //mod(hitAngle, 2.0 * M_PI_F);
     if ((hitAngleMod > M_PI_F && amount < 0.5) || (hitAngleMod > M_PI_F/2.0 && amount < 0.0)) {
         return seeThrough(yc, uv, rotation, rrotation, amount, ratio, fromTexture, _fromR, toTexture, _toR);
     }
