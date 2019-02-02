@@ -18,6 +18,10 @@ class ViewController: UIViewController {
     private var context: MTIContext?
     private let generator = GifGenerator()
     
+    private var index: Int = 0
+    
+    private var transitions: [MTTransition] = TransitionManager.shared.allTransitions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,27 +44,51 @@ class ViewController: UIViewController {
     }
     
     private func setupTransition() {
-        transition = MTInvertedPageCurlTransition()
+        transition = transitions[index]
         transition?.inputImage = resourceImage(named: "1")
         transition?.destImage = resourceImage(named: "2")
     }
 
     @IBAction func buttonTapped(_ sender: Any) {
+        doTransition()
+    }
+    
+    private func doTransition() {
         
-        var images: [UIImage] = []
-        var progress: Float = 0.0
+        setupTransition()
+        
+        // var images: [UIImage] = []
+        var progress: Int = 0
         let t = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
-            progress += 0.01
-            if progress >= 1.0 {
+            progress += 1
+            if progress >= 100 {
+                
                 timer.invalidate()
+                self.index += 1
+                if self.index < self.transitions.count {
+                    self.doTransition()
+                } else {
+                    print("Finished")
+                }
             }
-            progress = min(1.0, progress)
-            self.transition?.progress = progress
+            progress = min(100, progress)
+            self.transition?.progress = Float(progress) / Float(100)
             self.imageView.image = self.transition?.outputImage
             
-            if let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
-                images.append(UIImage(cgImage: cgImage!))
+            if progress == 50, let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
+                let img = UIImage(cgImage: cgImage!)
+                if let data = img.jpegData(compressionQuality: 1.0) {
+                    let name = NSStringFromClass(self.transition!.classForCoder)
+                    let path = NSHomeDirectory().appending("/Documents/\(name).jpg")
+                    let url = URL(fileURLWithPath: path)
+                    try? data.write(to: url)
+                }
             }
+
+//            if let image = self.imageView.image, let cgImage = try? self.context?.makeCGImage(from: image) {
+//                let img = UIImage(cgImage: cgImage!)
+//                images.append(img)
+//            }
         }
         t.fire()
     }
