@@ -20,7 +20,13 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public var progress: Float = 0.0
     
+    public var duration: TimeInterval = 2.0
+    
     public var ratio: Float = Float(512)/Float(400)
+    
+    private var updater: ((_ image: MTIImage) -> Void)?
+    private weak var driver: CADisplayLink?
+    private var startTime: TimeInterval?
     
     var fragmentName: String { return "" }
     
@@ -66,5 +72,44 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         }
         return nil
         
+    }
+    
+    public func transition(from fromImage: MTIImage, to toImage: MTIImage, updater: @escaping (_ image: MTIImage) -> Void) {
+        self.inputImage = fromImage
+        self.destImage = toImage
+        self.updater = updater
+        
+        let driver = CADisplayLink(target: self, selector: #selector(render(sender:)))
+        driver.add(to: .main, forMode: .common)
+        self.driver = driver
+    }
+    
+    @objc private func render(sender: CADisplayLink) {
+        let startTime: CFTimeInterval
+        if let time = self.startTime {
+            startTime = time
+        } else {
+            startTime = sender.timestamp
+            self.startTime = startTime
+        }
+        
+        let progress = (sender.timestamp - startTime) / duration
+        if progress > 1 {
+            
+            self.progress = 1.0
+            if let image = outputImage {
+                self.updater?(image)
+            }
+            
+            self.driver?.invalidate()
+            self.driver = nil
+            self.updater = nil
+            return
+        }
+        
+        self.progress = Float(progress)
+        if let image = outputImage {
+            self.updater?(image)
+        }
     }
 }
