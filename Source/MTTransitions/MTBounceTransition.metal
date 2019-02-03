@@ -17,11 +17,11 @@ fragment float4 BounceFragment(VertexOut vertexIn [[ stage_in ]],
                                constant float & progress [[ buffer(4) ]],
                                sampler textureSampler [[ sampler(0) ]])
 {
+    float2 uv = vertexIn.textureCoordinate;
+    uv.y = 1.0 - uv.y;
     float _fromR = float(fromTexture.get_width())/float(fromTexture.get_height());
     float _toR = float(toTexture.get_width())/float(toTexture.get_height());
-    float2 uv = vertexIn.textureCoordinate;
-
-
+    
     float time = progress;
     float stime = sin(time * PI/2.0);
     float phase = time * PI * bounces;

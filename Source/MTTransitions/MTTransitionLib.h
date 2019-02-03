@@ -40,13 +40,17 @@ namespace metalpetal {
     
     METAL_FUNC float4 getFromColor(float2 uv, texture2d<float, access::sample> texture, float ratio, float _fromR) {
         constexpr sampler s(coord::normalized, address::clamp_to_edge, filter::linear);
+        //uv.y = 1.0 - uv.y;
         float2 _uv = cover(uv, ratio, _fromR);
+        //_uv.y = 1.0 - _uv.y;
         return texture.sample(s, _uv);
     }
     
     METAL_FUNC float4 getToColor(float2 uv, texture2d<float, access::sample> texture, float ratio, float _toR) {
         constexpr sampler s(coord::normalized, address::clamp_to_edge, filter::linear);
+        
         float2 _uv = cover(uv, ratio, _toR);
+        //_uv.y = 1.0 - _uv.y;
         return texture.sample(s, _uv);
     }
     

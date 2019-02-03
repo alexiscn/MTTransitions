@@ -20,6 +20,8 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public var progress: Float = 0.0
     
+    public var ratio: Float = Float(512)/Float(400)
+    
     var fragmentName: String { return "" }
     
     var parameters: [String: Any] { return [:] }
@@ -39,7 +41,7 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         }
         
         var params = parameters
-        params["ratio"] = Float(512.0/400.0)
+        params["ratio"] = ratio
         params["progress"] = progress
         
         let output = kernel.apply(toInputImages: images, parameters: params, outputDescriptors: outputDescriptors).first

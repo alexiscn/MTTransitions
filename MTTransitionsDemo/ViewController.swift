@@ -54,8 +54,9 @@ class ViewController: UIViewController {
     private func setupImages() {
         for i in 1...9 {
             if let imageUrl = Bundle.main.url(forResource: String(i), withExtension: "jpg") {
-                let ciImage = CIImage(contentsOf: imageUrl)
-                images.append(MTIImage(ciImage: ciImage!, isOpaque: true))
+                images.append(MTIImage(contentsOf: imageUrl, options: [
+                    MTKTextureLoader.Option.origin : MTKTextureLoader.Origin.bottomLeft,
+                    MTKTextureLoader.Option.SRGB: false])!)
             }
         }
     }
@@ -107,6 +108,7 @@ class ViewController: UIViewController {
     
     private func setupTransition() {
         transition = transitions[index]
+        transition?.ratio = Float(512.0/400.0)
         transition?.inputImage = images[fromIndex]
         transition?.destImage = images[toIndex]
         //imageView.image = images[fromIndex]
