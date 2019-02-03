@@ -8,13 +8,17 @@
 import Foundation
 import MetalPetal
 
+public typealias MTTransitionUpdater = (_ image: MTIImage) -> Void
+
+public typealias MTTransitionCompletion = (_ finished: Bool) -> Void
+
 public class MTTransition: NSObject, MTIUnaryFilter {
     
     public override init() { }
     
     public var inputImage: MTIImage?
     
-    public var destImage: MTIImage?
+    private var destImage: MTIImage?
     
     public var outputPixelFormat: MTLPixelFormat = .invalid
     
@@ -24,15 +28,14 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public var ratio: Float = Float(512)/Float(400)
     
-    private var updater: ((_ image: MTIImage) -> Void)?
+    private var updater: MTTransitionUpdater?
+    private var completion: MTTransitionCompletion?
     private weak var driver: CADisplayLink?
     private var startTime: TimeInterval?
     
-    var fragmentName: String { return "" }
-    
-    var parameters: [String: Any] { return [:] }
-    
-    var samplers: [String: String] { return [:] }
+    internal var fragmentName: String { return "" }
+    internal var parameters: [String: Any] { return [:] }
+    internal var samplers: [String: String] { return [:] }
     
     public var outputImage: MTIImage? {
         guard let input = inputImage, let dest = destImage else {
@@ -71,14 +74,14 @@ public class MTTransition: NSObject, MTIUnaryFilter {
             return MTIImage(ciImage: ciImage!, isOpaque: true)
         }
         return nil
-        
     }
     
-    public func transition(from fromImage: MTIImage, to toImage: MTIImage, updater: @escaping (_ image: MTIImage) -> Void) {
+    public func transition(from fromImage: MTIImage, to toImage: MTIImage, updater: @escaping MTTransitionUpdater, completion: MTTransitionCompletion?) {
         self.inputImage = fromImage
         self.destImage = toImage
         self.updater = updater
-        
+        self.completion = completion
+        self.startTime = nil
         let driver = CADisplayLink(target: self, selector: #selector(render(sender:)))
         driver.add(to: .main, forMode: .common)
         self.driver = driver
@@ -95,15 +98,15 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         
         let progress = (sender.timestamp - startTime) / duration
         if progress > 1 {
-            
             self.progress = 1.0
             if let image = outputImage {
                 self.updater?(image)
             }
-            
             self.driver?.invalidate()
             self.driver = nil
             self.updater = nil
+            self.completion?(true)
+            self.completion = nil
             return
         }
         
@@ -112,4 +115,29 @@ public class MTTransition: NSObject, MTIUnaryFilter {
             self.updater?(image)
         }
     }
+    
+    public func cancel() {
+        self.completion?(false)
+    }
+}
+
+public final class MTViewControllerTransition: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    private let duration: TimeInterval
+    private let transition: MTTransition
+    
+    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return duration
+    }
+    
+    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        
+    }
+    
+    
+    public init(transition: MTTransition, duration: TimeInterval) {
+        self.duration = duration
+        self.transition = transition
+    }
+    
 }
