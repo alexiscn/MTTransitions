@@ -16,7 +16,7 @@ class FromViewController: UIViewController, UIViewControllerTransitioningDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let effect = MTCircleCropTransition()
+        let effect = MTInvertedPageCurlTransition()
         effect.ratio = Float(view.bounds.width / view.bounds.height)
             
         transtion = MTViewControllerTransition(transition: effect, duration: 2.0)
