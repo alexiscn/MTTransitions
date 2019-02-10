@@ -24,6 +24,8 @@
 		A3E0AD2D2205BEA6002DD092 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD242205BEA6002DD092 /* 5.jpg */; };
 		A3E0AD2E2205BEA6002DD092 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD252205BEA6002DD092 /* 2.jpg */; };
 		A3E0AD2F2205BEA6002DD092 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD262205BEA6002DD092 /* 6.jpg */; };
+		A3E0AD31220FAF02002DD092 /* ToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0AD30220FAF02002DD092 /* ToViewController.swift */; };
+		A3E0AD33220FAF79002DD092 /* FromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E0AD32220FAF79002DD092 /* FromViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		A3E0AD242205BEA6002DD092 /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
 		A3E0AD252205BEA6002DD092 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		A3E0AD262205BEA6002DD092 /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
+		A3E0AD30220FAF02002DD092 /* ToViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToViewController.swift; sourceTree = "<group>"; };
+		A3E0AD32220FAF79002DD092 /* FromViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromViewController.swift; sourceTree = "<group>"; };
 		B836BB87FE171E542E923255 /* Pods-MTTransitionsDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTTransitionsDemo.debug.xcconfig"; path = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DFFA7AD2345E40333C6D8F8D /* Pods-MTTransitionsDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTTransitionsDemo.release.xcconfig"; path = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,6 +97,8 @@
 			children = (
 				A374123621F98D9A0019F3A3 /* AppDelegate.swift */,
 				A374123821F98D9A0019F3A3 /* ViewController.swift */,
+				A3E0AD32220FAF79002DD092 /* FromViewController.swift */,
+				A3E0AD30220FAF02002DD092 /* ToViewController.swift */,
 				A32F8A6A22041F5D009C03AD /* GIFGenerator.swift */,
 				A3393A4222053F00006916C6 /* TransitionManager.swift */,
 				A374125421F9922E0019F3A3 /* Supporting Files */,
@@ -290,6 +296,8 @@
 				A3393A4322053F00006916C6 /* TransitionManager.swift in Sources */,
 				A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */,
 				A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */,
+				A3E0AD31220FAF02002DD092 /* ToViewController.swift in Sources */,
+				A3E0AD33220FAF79002DD092 /* FromViewController.swift in Sources */,
 				A32F8A6B22041F5D009C03AD /* GIFGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

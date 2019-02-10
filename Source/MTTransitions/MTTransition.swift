@@ -131,11 +131,54 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     }
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let fromView = transitionContext.view(forKey: .from), let toView = transitionContext.view(forKey: .to), let toVC = transitionContext.viewController(forKey: .to) else {
+            transitionContext.completeTransition(true)
+            return
+        }
+        let containerView = transitionContext.containerView
+        UIGraphicsBeginImageContextWithOptions(containerView.bounds.size, false, UIScreen.main.nativeScale)
+        containerView.drawHierarchy(in: containerView.bounds, afterScreenUpdates: true)
+        let fromSnapShotImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsGetCurrentContext()?.clear(containerView.bounds)
         
+        fromView.alpha = 0
+        toView.frame = transitionContext.finalFrame(for: toVC)
+        containerView.addSubview(toView)
+        containerView.drawHierarchy(in: containerView.bounds, afterScreenUpdates: true)
+        let toSnapShotImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        guard let fromImage = mtiImage(from: fromSnapShotImage?.cgImage), let toImage = mtiImage(from: toSnapShotImage?.cgImage) else {
+            transitionContext.completeTransition(true)
+            return
+        }
+        fromView.alpha = 1
+        toView.alpha = 0
+        
+        let renderView = MTIImageView(frame: containerView.bounds)
+        renderView.clearColor = MTLClearColorMake(0, 0, 0, 0)
+        renderView.isOpaque = false
+        containerView.addSubview(renderView)
+        
+        fromView.alpha = 0
+        
+        transition.transition(from: fromImage, to: toImage, updater: { image in
+            renderView.image = image
+        }) { _ in
+            fromView.alpha = 1
+            toView.alpha = 1
+            fromView.removeFromSuperview()
+            renderView.removeFromSuperview()
+            transitionContext.completeTransition(true)
+        }
     }
     
+    private func mtiImage(from cgImage: CGImage?) -> MTIImage? {
+        guard let image = cgImage else { return nil }
+        return MTIImage(cgImage: image, options: [.SRGB: false], isOpaque: false).unpremultiplyingAlpha()
+    }
     
-    public init(transition: MTTransition, duration: TimeInterval) {
+    public init(transition: MTTransition, duration: TimeInterval = 0.8) {
         self.duration = duration
         self.transition = transition
     }
