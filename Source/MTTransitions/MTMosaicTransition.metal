@@ -12,8 +12,8 @@ using namespace metalpetal;
 #define POW3(X) X*X*X
 
 float2 mosaicRotate(float2 v, float a) {
-  float2x2 rm = float2x2(cos(a), -sin(a),
-                         sin(a), cos(a));
+  float2x2 rm = float2x2(float2(cos(a), -sin(a)),
+                         float2(sin(a), cos(a)));
   return rm*v;
 }
 

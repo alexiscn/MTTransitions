@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.swift_version   = '4.2'
   s.source_files    = 'Source/**/*.{swift,metal,h}'
   s.resource  = 'Source/**/Assets.bundle'
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '9.0'
   s.xcconfig = { 'MTL_HEADER_SEARCH_PATHS' => '${PODS_CONFIGURATION_BUILD_DIR}/MetalPetal/MetalPetal.framework/Headers'}
   
   s.weak_frameworks = 'MetalKit'

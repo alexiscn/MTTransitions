@@ -177,15 +177,15 @@ fragment float4 InvertedPageCurlFragment(VertexOut vertexIn [[ stage_in ]],
     float c = cos(-angle);
     float s = sin(-angle);
     
-    float3x3 rotation = float3x3(c, s, 0,
-                                 -s, c, 0,
-                                 -0.801, 0.8900, 1);
+    float3x3 rotation = float3x3(float3(c, s, 0),
+                                 float3(-s, c, 0),
+                                 float3(-0.801, 0.8900, 1));
     c = cos(angle);
     s = sin(angle);
     
-    float3x3 rrotation = float3x3(c, s, 0,
-                                  -s, c, 0,
-                                  0.98500, 0.985, 1);
+    float3x3 rrotation = float3x3(float3(c, s, 0),
+                                  float3(-s, c, 0),
+                                  float3(0.98500, 0.985, 1));
     
     float3 point = rotation * float3(uv, 1.0);
     
