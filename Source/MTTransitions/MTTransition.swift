@@ -184,3 +184,109 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     }
     
 }
+ 
+extension MTTransition {
+
+    public static func transition(with view: UIView, effect: MTTransition,
+                                  animations: (() -> Void)?,
+                                  completion: ((Bool) -> Void)? = nil) {
+        let transitionLayerName = "MTTransitionLayer"
+        
+        // Check if view has a transition in progress
+        guard !(view.layer.sublayers ?? [] ).contains(where: { $0.name == transitionLayerName }) else {
+            completion?(false)
+            return
+        }
+        
+        var snapshotStart =  view.layer.snapshot!
+        let frameStart = view.layer.bounds
+        animations?()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        let frameEnd = view.layer.bounds
+        
+        // Check if frame size is valid
+        guard frameStart.width > 0 && frameStart.height > 0 && frameEnd.width > 0 && frameEnd.height > 0 else {
+            completion?(false)
+            return
+        }
+        
+        let layer = view.layer
+        var snapshotEnd = layer.snapshot!
+        let originalLayers: [CALayer] = layer.sublayers ?? []
+        let contents = layer.contents
+        let transitionLayer = CALayer()
+        transitionLayer.name = transitionLayerName
+        
+        // The frame of the start image should match the end image, so render the snapshots in the largest common area
+        let commonSize = CGSize(width: max(frameStart.width, frameEnd.width),
+                                height: max(frameStart.height, frameEnd.height))
+        snapshotStart = snapshotStart.imageWithSize(size: commonSize)!
+        snapshotEnd = snapshotEnd.imageWithSize(size: commonSize)!
+        let imageA = MTIImage(cgImage: snapshotStart.cgImage!, isOpaque: true).oriented(.downMirrored)
+        let imageB = MTIImage(cgImage: snapshotEnd.cgImage!, isOpaque: true).oriented(.downMirrored)
+        
+        // Remove actual layer content while animating
+        originalLayers.forEach { $0.removeFromSuperlayer() }
+        layer.contents = []
+        layer.addSublayer(transitionLayer)
+        transitionLayer.contents = snapshotStart.cgImage!
+        transitionLayer.frame = CGRect(x: (commonSize.width - frameEnd.width) * -0.5,
+                                       y: (commonSize.height - frameEnd.height) * -0.5,
+                                       width: commonSize.width,
+                                       height: commonSize.height)
+        
+        effect.ratio = Float(commonSize.width/commonSize.height)
+        effect.transition(from: imageA, to: imageB, updater: { (img) in
+            let context = try! MTIContext.init(device: MTLCreateSystemDefaultDevice()!)
+            let transitionImage = try! context.makeCGImage(from: img)
+            transitionLayer.contents = transitionImage
+        }, completion: { (_) in
+            originalLayers.forEach { view.layer.addSublayer($0) }
+            view.layer.contents = contents
+            transitionLayer.removeFromSuperlayer()
+            completion?(true)
+        })
+    }
+ 
+}
+
+// Helper extensions
+
+// Based on: https://stackoverflow.com/a/29552143
+fileprivate extension UIImage {
+    func imageWithSize(size:CGSize) -> UIImage? {
+        var scaledImageRect = CGRect.zero
+
+        let aspectWidth:CGFloat = size.width / self.size.width
+        let aspectHeight:CGFloat = size.height / self.size.height
+        let aspectRatio:CGFloat = min(aspectWidth, aspectHeight)
+
+        scaledImageRect.size.width = self.size.width * aspectRatio
+        scaledImageRect.size.height = self.size.height * aspectRatio
+        scaledImageRect.origin.x = (size.width - scaledImageRect.size.width) / 2.0
+        scaledImageRect.origin.y = (size.height - scaledImageRect.size.height) / 2.0
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+
+        self.draw(in: scaledImageRect)
+
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+
+        return scaledImage
+    }
+}
+
+fileprivate extension CALayer {
+    var snapshot: UIImage? {
+        get {
+            UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, UIScreen.main.scale)
+            guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
+            self.render(in: ctx)
+            let result = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return result
+        }
+    }
+}
