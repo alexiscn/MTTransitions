@@ -84,6 +84,7 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         self.startTime = nil
         let driver = CADisplayLink(target: self, selector: #selector(render(sender:)))
         driver.add(to: .main, forMode: .common)
+        driver.add(to: .main, forMode: .tracking)
         self.driver = driver
     }
     
@@ -187,18 +188,20 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
  
 extension MTTransition {
 
+    private class var transitionLayerName: String { return "MTTransitionLayer" }
+    
     public static func transition(with view: UIView, effect: MTTransition,
                                   animations: (() -> Void)?,
                                   completion: ((Bool) -> Void)? = nil) {
-        let transitionLayerName = "MTTransitionLayer"
-        
+        guard let device = MTLCreateSystemDefaultDevice() else { completion?(false); return; }
+        // Check if effect is already in use
+        guard effect.completion == nil else { completion?(false); return; }
         // Check if view has a transition in progress
         guard !(view.layer.sublayers ?? [] ).contains(where: { $0.name == transitionLayerName }) else {
-            completion?(false)
-            return
+            completion?(false); return;
         }
         
-        var snapshotStart =  view.layer.snapshot!
+        var snapshotStart =  view.layer.snapshot
         let frameStart = view.layer.bounds
         animations?()
         view.setNeedsLayout()
@@ -206,13 +209,12 @@ extension MTTransition {
         let frameEnd = view.layer.bounds
         
         // Check if frame size is valid
-        guard frameStart.width > 0 && frameStart.height > 0 && frameEnd.width > 0 && frameEnd.height > 0 else {
-            completion?(false)
-            return
+        guard frameStart.width > 0, frameStart.height > 0, frameEnd.width > 0, frameEnd.height > 0 else {
+            completion?(false); return;
         }
         
         let layer = view.layer
-        var snapshotEnd = layer.snapshot!
+        var snapshotEnd = layer.snapshot
         let originalLayers: [CALayer] = layer.sublayers ?? []
         let contents = layer.contents
         let transitionLayer = CALayer()
@@ -221,16 +223,22 @@ extension MTTransition {
         // The frame of the start image should match the end image, so render the snapshots in the largest common area
         let commonSize = CGSize(width: max(frameStart.width, frameEnd.width),
                                 height: max(frameStart.height, frameEnd.height))
-        snapshotStart = snapshotStart.imageWithSize(size: commonSize)!
-        snapshotEnd = snapshotEnd.imageWithSize(size: commonSize)!
-        let imageA = MTIImage(cgImage: snapshotStart.cgImage!, isOpaque: true).oriented(.downMirrored)
-        let imageB = MTIImage(cgImage: snapshotEnd.cgImage!, isOpaque: true).oriented(.downMirrored)
+        snapshotStart = snapshotStart?.imageWithSize(size: commonSize)
+        snapshotEnd = snapshotEnd?.imageWithSize(size: commonSize)
+        guard snapshotStart != nil, snapshotEnd != nil,
+            let startCG = snapshotStart?.cgImage,
+            let endCG = snapshotEnd?.cgImage else {
+                completion?(false); return;
+        }
+        let imageA = MTIImage(cgImage: startCG, isOpaque: true).oriented(.downMirrored)
+        let imageB = MTIImage(cgImage: endCG, isOpaque: true).oriented(.downMirrored)
         
         // Remove actual layer content while animating
         originalLayers.forEach { $0.removeFromSuperlayer() }
         layer.contents = []
         layer.addSublayer(transitionLayer)
-        transitionLayer.contents = snapshotStart.cgImage!
+        transitionLayer.drawsAsynchronously = true
+        transitionLayer.contents = startCG
         transitionLayer.frame = CGRect(x: (commonSize.width - frameEnd.width) * -0.5,
                                        y: (commonSize.height - frameEnd.height) * -0.5,
                                        width: commonSize.width,
@@ -238,15 +246,26 @@ extension MTTransition {
         
         effect.ratio = Float(commonSize.width/commonSize.height)
         effect.transition(from: imageA, to: imageB, updater: { (img) in
-            let context = try! MTIContext.init(device: MTLCreateSystemDefaultDevice()!)
-            let transitionImage = try! context.makeCGImage(from: img)
-            transitionLayer.contents = transitionImage
+            do {
+                let context = try MTIContext.init(device: device)
+                let transitionImage = try context.makeCGImage(from: img)
+                transitionLayer.contents = transitionImage
+            } catch {}
         }, completion: { (_) in
-            originalLayers.forEach { view.layer.addSublayer($0) }
-            view.layer.contents = contents
-            transitionLayer.removeFromSuperlayer()
+            if (view.layer.sublayers ?? [] ).contains(where: { $0.name == transitionLayerName }) {
+                clearTransition(view: view)
+                originalLayers.forEach { view.layer.addSublayer($0) }
+                view.layer.contents = contents
+            } else {
+                // Transition was cleared manually, do nothing
+            }
             completion?(true)
         })
+    }
+    
+    /// Manually clear the transition layer from a view. Useful in reusable components.
+    public static func clearTransition(view: UIView) {
+        view.layer.sublayers?.removeAll(where: { $0.name == transitionLayerName })
     }
  
 }
