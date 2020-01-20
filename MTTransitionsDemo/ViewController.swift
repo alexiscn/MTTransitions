@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     
+    @IBOutlet weak var testLabel: UILabel!
+
     private var imageView: MTIImageView!
     
     private let duration: Double = 2.0
@@ -82,6 +84,22 @@ class ViewController: UIViewController {
         }
         toIndex = to
         doTransition()
+    }
+    
+    @IBAction func testButtonPressed(_ sender: Any) {
+        let effect = MTPerlinTransition()
+        
+        MTTransition.transition(with: testLabel, effect: effect, animations: {
+            if self.testLabel.textColor == .black {
+                self.testLabel.text = "Sample text"
+                self.testLabel.textColor = .blue
+            } else {
+                self.testLabel.text = "Test label"
+                self.testLabel.textColor = .black
+            }
+        }) { (_) in
+            print("Transition finished")
+        }
     }
 }
 
