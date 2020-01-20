@@ -54,9 +54,7 @@ class ViewController: UIViewController {
     private func setupSampleImages() {
         for i in 1...9 {
             if let imageUrl = Bundle.main.url(forResource: String(i), withExtension: "jpg") {
-                let image = MTIImage(contentsOf: imageUrl, options: [
-                    .origin : MTKTextureLoader.Origin.bottomLeft,
-                    .SRGB: false])!
+                let image = MTIImage(contentsOf: imageUrl, options: [.SRGB: false])!.oriented(.downMirrored)
                 sampleImages.append(image)
             }
         }

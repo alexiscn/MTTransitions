@@ -110,21 +110,21 @@ float4 simple_sample_with_corners_to(float2 p, float2 corner_size, float zoom_am
 float3x3 rotate2d(float angle, float ratio) {
     float s = sin(angle);
     float c = cos(angle);
-    return float3x3(c, s ,0.0,
-                    -s, c, 0.0,
-                    0.0, 0.0, 1.0);
+    return float3x3(float3(c, s ,0.0),
+                    float3(-s, c, 0.0),
+                    float3(0.0, 0.0, 1.0));
 }
 
 float3x3 translate2d(float x, float y) {
-    return float3x3(1.0, 0.0, 0,
-                    0.0, 1.0, 0,
-                    -x, -y, 1.0);
+    return float3x3(float3(1.0, 0.0, 0),
+                    float3(0.0, 1.0, 0),
+                    float3(-x, -y, 1.0));
 }
 
 float3x3 scale2d(float x, float y) {
-    return float3x3(x, 0.0, 0,
-                    0.0, y, 0,
-                    0, 0, 1.0);
+    return float3x3(float3(x, 0.0, 0),
+                    float3(0.0, y, 0),
+                    float3(0, 0, 1.0));
 }
 
 // Split an image and rotate one up and one down along off screen pivot points
