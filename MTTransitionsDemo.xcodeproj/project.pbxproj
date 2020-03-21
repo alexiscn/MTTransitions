@@ -15,6 +15,8 @@
 		A374123C21F98D9A0019F3A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A374123A21F98D9A0019F3A3 /* Main.storyboard */; };
 		A374123E21F98D9B0019F3A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A374123D21F98D9B0019F3A3 /* Assets.xcassets */; };
 		A374124121F98D9B0019F3A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A374123F21F98D9B0019F3A3 /* LaunchScreen.storyboard */; };
+		A3913E822425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913E812425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift */; };
+		A3913E852425C6A10083E7D3 /* LabelTransitionSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913E842425C6A10083E7D3 /* LabelTransitionSampleViewController.swift */; };
 		A3E0AD272205BEA6002DD092 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD1E2205BEA5002DD092 /* 3.jpg */; };
 		A3E0AD282205BEA6002DD092 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD1F2205BEA5002DD092 /* 8.jpg */; };
 		A3E0AD292205BEA6002DD092 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD202205BEA5002DD092 /* 1.jpg */; };
@@ -39,6 +41,8 @@
 		A374123D21F98D9B0019F3A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A374124021F98D9B0019F3A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A374124221F98D9B0019F3A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3913E812425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTransitionSampleViewController.swift; sourceTree = "<group>"; };
+		A3913E842425C6A10083E7D3 /* LabelTransitionSampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTransitionSampleViewController.swift; sourceTree = "<group>"; };
 		A3E0AD1E2205BEA5002DD092 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		A3E0AD1F2205BEA5002DD092 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		A3E0AD202205BEA5002DD092 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -95,14 +99,12 @@
 		A374123521F98D9A0019F3A3 /* MTTransitionsDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A3913E832425C6110083E7D3 /* Helper */,
+				A3913E802425C5DE0083E7D3 /* Samples */,
+				A374124D21F991E70019F3A3 /* Resources */,
+				A374125421F9922E0019F3A3 /* Supporting Files */,
 				A374123621F98D9A0019F3A3 /* AppDelegate.swift */,
 				A374123821F98D9A0019F3A3 /* ViewController.swift */,
-				A3E0AD32220FAF79002DD092 /* FromViewController.swift */,
-				A3E0AD30220FAF02002DD092 /* ToViewController.swift */,
-				A32F8A6A22041F5D009C03AD /* GIFGenerator.swift */,
-				A3393A4222053F00006916C6 /* TransitionManager.swift */,
-				A374125421F9922E0019F3A3 /* Supporting Files */,
-				A374124D21F991E70019F3A3 /* Resources */,
 			);
 			path = MTTransitionsDemo;
 			sourceTree = "<group>";
@@ -132,6 +134,26 @@
 				A374123A21F98D9A0019F3A3 /* Main.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A3913E802425C5DE0083E7D3 /* Samples */ = {
+			isa = PBXGroup;
+			children = (
+				A3E0AD32220FAF79002DD092 /* FromViewController.swift */,
+				A3E0AD30220FAF02002DD092 /* ToViewController.swift */,
+				A3913E812425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift */,
+				A3913E842425C6A10083E7D3 /* LabelTransitionSampleViewController.swift */,
+			);
+			path = Samples;
+			sourceTree = "<group>";
+		};
+		A3913E832425C6110083E7D3 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				A3393A4222053F00006916C6 /* TransitionManager.swift */,
+				A32F8A6A22041F5D009C03AD /* GIFGenerator.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		FB397E1D8526551691E694CA /* Pods */ = {
@@ -286,11 +308,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3913E852425C6A10083E7D3 /* LabelTransitionSampleViewController.swift in Sources */,
 				A3393A4322053F00006916C6 /* TransitionManager.swift in Sources */,
 				A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */,
 				A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */,
 				A3E0AD31220FAF02002DD092 /* ToViewController.swift in Sources */,
 				A3E0AD33220FAF79002DD092 /* FromViewController.swift in Sources */,
+				A3913E822425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift in Sources */,
 				A32F8A6B22041F5D009C03AD /* GIFGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
