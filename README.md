@@ -74,7 +74,7 @@ Support Following Transitions:
 - [x] MTWipeUpTransition
 - [x] MTZoomInCirclesTransition
 
-# Installation
+## Installation
 
 MTTransitions is available through CocoaPods. To install it, simply add the following line to your Podfile:
 
@@ -82,7 +82,7 @@ MTTransitions is available through CocoaPods. To install it, simply add the foll
 pod MTTransitions
 ```
 
-# Usage
+## Get Started
 
 Each transition requires two input `MTIImage`.
 
@@ -97,4 +97,23 @@ transition.destImage = <to Image>
 
 imageView.image = transition.outputImage
 
+```
+
+
+### UIViewController Push Transition
+
+```swift
+
+private let transition = MTViewControllerTransition(transition: MTBurnTransition())
+
+extension PushAViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if operation == .push {
+            return transition
+        }
+        return nil
+    }
+    
+}
 ```
