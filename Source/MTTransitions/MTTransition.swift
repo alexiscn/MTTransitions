@@ -138,17 +138,12 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
             return
         }
         let containerView = transitionContext.containerView
-        UIGraphicsBeginImageContextWithOptions(containerView.bounds.size, false, UIScreen.main.nativeScale)
-        containerView.drawHierarchy(in: containerView.bounds, afterScreenUpdates: true)
-        let fromSnapShotImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsGetCurrentContext()?.clear(containerView.bounds)
+        let fromSnapShotImage = containerView.layer.snapshot
         
         fromView.alpha = 0
         toView.frame = transitionContext.finalFrame(for: toVC)
         containerView.addSubview(toView)
-        containerView.drawHierarchy(in: containerView.bounds, afterScreenUpdates: true)
-        let toSnapShotImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        let toSnapShotImage = containerView.layer.snapshot
         
         guard let fromImage = mtiImage(from: fromSnapShotImage?.cgImage), let toImage = mtiImage(from: toSnapShotImage?.cgImage) else {
             transitionContext.completeTransition(true)
@@ -162,9 +157,10 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
         renderView.isOpaque = false
         containerView.addSubview(renderView)
         
-        fromView.alpha = 0
-        
+        transition.ratio = Float(fromView.bounds.width / fromView.bounds.height)
         transition.transition(from: fromImage, to: toImage, updater: { image in
+            fromView.alpha = 0
+            toView.alpha = 0
             renderView.image = image
         }) { _ in
             fromView.alpha = 1

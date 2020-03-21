@@ -25,7 +25,7 @@ class ViewController: UITableViewController {
             let vc = LabelTransitionSampleViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = UIViewController()
+            let vc = PushAViewController()
             navigationController?.pushViewController(vc, animated: true)
         default:
             break
