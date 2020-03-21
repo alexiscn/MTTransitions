@@ -16,7 +16,7 @@ class FromViewController: UIViewController, UIViewControllerTransitioningDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let effect = MTInvertedPageCurlTransition()
+        let effect = MTHeartTransition()
         effect.ratio = Float(view.bounds.width / view.bounds.height)
             
         transtion = MTViewControllerTransition(transition: effect, duration: 2.0)
@@ -36,6 +36,7 @@ class FromViewController: UIViewController, UIViewControllerTransitioningDelegat
         switch segue.destination {
         case let toViewController as ToViewController:
             toViewController.transitioningDelegate = self
+            toViewController.modalPresentationStyle = .custom
         default:
             break
         }

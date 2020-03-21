@@ -103,7 +103,9 @@
         _texture = texture;
         _textureDescriptor = [descriptor copy];
         _valid = YES;
-        _heap = texture.heap;
+        if (@available(iOS 10.0, *)) {
+            _heap = texture.heap;
+        }
     }
     return self;
 }

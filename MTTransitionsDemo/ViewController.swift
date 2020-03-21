@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     
+    @IBOutlet weak var testLabel: UILabel!
+
     private var imageView: MTIImageView!
     
     private let duration: Double = 2.0
@@ -52,9 +54,7 @@ class ViewController: UIViewController {
     private func setupSampleImages() {
         for i in 1...9 {
             if let imageUrl = Bundle.main.url(forResource: String(i), withExtension: "jpg") {
-                let image = MTIImage(contentsOf: imageUrl, options: [
-                    .origin : MTKTextureLoader.Origin.bottomLeft,
-                    .SRGB: false])!
+                let image = MTIImage(contentsOf: imageUrl, options: [.SRGB: false])!.oriented(.downMirrored)
                 sampleImages.append(image)
             }
         }
@@ -82,6 +82,22 @@ class ViewController: UIViewController {
         }
         toIndex = to
         doTransition()
+    }
+    
+    @IBAction func testButtonPressed(_ sender: Any) {
+        let effect = MTPerlinTransition()
+        
+        MTTransition.transition(with: testLabel, effect: effect, animations: {
+            if self.testLabel.textColor == .black {
+                self.testLabel.text = "Sample text"
+                self.testLabel.textColor = .blue
+            } else {
+                self.testLabel.text = "Test label"
+                self.testLabel.textColor = .black
+            }
+        }) { (_) in
+            print("Transition finished")
+        }
     }
 }
 

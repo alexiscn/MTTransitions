@@ -267,14 +267,30 @@
     renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
 
     //Set up color attachment 1 for compositing mask
-    MTLTextureDescriptor *tempTextureDescriptor = [textureDescriptor newMTLTextureDescriptor];
-    tempTextureDescriptor.storageMode = MTLStorageModeMemoryless;
-    id<MTLTexture> compositingMaskTexture = [renderingContext.context.device newTextureWithDescriptor:tempTextureDescriptor];
-    if (!compositingMaskTexture) {
-        if (inOutError) {
-            *inOutError = MTIErrorCreate(MTIErrorFailedToCreateTexture, nil);
+    id<MTLTexture> compositingMaskTexture;
+    MTIImagePromiseRenderTarget *compositingMaskRenderTarget;
+    @MTI_DEFER {
+        [compositingMaskRenderTarget releaseTexture];
+    };
+    if (@available(iOS 10.0, *)) {
+        MTLTextureDescriptor *tempTextureDescriptor = [textureDescriptor newMTLTextureDescriptor];
+        tempTextureDescriptor.storageMode = MTLStorageModeMemoryless;
+        compositingMaskTexture = [renderingContext.context.device newTextureWithDescriptor:tempTextureDescriptor];
+        if (!compositingMaskTexture) {
+            if (inOutError) {
+                *inOutError = MTIErrorCreate(MTIErrorFailedToCreateTexture, nil);
+            }
+            return nil;
         }
-        return nil;
+    } else {
+        compositingMaskRenderTarget = [renderingContext.context newRenderTargetWithResuableTextureDescriptor:textureDescriptor error:&error];
+        if (error) {
+            if (inOutError) {
+                *inOutError = error;
+            }
+            return nil;
+        }
+        compositingMaskTexture = compositingMaskRenderTarget.texture;
     }
     renderPassDescriptor.colorAttachments[1].texture = compositingMaskTexture;
     renderPassDescriptor.colorAttachments[1].loadAction = MTLLoadActionDontCare;

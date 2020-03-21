@@ -60,12 +60,17 @@
     }
     
     MTIFunctionDescriptor *descriptor = object;
-    if (
-        [descriptor -> _name isEqualToString:_name] &&
-        ((descriptor -> _libraryURL == nil && _libraryURL == nil) || [descriptor -> _libraryURL isEqual:_libraryURL]) &&
-        ((descriptor -> _constantValues == nil && _constantValues == nil) || [descriptor -> _constantValues isEqual:_constantValues])
-    ) {
-        return YES;
+    if ([descriptor -> _name isEqualToString:_name] &&
+        ((descriptor -> _libraryURL == nil && _libraryURL == nil) || [descriptor -> _libraryURL isEqual:_libraryURL])) {
+        if (@available(iOS 10.0, *)) {
+            if ((descriptor -> _constantValues == nil && _constantValues == nil) || [descriptor -> _constantValues isEqual:_constantValues]) {
+                return YES;
+            } else {
+                return NO;
+            }
+        } else {
+            return YES;
+        }
     } else {
         return NO;
     }
@@ -80,7 +85,11 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p; name = %@; constantValues = %@; libraryURL = %@>",self.class, self, self.name, self.constantValues, self.libraryURL];
+    if (@available(iOS 10_0, *)) {
+        return [NSString stringWithFormat:@"<%@: %p; name = %@; constantValues = %@; libraryURL = %@>",self.class, self, self.name, self.constantValues, self.libraryURL];
+    } else {
+        return [NSString stringWithFormat:@"<%@: %p; name = %@; libraryURL = %@>",self.class, self, self.name, self.libraryURL];
+    }
 }
 
 @end

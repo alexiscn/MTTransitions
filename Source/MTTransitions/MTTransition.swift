@@ -84,6 +84,7 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         self.startTime = nil
         let driver = CADisplayLink(target: self, selector: #selector(render(sender:)))
         driver.add(to: .main, forMode: .common)
+        driver.add(to: .main, forMode: .tracking)
         self.driver = driver
     }
     
@@ -131,7 +132,8 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     }
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromView = transitionContext.view(forKey: .from), let toView = transitionContext.view(forKey: .to), let toVC = transitionContext.viewController(forKey: .to) else {
+        guard let fromView = transitionContext.viewController(forKey: .from)?.view,
+            let toVC = transitionContext.viewController(forKey: .to), let toView = toVC.view else {
             transitionContext.completeTransition(true)
             return
         }
@@ -175,7 +177,7 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     
     private func mtiImage(from cgImage: CGImage?) -> MTIImage? {
         guard let image = cgImage else { return nil }
-        return MTIImage(cgImage: image, options: [.SRGB: false, .origin : MTKTextureLoader.Origin.bottomLeft,], isOpaque: false).unpremultiplyingAlpha()
+        return MTIImage(cgImage: image, options: [.SRGB: false], isOpaque: false).oriented(.downMirrored).unpremultiplyingAlpha()
     }
     
     public init(transition: MTTransition, duration: TimeInterval = 0.8) {
@@ -183,4 +185,128 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
         self.transition = transition
     }
     
+}
+ 
+extension MTTransition {
+
+    private class var transitionLayerName: String { return "MTTransitionLayer" }
+    
+    public static func transition(with view: UIView, effect: MTTransition,
+                                  animations: (() -> Void)?,
+                                  completion: ((Bool) -> Void)? = nil) {
+        guard let device = MTLCreateSystemDefaultDevice() else { completion?(false); return; }
+        // Check if effect is already in use
+        guard effect.completion == nil else { completion?(false); return; }
+        // Check if view has a transition in progress
+        guard !(view.layer.sublayers ?? [] ).contains(where: { $0.name == transitionLayerName }) else {
+            completion?(false); return;
+        }
+        
+        var snapshotStart =  view.layer.snapshot
+        let frameStart = view.layer.bounds
+        animations?()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        let frameEnd = view.layer.bounds
+        
+        // Check if frame size is valid
+        guard frameStart.width > 0, frameStart.height > 0, frameEnd.width > 0, frameEnd.height > 0 else {
+            completion?(false); return;
+        }
+        
+        let layer = view.layer
+        var snapshotEnd = layer.snapshot
+        let originalLayers: [CALayer] = layer.sublayers ?? []
+        let contents = layer.contents
+        let transitionLayer = CALayer()
+        transitionLayer.name = transitionLayerName
+        
+        // The frame of the start image should match the end image, so render the snapshots in the largest common area
+        let commonSize = CGSize(width: max(frameStart.width, frameEnd.width),
+                                height: max(frameStart.height, frameEnd.height))
+        snapshotStart = snapshotStart?.imageWithSize(size: commonSize)
+        snapshotEnd = snapshotEnd?.imageWithSize(size: commonSize)
+        guard snapshotStart != nil, snapshotEnd != nil,
+            let startCG = snapshotStart?.cgImage,
+            let endCG = snapshotEnd?.cgImage else {
+                completion?(false); return;
+        }
+        let imageA = MTIImage(cgImage: startCG, isOpaque: true).oriented(.downMirrored)
+        let imageB = MTIImage(cgImage: endCG, isOpaque: true).oriented(.downMirrored)
+        
+        // Remove actual layer content while animating
+        originalLayers.forEach { $0.removeFromSuperlayer() }
+        layer.contents = []
+        layer.addSublayer(transitionLayer)
+        transitionLayer.drawsAsynchronously = true
+        transitionLayer.contents = startCG
+        transitionLayer.frame = CGRect(x: (commonSize.width - frameEnd.width) * -0.5,
+                                       y: (commonSize.height - frameEnd.height) * -0.5,
+                                       width: commonSize.width,
+                                       height: commonSize.height)
+        
+        effect.ratio = Float(commonSize.width/commonSize.height)
+        effect.transition(from: imageA, to: imageB, updater: { (img) in
+            do {
+                let context = try MTIContext.init(device: device)
+                let transitionImage = try context.makeCGImage(from: img)
+                transitionLayer.contents = transitionImage
+            } catch {}
+        }, completion: { (_) in
+            if (view.layer.sublayers ?? [] ).contains(where: { $0.name == transitionLayerName }) {
+                clearTransition(view: view)
+                originalLayers.forEach { view.layer.addSublayer($0) }
+                view.layer.contents = contents
+            } else {
+                // Transition was cleared manually, do nothing
+            }
+            completion?(true)
+        })
+    }
+    
+    /// Manually clear the transition layer from a view. Useful in reusable components.
+    public static func clearTransition(view: UIView) {
+        view.layer.sublayers?.removeAll(where: { $0.name == transitionLayerName })
+    }
+ 
+}
+
+// Helper extensions
+
+// Based on: https://stackoverflow.com/a/29552143
+fileprivate extension UIImage {
+    func imageWithSize(size:CGSize) -> UIImage? {
+        var scaledImageRect = CGRect.zero
+
+        let aspectWidth:CGFloat = size.width / self.size.width
+        let aspectHeight:CGFloat = size.height / self.size.height
+        let aspectRatio:CGFloat = min(aspectWidth, aspectHeight)
+
+        scaledImageRect.size.width = self.size.width * aspectRatio
+        scaledImageRect.size.height = self.size.height * aspectRatio
+        scaledImageRect.origin.x = (size.width - scaledImageRect.size.width) / 2.0
+        scaledImageRect.origin.y = (size.height - scaledImageRect.size.height) / 2.0
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+
+        self.draw(in: scaledImageRect)
+
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+
+        return scaledImage
+    }
+}
+
+fileprivate extension CALayer {
+    var snapshot: UIImage? {
+        get {
+            UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, UIScreen.main.scale)
+            guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
+            self.render(in: ctx)
+            let result = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return result
+        }
+    }
 }
