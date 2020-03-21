@@ -7,7 +7,6 @@
 
 #import "MTICVMetalTextureCache.h"
 #import "MTILock.h"
-#import "MTIDefer.h"
 
 NSString * const MTICVMetalTextureCacheErrorDomain = @"MTICVMetalTextureCacheErrorDomain";
 
@@ -73,6 +72,10 @@ NSString * const MTICVMetalTextureCacheErrorDomain = @"MTICVMetalTextureCacheErr
     return error;
 }
 
++ (instancetype)newCoreVideoMetalTextureBridgeWithDevice:(id<MTLDevice>)device error:(NSError * __autoreleasing *)error {
+    return [[self alloc] initWithDevice:device cacheAttributes:nil textureAttributes:nil error:error];
+}
+
 - (instancetype)initWithDevice:(id<MTLDevice>)device cacheAttributes:(NSDictionary *)cacheAttributes textureAttributes:(NSDictionary *)textureAttributes error:(NSError * __autoreleasing *)error {
 #if COREVIDEO_SUPPORTS_METAL
     if (self = [super init]) {
@@ -101,7 +104,15 @@ NSString * const MTICVMetalTextureCacheErrorDomain = @"MTICVMetalTextureCacheErr
     CVMetalTextureRef textureRef = NULL;
     NSDictionary *textureAttributes = nil;
     if (@available(iOS 11.0, *)) {
-        textureAttributes = @{(id)kCVMetalTextureUsage: @(textureDescriptor.usage)};
+        textureAttributes = @{
+            (id)kCVMetalTextureUsage: @(textureDescriptor.usage),
+        };
+    }
+    if (@available(iOS 13.0, macOS 10.15, *)) {
+        textureAttributes = @{
+            (id)kCVMetalTextureUsage: @(textureDescriptor.usage),
+            (id)kCVMetalTextureStorageMode: @(textureDescriptor.storageMode)
+        };
     }
     CVReturn status = CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, _cache, imageBuffer, (__bridge CFDictionaryRef)textureAttributes, textureDescriptor.pixelFormat, textureDescriptor.width, textureDescriptor.height, planeIndex, &textureRef);
     [_lock unlock];

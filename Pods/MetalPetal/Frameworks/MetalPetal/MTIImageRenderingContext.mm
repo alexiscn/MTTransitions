@@ -6,21 +6,18 @@
 //
 //
 
-#import "MTIImageRenderingContext.h"
-#import "MTIContext.h"
-#import "MTIImage.h"
+#import "MTIImageRenderingContext+Internal.h"
+#import "MTIContext+Internal.h"
 #import "MTIImage+Promise.h"
 #import "MTIError.h"
-#import "MTIRenderPipelineKernel.h"
-#import "MTIMultilayerCompositeKernel.h"
 #import "MTIPrint.h"
 #import "MTIRenderGraphOptimization.h"
 #import "MTIImagePromiseDebug.h"
-#import "MTIContext+Internal.h"
 
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <cstdint>
 
 namespace MTIImageRendering {
     struct ObjcPointerIdentityEqual {
@@ -29,8 +26,12 @@ namespace MTIImageRendering {
         }
     };
     struct ObjcPointerHash {
-        size_t operator()(const id s1) const {
-            return (size_t)s1;
+        size_t operator()(const id pointer) const {
+            auto addr = reinterpret_cast<uintptr_t>(pointer);
+            #if SIZE_MAX < UINTPTR_MAX
+            addr %= SIZE_MAX; /* truncate the address so it is small enough to fit in a size_t */
+            #endif
+            return addr;
         }
     };
 };
@@ -137,6 +138,8 @@ MTIContextImageAssociatedValueTableName const MTIContextImagePersistentResolutio
 @interface MTIImageRenderingContext () {
     std::unordered_map<__unsafe_unretained id<MTIImagePromise>, MTIImagePromiseRenderTarget __strong *, MTIImageRendering::ObjcPointerHash, MTIImageRendering::ObjcPointerIdentityEqual> _resolvedPromises;
     MTIImageRenderingDependencyGraph *_dependencyGraph;
+    std::unordered_map<__unsafe_unretained MTIImage *, __unsafe_unretained id<MTLTexture>, MTIImageRendering::ObjcPointerHash, MTIImageRendering::ObjcPointerIdentityEqual> _currentDependencyResolutionsMap;
+    __unsafe_unretained id<MTIImagePromise> _currentResolvingPromise;
 }
 
 @end
@@ -158,6 +161,16 @@ MTIContextImageAssociatedValueTableName const MTIContextImagePersistentResolutio
         _dependencyGraph = NULL;
     }
     return self;
+}
+
+- (id<MTLTexture>)resolvedTextureForImage:(MTIImage *)image {
+    auto promise = _currentResolvingPromise;
+    NSAssert(promise != nil, @"");
+    auto result = _currentDependencyResolutionsMap[image];
+    if (!result || !promise) {
+        [NSException raise:NSInternalInconsistencyException format:@"Do not query resolved texture for image which is not the current resolving promise's dependency. (Promise: %@, Image: %@)", promise, image];
+    }
+    return result;
 }
 
 - (id<MTIImagePromiseResolution>)resolutionForImage:(MTIImage *)image error:(NSError * __autoreleasing *)inOutError {
@@ -202,9 +215,41 @@ MTIContextImageAssociatedValueTableName const MTIContextImagePersistentResolutio
             NSAssert(renderTarget.texture != nil, @"");
         } else {
             //All caches miss. Resolve promise.
-            NSError *error;
-            renderTarget = [promise resolveWithContext:self error:&error];
-            //New render target got from promise resolving, texture ref-count is 1. [B]
+            NSError *error = nil;
+            
+            NSUInteger inputResolutionsCount = promise.dependencies.count;
+            
+            id<MTIImagePromiseResolution> inputResolutions[inputResolutionsCount];
+            memset(inputResolutions, 0, sizeof inputResolutions);
+            
+            std::unordered_map<__unsafe_unretained MTIImage *, __unsafe_unretained id<MTLTexture>, MTIImageRendering::ObjcPointerHash, MTIImageRendering::ObjcPointerIdentityEqual> map;
+            
+            for (NSUInteger index = 0; index < inputResolutionsCount; index += 1) {
+                MTIImage *image = promise.dependencies[index];
+                id<MTIImagePromiseResolution> resolution = [self resolutionForImage:image error:&error];
+                if (error) {
+                    break;
+                }
+                NSAssert(resolution != nil, @"");
+                inputResolutions[index] = resolution;
+                map[image] = resolution.texture;
+            }
+            
+            if (!error) {
+                _currentDependencyResolutionsMap = map;
+                
+                _currentResolvingPromise = promise;
+                
+                renderTarget = [promise resolveWithContext:self error:&error];
+                //New render target got from promise resolving, texture ref-count is 1. [B]
+                
+                _currentResolvingPromise = nil;
+            }
+            
+            for (NSUInteger index = 0; index < inputResolutionsCount; index += 1) {
+                [inputResolutions[index] markAsConsumedBy:promise];
+            }
+            
             if (error) {
                 if (inOutError) {
                     *inOutError = error;
@@ -299,7 +344,14 @@ MTIContextImageAssociatedValueTableName const MTIContextImagePersistentResolutio
 }
 
 - (MTIImagePromiseRenderTarget *)resolveWithContext:(MTIImageRenderingContext *)renderingContext error:(NSError * __autoreleasing *)error {
-    NSParameterAssert(renderingContext.context == self.context);
+    MTIContext *context = self.context;
+    NSParameterAssert(renderingContext.context == context);
+    if (renderingContext.context != context) {
+        if (error) {
+            *error = MTIErrorCreate(MTIErrorCrossContextRendering, nil);
+        }
+        return nil;
+    }
     [_resolution.renderTarget retainTexture];
     return _resolution.renderTarget;
 }
@@ -320,6 +372,7 @@ MTIContextImageAssociatedValueTableName const MTIContextImagePersistentResolutio
 @implementation MTIContext (RenderedImageBuffer)
 
 - (MTIImage *)renderedBufferForImage:(MTIImage *)targetImage {
+    NSParameterAssert(targetImage.cachePolicy == MTIImageCachePolicyPersistent);
     MTIPersistImageResolutionHolder *persistResolution = [self valueForImage:targetImage inTable:MTIContextImagePersistentResolutionHolderTable];
     if (!persistResolution) {
         return nil;

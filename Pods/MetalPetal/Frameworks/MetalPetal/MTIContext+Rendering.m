@@ -25,11 +25,16 @@
 #import <VideoToolbox/VideoToolbox.h>
 #import "MTICoreImageRendering.h"
 #import "MTIRenderTask.h"
+#import "MTIImageRenderingContext+Internal.h"
 
 @implementation MTIContext (Rendering)
 
 + (MTIRenderPipelineKernel *)premultiplyAlphaKernel {
     return MTIPremultiplyAlphaFilter.kernel;
+}
+
++ (MTIRenderPipelineKernel *)unpremultiplyAlphaKernel {
+    return MTIUnpremultiplyAlphaFilter.kernel;
 }
 
 + (MTIRenderPipelineKernel *)passthroughKernel {
@@ -78,16 +83,7 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
     if (image.alphaType == MTIAlphaTypeNonPremultiplied) {
         //ref: https://developer.apple.com/documentation/coreimage/ciimage/1645894-premultiplyingalpha
         //Premultiplied alpha speeds up the rendering of images, so Core Image filters require that input image data be premultiplied. If you have an image without premultiplied alpha that you want to feed into a filter, use this method before applying the filter.
-        if (@available(iOS 10.0, *)) {
-            ciImage = [ciImage imageByPremultiplyingAlpha];
-        } else {
-            CIFilter *premultiplyFilter = [CIFilter filterWithName:@"CIPremultiply"];
-            NSAssert(premultiplyFilter, @"");
-            if (premultiplyFilter) {
-                [premultiplyFilter setValue:ciImage forKey:kCIInputImageKey];
-                ciImage = premultiplyFilter.outputImage;
-            }
-        }
+        ciImage = [ciImage imageByPremultiplyingAlpha];
     }
     objc_setAssociatedObject(ciImage, MTICIImageMTIImageAssociationKey, persistentImage, OBJC_ASSOCIATION_RETAIN);
     return ciImage;
@@ -132,6 +128,15 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
 }
 
 - (MTIRenderTask *)startTaskToRenderImage:(MTIImage *)image toCVPixelBuffer:(CVPixelBufferRef)pixelBuffer sRGB:(BOOL)sRGB error:(NSError * __autoreleasing *)inOutError completion:(void (^)(MTIRenderTask *))completion {
+   return [self startTaskToRenderImage:image
+                       toCVPixelBuffer:pixelBuffer
+                                  sRGB:sRGB
+                  destinationAlphaType:MTIAlphaTypePremultiplied
+                                 error:inOutError
+                            completion:completion];
+}
+
+- (nullable MTIRenderTask *)startTaskToRenderImage:(MTIImage *)image toCVPixelBuffer:(CVPixelBufferRef)pixelBuffer sRGB:(BOOL)sRGB destinationAlphaType:(MTIAlphaType)destinationAlphaType error:(NSError * __autoreleasing *)inOutError completion:(nullable void (^)(MTIRenderTask *task))completion {
     [self lockForRendering];
     @MTI_DEFER {
         [self unlockForRendering];
@@ -159,7 +164,7 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
         } break;
         case kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange:
         case kCVPixelFormatType_420YpCbCr8BiPlanarFullRange: {
-            if (MTIDeviceSupportsYCBCRPixelFormat(renderingContext.context.device)) {
+            if (renderingContext.context.isYCbCrPixelFormatSupported) {
                 targetPixelFormat = sRGB ? MTIPixelFormatYCBCR8_420_2P_sRGB : MTIPixelFormatYCBCR8_420_2P;
             } else {
                 NSError *error = MTIErrorCreate(MTIErrorUnsupportedCVPixelBufferFormat, nil);
@@ -179,7 +184,15 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
             #if TARGET_OS_IPHONE
             targetPixelFormat = sRGB ? MTLPixelFormatR8Unorm_sRGB : MTLPixelFormatR8Unorm;
             #else
-            targetPixelFormat = MTLPixelFormatR8Unorm;
+            NSParameterAssert(!sRGB); //R8Unorm_sRGB texture is not available on macOS.
+            if (sRGB) {
+                NSError *error = MTIErrorCreate(MTIErrorUnsupportedCVPixelBufferFormat, nil);
+                if (inOutError) {
+                    *inOutError = error;
+                }
+                return nil;
+            }
+            targetPixelFormat = sRGB ? MTLPixelFormatInvalid : MTLPixelFormatR8Unorm;
             #endif
         } break;
         case kCVPixelFormatType_OneComponent16Half: {
@@ -213,9 +226,9 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
     id<MTLTexture> metalTexture = renderTexture.texture;
     
     if (resolution.texture.pixelFormat == targetPixelFormat &&
-        (image.alphaType == MTIAlphaTypePremultiplied || image.alphaType == MTIAlphaTypeAlphaIsOne) &&
-        (size_t)image.size.width == frameWidth &&
-        (size_t)image.size.height == frameHeight)
+        (image.alphaType == destinationAlphaType || image.alphaType == MTIAlphaTypeAlphaIsOne) &&
+        resolution.texture.width == frameWidth &&
+        resolution.texture.height == frameHeight)
     {
         //Blit
         id<MTLBlitCommandEncoder> blitCommandEncoder = [renderingContext.commandBuffer blitCommandEncoder];
@@ -253,8 +266,10 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
         
         //Prefers premultiplied alpha here.
         MTIRenderPipelineKernel *kernel;
-        if (image.alphaType == MTIAlphaTypeNonPremultiplied) {
+        if (image.alphaType == MTIAlphaTypeNonPremultiplied && destinationAlphaType == MTIAlphaTypePremultiplied) {
             kernel = MTIContext.premultiplyAlphaKernel;
+        } else if (image.alphaType == MTIAlphaTypePremultiplied && destinationAlphaType == MTIAlphaTypeNonPremultiplied) {
+            kernel = MTIContext.unpremultiplyAlphaKernel;
         } else {
             kernel = MTIContext.passthroughKernel;
         }
@@ -357,6 +372,14 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
         return nil;
     }
     
+    if (renderPassDescriptor.colorAttachments[0].texture == nil) {
+        NSAssert(NO, @"Rendering image to drawable: no texture found on color attachment 0. This could happen when the drawable size is less than 16x16 pixels on some devices.");
+        if (inOutError) {
+            *inOutError = MTIErrorCreate(MTIErrorEmptyDrawableTexture, @{NSLocalizedFailureReasonErrorKey: @"Rendering image to drawable: no texture found on color attachment 0. This could happen when the drawable size is less than 16x16 pixels on some devices."});
+        }
+        return nil;
+    }
+    
     float heightScaling = 1.0;
     float widthScaling = 1.0;
     CGSize drawableSize = CGSizeMake(renderPassDescriptor.colorAttachments[0].texture.width, renderPassDescriptor.colorAttachments[0].texture.height);
@@ -434,6 +457,155 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
     [renderingContext.commandBuffer commit];
     [renderingContext.commandBuffer waitUntilScheduled];
     
+    return task;
+}
+
+- (MTIRenderTask *)startTaskToRenderImage:(MTIImage *)image toTexture:(id<MTLTexture>)texture destinationAlphaType:(MTIAlphaType)destinationAlphaType error:(NSError * __autoreleasing *)inOutError completion:(void (^)(MTIRenderTask * _Nonnull))completion {
+    NSParameterAssert(texture);
+    NSParameterAssert(texture.device == self.device);
+    if (texture.device != self.device) {
+        if (inOutError) {
+            *inOutError = MTIErrorCreate(MTIErrorCrossDeviceRendering, nil);
+        }
+        return nil;
+    }
+    
+    [self lockForRendering];
+    @MTI_DEFER {
+        [self unlockForRendering];
+    };
+    
+    MTIImageRenderingContext *renderingContext = [[MTIImageRenderingContext alloc] initWithContext:self];
+    
+    NSError *error = nil;
+    id<MTIImagePromiseResolution> resolution = [renderingContext resolutionForImage:image error:&error];
+    @MTI_DEFER {
+        [resolution markAsConsumedBy:self];
+    };
+    if (error) {
+        if (inOutError) {
+            *inOutError = error;
+        }
+        return nil;
+    }
+    
+    if (resolution.texture.pixelFormat == texture.pixelFormat &&
+        (image.alphaType == destinationAlphaType || image.alphaType == MTIAlphaTypeAlphaIsOne) &&
+        resolution.texture.width == texture.width &&
+        resolution.texture.height == texture.height &&
+        resolution.texture.depth == texture.depth)
+    {
+        //Blit
+        id<MTLBlitCommandEncoder> blitCommandEncoder = [renderingContext.commandBuffer blitCommandEncoder];
+        [blitCommandEncoder copyFromTexture:resolution.texture
+                                sourceSlice:0
+                                sourceLevel:0
+                               sourceOrigin:MTLOriginMake(0, 0, 0)
+                                 sourceSize:MTLSizeMake(resolution.texture.width, resolution.texture.height, resolution.texture.depth)
+                                  toTexture:texture
+                           destinationSlice:0
+                           destinationLevel:0
+                          destinationOrigin:MTLOriginMake(0, 0, 0)];
+        [blitCommandEncoder endEncoding];
+        
+        MTIRenderTask *task = [[MTIRenderTask alloc] initWithCommandBuffer:renderingContext.commandBuffer];
+        if (completion) {
+            [renderingContext.commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> cb) {
+                completion(task);
+            }];
+        }
+        [renderingContext.commandBuffer commit];
+        [renderingContext.commandBuffer waitUntilScheduled];
+        return task;
+    } else {
+        //Render
+        MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+        renderPassDescriptor.colorAttachments[0].texture = texture;
+        renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0, 0, 0, 0);
+        renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionDontCare;
+        renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+        
+        MTIVertices *vertices = [MTIVertices squareVerticesForRect:CGRectMake(-1, -1, 2, 2)];
+        
+        NSParameterAssert(image.alphaType != MTIAlphaTypeUnknown);
+        
+        //Prefers premultiplied alpha here.
+        MTIRenderPipelineKernel *kernel;
+        if (image.alphaType == MTIAlphaTypeNonPremultiplied && destinationAlphaType == MTIAlphaTypePremultiplied) {
+            kernel = MTIContext.premultiplyAlphaKernel;
+        } else if (image.alphaType == MTIAlphaTypePremultiplied && destinationAlphaType == MTIAlphaTypeNonPremultiplied) {
+            kernel = MTIContext.unpremultiplyAlphaKernel;
+        } else {
+            kernel = MTIContext.passthroughKernel;
+        }
+        
+        MTIRenderPipelineKernelConfiguration *configuration = [[MTIRenderPipelineKernelConfiguration alloc] initWithColorAttachmentPixelFormat:texture.pixelFormat];
+        MTIRenderPipeline *renderPipeline = [self kernelStateForKernel:kernel configuration:configuration error:&error];
+        if (error) {
+            if (inOutError) {
+                *inOutError = error;
+            }
+            return nil;
+        }
+        
+        id<MTLSamplerState> samplerState = [renderingContext.context samplerStateWithDescriptor:image.samplerDescriptor error:&error];
+        if (error) {
+            if (inOutError) {
+                *inOutError = error;
+            }
+            return nil;
+        }
+        
+        __auto_type commandEncoder = [renderingContext.commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        [commandEncoder setRenderPipelineState:renderPipeline.state];
+        
+        [commandEncoder setFragmentTexture:resolution.texture atIndex:0];
+        [commandEncoder setFragmentSamplerState:samplerState atIndex:0];
+        
+        [vertices encodeDrawCallWithCommandEncoder:commandEncoder context:renderPipeline];
+        
+        [commandEncoder endEncoding];
+        
+        MTIRenderTask *task = [[MTIRenderTask alloc] initWithCommandBuffer:renderingContext.commandBuffer];
+        if (completion) {
+            [renderingContext.commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> cb) {
+                completion(task);
+            }];
+        }
+        [renderingContext.commandBuffer commit];
+        [renderingContext.commandBuffer waitUntilScheduled];
+        return task;
+    }
+}
+
+- (MTIRenderTask *)startTaskToRenderImage:(MTIImage *)image error:(NSError * __autoreleasing *)inOutError completion:(void (^)(MTIRenderTask * _Nonnull))completion {
+    [self lockForRendering];
+    @MTI_DEFER {
+        [self unlockForRendering];
+    };
+    
+    MTIImageRenderingContext *renderingContext = [[MTIImageRenderingContext alloc] initWithContext:self];
+    
+    NSError *error = nil;
+    id<MTIImagePromiseResolution> resolution = [renderingContext resolutionForImage:image error:&error];
+    @MTI_DEFER {
+        [resolution markAsConsumedBy:self];
+    };
+    if (error) {
+        if (inOutError) {
+            *inOutError = error;
+        }
+        return nil;
+    }
+    
+    MTIRenderTask *task = [[MTIRenderTask alloc] initWithCommandBuffer:renderingContext.commandBuffer];
+    if (completion) {
+        [renderingContext.commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> cb) {
+            completion(task);
+        }];
+    }
+    [renderingContext.commandBuffer commit];
+    [renderingContext.commandBuffer waitUntilScheduled];
     return task;
 }
 

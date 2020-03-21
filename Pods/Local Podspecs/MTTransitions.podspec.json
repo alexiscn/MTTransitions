@@ -17,7 +17,7 @@
   "platforms": {
     "ios": "11.0"
   },
-  "swift_version": "4.2",
+  "swift_versions": "4.2",
   "source_files": "Source/**/*.{swift,metal,h}",
   "resources": "Source/**/Assets.bundle",
   "xcconfig": {
@@ -28,5 +28,6 @@
     "MetalPetal": [
 
     ]
-  }
+  },
+  "swift_version": "4.2"
 }

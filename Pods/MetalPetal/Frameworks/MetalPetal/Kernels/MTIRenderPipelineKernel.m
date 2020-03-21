@@ -35,6 +35,10 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
 @implementation MTIRenderPipelineKernelConfiguration
 
 - (instancetype)initWithColorAttachmentPixelFormats:(MTLPixelFormat [])colorAttachmentPixelFormats count:(NSUInteger)count {
+    return [self initWithColorAttachmentPixelFormats:colorAttachmentPixelFormats count:count depthAttachmentPixelFormat:MTLPixelFormatInvalid stencilAttachmentPixelFormat:MTLPixelFormatInvalid];
+}
+
+- (instancetype)initWithColorAttachmentPixelFormats:(MTLPixelFormat [])colorAttachmentPixelFormats count:(NSUInteger)count depthAttachmentPixelFormat:(MTLPixelFormat)depthAttachmentPixelFormat stencilAttachmentPixelFormat:(MTLPixelFormat)stencilAttachmentPixelFormat {
     if (self = [super init]) {
         NSParameterAssert(count <= MTIRenderPipelineMaximumColorAttachmentCount);
         count = MIN(count, MTIRenderPipelineMaximumColorAttachmentCount);
@@ -42,16 +46,15 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
             _pixelFormats[index] = colorAttachmentPixelFormats[index];
         }
         _colorAttachmentCount = count;
+        _depthAttachmentPixelFormat = depthAttachmentPixelFormat;
+        _stencilAttachmentPixelFormat = stencilAttachmentPixelFormat;
     }
     return self;
 }
 
 - (instancetype)initWithColorAttachmentPixelFormat:(MTLPixelFormat)colorAttachmentPixelFormat {
-    if (self = [super init]) {
-        _pixelFormats[0] = colorAttachmentPixelFormat;
-        _colorAttachmentCount = 1;
-    }
-    return self;
+    MTLPixelFormat formats[] = {colorAttachmentPixelFormat};
+    return [self initWithColorAttachmentPixelFormats:formats count:1 depthAttachmentPixelFormat:MTLPixelFormatInvalid stencilAttachmentPixelFormat:MTLPixelFormatInvalid];
 }
 
 - (const MTLPixelFormat *)colorAttachmentPixelFormats {
@@ -63,6 +66,8 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
     for (NSUInteger index = 0; index < _colorAttachmentCount; index += 1) {
         MTIHasherCombine(&hasher, _pixelFormats[index]);
     }
+    MTIHasherCombine(&hasher, _depthAttachmentPixelFormat);
+    MTIHasherCombine(&hasher, _stencilAttachmentPixelFormat);
     return MTIHasherFinalize(&hasher);
 }
 
@@ -76,6 +81,10 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
             if ((obj -> _pixelFormats)[index] != _pixelFormats[index]) {
                 return NO;
             }
+        }
+        if (_depthAttachmentPixelFormat != obj -> _depthAttachmentPixelFormat ||
+            _stencilAttachmentPixelFormat != obj -> _stencilAttachmentPixelFormat) {
+            return NO;
         }
         return YES;
     } else {
@@ -154,8 +163,8 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
         colorAttachmentDescriptor.blendingEnabled = NO;
         renderPipelineDescriptor.colorAttachments[index] = colorAttachmentDescriptor;
     }
-    renderPipelineDescriptor.depthAttachmentPixelFormat = MTLPixelFormatInvalid;
-    renderPipelineDescriptor.stencilAttachmentPixelFormat = MTLPixelFormatInvalid;
+    renderPipelineDescriptor.depthAttachmentPixelFormat = configuration.depthAttachmentPixelFormat;
+    renderPipelineDescriptor.stencilAttachmentPixelFormat = configuration.stencilAttachmentPixelFormat;
     
     return [context renderPipelineWithDescriptor:renderPipelineDescriptor error:inOutError];
 }
@@ -186,30 +195,9 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
 - (NSArray<MTIImagePromiseRenderTarget *> *)resolveWithContext:(MTIImageRenderingContext *)renderingContext resolver:(id<MTIImagePromise>)promise error:(NSError * __autoreleasing *)inOutError {
     NSError *error = nil;
     
-    NSUInteger inputResolutionsCount = self.dependencies.count;
-    id<MTIImagePromiseResolution> inputResolutions[inputResolutionsCount];
-    memset(inputResolutions, 0, sizeof inputResolutions);
-    const id<MTIImagePromiseResolution> * inputResolutionsRef = inputResolutions;
-    @MTI_DEFER {
-        for (NSUInteger index = 0; index < inputResolutionsCount; index += 1) {
-            [inputResolutionsRef[index] markAsConsumedBy:promise];
-        }
-    };
-    for (NSUInteger index = 0; index < inputResolutionsCount; index += 1) {
-        MTIImage *image = self.dependencies[index];
-        id<MTIImagePromiseResolution> resolution = [renderingContext resolutionForImage:image error:&error];
-        if (error) {
-            if (inOutError) {
-                *inOutError = error;
-            }
-            return nil;
-        }
-        NSAssert(resolution != nil, @"");
-        inputResolutions[index] = resolution;
-    }
-    
-    MTLPixelFormat pixelFormats[self.outputDescriptors.count];
-    for (NSUInteger index = 0; index < self.outputDescriptors.count; index += 1) {
+    NSUInteger outputCount = self.outputDescriptors.count;
+    MTLPixelFormat pixelFormats[outputCount];
+    for (NSUInteger index = 0; index < outputCount; index += 1) {
         MTIRenderPassOutputDescriptor *outputDescriptor = self.outputDescriptors[index];
         MTLPixelFormat pixelFormat = (outputDescriptor.pixelFormat == MTIPixelFormatUnspecified) ? renderingContext.context.workingPixelFormat : outputDescriptor.pixelFormat;
         pixelFormats[index] = pixelFormat;
@@ -217,12 +205,12 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
     
     MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
     
-    MTIImagePromiseRenderTarget *renderTargets[self.outputDescriptors.count];
-    for (NSUInteger index = 0; index < self.outputDescriptors.count; index += 1) {
+    MTIImagePromiseRenderTarget *renderTargets[outputCount];
+    for (NSUInteger index = 0; index < outputCount; index += 1) {
         MTLPixelFormat pixelFormat = pixelFormats[index];
         
         MTIRenderPassOutputDescriptor *outputDescriptor = self.outputDescriptors[index];
-        MTITextureDescriptor *textureDescriptor = [MTITextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat width:outputDescriptor.dimensions.width height:outputDescriptor.dimensions.height usage:MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead];
+        MTITextureDescriptor *textureDescriptor = [MTITextureDescriptor texture2DDescriptorWithPixelFormat:pixelFormat width:outputDescriptor.dimensions.width height:outputDescriptor.dimensions.height mipmapped:NO usage:MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead resourceOptions:MTLResourceStorageModePrivate];
         MTIImagePromiseRenderTarget *renderTarget = [renderingContext.context newRenderTargetWithResuableTextureDescriptor:textureDescriptor error:&error];
         if (error) {
             if (inOutError) {
@@ -248,10 +236,8 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
         return nil;
     }
     
-    NSUInteger resolutionIndex = 0;
-    
     for (MTIRenderCommand *command in self.renderCommands) {
-        MTIRenderPipeline *renderPipeline = [renderingContext.context kernelStateForKernel:command.kernel configuration:[MTIRenderPipelineKernelConfiguration configurationWithColorAttachmentPixelFormats:pixelFormats count:self.outputDescriptors.count] error:&error];
+        MTIRenderPipeline *renderPipeline = [renderingContext.context kernelStateForKernel:command.kernel configuration:[MTIRenderPipelineKernelConfiguration configurationWithColorAttachmentPixelFormats:pixelFormats count:outputCount] error:&error];
         
         if (error) {
             if (inOutError) {
@@ -280,7 +266,8 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
         for (MTLArgument *argument in renderPipeline.reflection.vertexArguments) {
             if (argument.type == MTLArgumentTypeTexture) {
                 NSUInteger index = argument.index;
-                [commandEncoder setVertexTexture:inputResolutions[index + resolutionIndex].texture atIndex:index];
+                id<MTLTexture> texture = [renderingContext resolvedTextureForImage:command.images[index]];
+                [commandEncoder setVertexTexture:texture atIndex:index];
                 [commandEncoder setVertexSamplerState:samplerStates[index] atIndex:index];
             }
         }
@@ -288,13 +275,12 @@ NSUInteger const MTIRenderPipelineMaximumColorAttachmentCount = 8;
         for (MTLArgument *argument in renderPipeline.reflection.fragmentArguments) {
             if (argument.type == MTLArgumentTypeTexture) {
                 NSUInteger index = argument.index;
-                [commandEncoder setFragmentTexture:inputResolutions[index + resolutionIndex].texture atIndex:index];
+                id<MTLTexture> texture = [renderingContext resolvedTextureForImage:command.images[index]];
+                [commandEncoder setFragmentTexture:texture atIndex:index];
                 [commandEncoder setFragmentSamplerState:samplerStates[index] atIndex:index];
             }
         }
-        
-        resolutionIndex += command.images.count;
-        
+                
         //encode parameters
         if (command.parameters.count > 0) {
             [MTIArgumentsEncoder encodeArguments:renderPipeline.reflection.vertexArguments values:command.parameters functionType:MTLFunctionTypeVertex encoder:commandEncoder error:&error];

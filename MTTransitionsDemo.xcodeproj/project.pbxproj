@@ -228,18 +228,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MTTransitions/MTTransitions.framework",
-				"${BUILT_PRODUCTS_DIR}/MetalPetal/MetalPetal.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MTTransitions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MetalPetal.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

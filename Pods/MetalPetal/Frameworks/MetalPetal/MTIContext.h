@@ -15,6 +15,7 @@
 #import "MTIMemoryWarningObserver.h"
 #import "MTICVMetalTextureBridging.h"
 #import "MTITextureLoader.h"
+#import "MTITexturePool.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,6 +37,9 @@ FOUNDATION_EXPORT NSString * const MTIContextDefaultLabel;
 /// Automatically reclaim resources on memory warning.
 @property (nonatomic) BOOL automaticallyReclaimResources;
 
+/// Whether to enable native support for YCbCr textures. The default value for this property is YES. YCbCr textures can be used when this property is set to YES, and the device supports this feature.
+@property (nonatomic) BOOL enablesYCbCrPixelFormatSupport;
+
 /// A string to help identify this object.
 @property (nonatomic, copy) NSString *label;
 
@@ -45,8 +49,20 @@ FOUNDATION_EXPORT NSString * const MTIContextDefaultLabel;
 /// The texture loader to use. Possible values are MTKTextureLoader.class, MTITextureLoaderForiOS9WithImageOrientationFix.class
 @property (nonatomic) Class<MTITextureLoader> textureLoaderClass;
 
+/// The core video - metal texture bridge class to use. Possible values are MTICVMetalTextureCache.class (using CVMetalTextureRef), MTICVMetalIOSurfaceBridge.class (using IOSurface to convert CVPixelBuffer to metal texture).
+@property (nonatomic) Class<MTICVMetalTextureBridging> coreVideoMetalTextureBridgeClass;
+
+/// The texture pool class to use.
+@property (nonatomic) Class<MTITexturePool> texturePoolClass;
+
 /// The default value for this property is MTKTextureLoader.class
 @property (nonatomic, class) Class<MTITextureLoader> defaultTextureLoaderClass;
+
+/// On iOS 11/macOS 10.11 or later, the default value is MTICVMetalIOSurfaceBridge.class. Before iOS 11/macOS 10.11, the defualt value is MTICVMetalTextureCache.class.
+@property (nonatomic, class) Class<MTICVMetalTextureBridging> defaultCoreVideoMetalTextureBridgeClass;
+
+/// The default value for this property is MTIDeviceTexturePool.class
+@property (nonatomic, class) Class<MTITexturePool> defaultTexturePoolClass;
 
 @end
 
@@ -70,6 +86,8 @@ FOUNDATION_EXPORT NSURL * _Nullable MTIDefaultLibraryURLForBundle(NSBundle *bund
 @property (nonatomic, copy, readonly) NSString *label;
 
 @property (nonatomic, readonly) BOOL isMetalPerformanceShadersSupported;
+
+@property (nonatomic, readonly) BOOL isYCbCrPixelFormatSupported;
 
 @property (nonatomic, strong, readonly) id<MTLDevice> device;
 
@@ -96,6 +114,13 @@ FOUNDATION_EXPORT NSURL * _Nullable MTIDefaultLibraryURLForBundle(NSBundle *bund
 @end
 
 @interface MTIContext (MemoryWarningHandling) <MTIMemoryWarningHandling>
+
+@end
+
+@interface MTIContext (SimulatorSupport)
+
+/// Whether to render on iOS simulators. The default value is YES. If the value of this property is NO, the `MTIContext` initialization fails immediately with an error (MTIErrorFeatureNotAvailableOnSimulator) on Simulators. This property is relevant only during the initialization of an `MTIContext`.
+@property (nonatomic, class) BOOL enablesSimulatorSupport;
 
 @end
 
