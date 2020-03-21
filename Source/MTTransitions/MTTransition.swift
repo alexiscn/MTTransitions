@@ -132,8 +132,9 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     }
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromView = transitionContext.viewController(forKey: .from)?.view,
-            let toVC = transitionContext.viewController(forKey: .to), let toView = toVC.view else {
+        guard let fromView = transitionContext.view(forKey: .from),
+            let toVC = transitionContext.viewController(forKey: .to),
+            let toView = transitionContext.view(forKey: .to) else {
             transitionContext.completeTransition(true)
             return
         }
@@ -165,7 +166,6 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
         }) { _ in
             fromView.alpha = 1
             toView.alpha = 1
-            fromView.removeFromSuperview()
             renderView.removeFromSuperview()
             transitionContext.completeTransition(true)
         }

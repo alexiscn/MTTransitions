@@ -27,6 +27,9 @@ class ViewController: UITableViewController {
         case 2:
             let vc = PushAViewController()
             navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = PresentAViewController()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
