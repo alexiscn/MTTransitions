@@ -30,6 +30,7 @@
 		A3913EAC242761EC0083E7D3 /* MTVideoCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913EAB242761EC0083E7D3 /* MTVideoCompositor.swift */; };
 		A3913EAE2427632E0083E7D3 /* MTVideoTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913EAD2427632E0083E7D3 /* MTVideoTransition.swift */; };
 		A3913EB0242768750083E7D3 /* MTVideoCompositionInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913EAF242768750083E7D3 /* MTVideoCompositionInstruction.swift */; };
+		A3913EB2242786C40083E7D3 /* MTVideoTransitionRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913EB1242786C40083E7D3 /* MTVideoTransitionRenderer.swift */; };
 		A3E0AD272205BEA6002DD092 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD1E2205BEA5002DD092 /* 3.jpg */; };
 		A3E0AD282205BEA6002DD092 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD1F2205BEA5002DD092 /* 8.jpg */; };
 		A3E0AD292205BEA6002DD092 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD202205BEA5002DD092 /* 1.jpg */; };
@@ -67,6 +68,7 @@
 		A3913EAB242761EC0083E7D3 /* MTVideoCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTVideoCompositor.swift; sourceTree = "<group>"; };
 		A3913EAD2427632E0083E7D3 /* MTVideoTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTVideoTransition.swift; sourceTree = "<group>"; };
 		A3913EAF242768750083E7D3 /* MTVideoCompositionInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTVideoCompositionInstruction.swift; sourceTree = "<group>"; };
+		A3913EB1242786C40083E7D3 /* MTVideoTransitionRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTVideoTransitionRenderer.swift; sourceTree = "<group>"; };
 		A3E0AD1E2205BEA5002DD092 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		A3E0AD1F2205BEA5002DD092 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		A3E0AD202205BEA5002DD092 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				A3913EAB242761EC0083E7D3 /* MTVideoCompositor.swift */,
 				A3913EAD2427632E0083E7D3 /* MTVideoTransition.swift */,
 				A3913EAF242768750083E7D3 /* MTVideoCompositionInstruction.swift */,
+				A3913EB1242786C40083E7D3 /* MTVideoTransitionRenderer.swift */,
 			);
 			path = MTTransitionsDemo;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				A3913EAE2427632E0083E7D3 /* MTVideoTransition.swift in Sources */,
 				A3913E852425C6A10083E7D3 /* LabelTransitionSampleViewController.swift in Sources */,
 				A3913E91242646580083E7D3 /* PresentBViewController.swift in Sources */,
+				A3913EB2242786C40083E7D3 /* MTVideoTransitionRenderer.swift in Sources */,
 				A3913E8F242646480083E7D3 /* PresentAViewController.swift in Sources */,
 				A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */,
 				A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */,

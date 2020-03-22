@@ -42,7 +42,7 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         }
     }
     
-    init(render: String) {
+    override init() {
         super.init()
     }
     
@@ -51,8 +51,26 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         renderContextDidChange = true
     }
     
+    enum PixelBufferRequestError: Error {
+        case newRenderedPixelBufferForRequestFailure
+    }
+    
     func startRequest(_ asyncVideoCompositionRequest: AVAsynchronousVideoCompositionRequest) {
-        
+        autoreleasepool {
+            renderingQueue.async {
+                // Check if all pending requests have been cancelled.
+                if self.shouldCancelAllRequests {
+                    asyncVideoCompositionRequest.finishCancelledRequest()
+                } else {
+                    guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {
+                        asyncVideoCompositionRequest.finish(with: PixelBufferRequestError.newRenderedPixelBufferForRequestFailure)
+                        return
+                    }
+                    // The resulting pixelbuffer from Metal renderer is passed along to the request.
+                    asyncVideoCompositionRequest.finish(withComposedVideoFrame: resultPixels)
+                }
+            }
+        }
     }
     
     func cancelAllPendingVideoCompositionRequests() {
@@ -65,5 +83,43 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
             // Start accepting requests again.
             self.shouldCancelAllRequests = false
         }
+    }
+    
+    func factorForTimeInRange( _ time: CMTime, range: CMTimeRange) -> Float64 { /* 0.0 -> 1.0 */
+        let elapsed = CMTimeSubtract(time, range.start)
+        return CMTimeGetSeconds(elapsed) / CMTimeGetSeconds(range.duration)
+    }
+    
+    func newRenderedPixelBufferForRequest(_ request: AVAsynchronousVideoCompositionRequest) -> CVPixelBuffer? {
+
+        /*
+         tweenFactor indicates how far within that timeRange are we rendering this frame. This is normalized to vary
+         between 0.0 and 1.0. 0.0 indicates the time at first frame in that videoComposition timeRange. 1.0 indicates
+         the time at last frame in that videoComposition timeRange.
+         */
+        let tweenFactor = factorForTimeInRange(request.compositionTime, range: request.videoCompositionInstruction.timeRange)
+
+        guard let currentInstruction = request.videoCompositionInstruction as? MTVideoCompositionInstruction else {
+            return nil
+        }
+
+        // Source pixel buffers are used as inputs while rendering the transition.
+        guard let foregroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.foregroundTrackID) else {
+            return nil
+        }
+        guard let backgroundSourceBuffer = request.sourceFrame(byTrackID: currentInstruction.backgroundTrackID) else {
+            return nil
+        }
+
+        // Destination pixel buffer into which we render the output.
+        guard let dstPixels = renderContext?.newPixelBuffer() else { return nil }
+
+        if renderContextDidChange { renderContextDidChange = false }
+
+//        metalRenderer.renderPixelBuffer(dstPixels, usingForegroundSourceBuffer:foregroundSourceBuffer,
+//                                        andBackgroundSourceBuffer:backgroundSourceBuffer,
+//                                        forTweenFactor:Float(tweenFactor))
+
+        return dstPixels
     }
 }

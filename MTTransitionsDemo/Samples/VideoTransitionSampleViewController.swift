@@ -88,9 +88,12 @@ class VideoTransitionSampleViewController: UIViewController {
     }
     
     @objc private func handleActionButtonClicked() {
-        let effect = MTTransition.Effect.burn.transition
-        videoTransition.makeTransition(with: clips, transition: effect) {
-            
+        let effect = MTTransition.Effect.burn
+        let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 600)
+        videoTransition.transitionDuration = duration
+        videoTransition.makeTransition(with: clips, effect: effect) { playerItem in
+            self.player.replaceCurrentItem(with: playerItem)
+            self.player.play()
         }
     }
 }
