@@ -43,7 +43,7 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
     }
     
     // TODO: - pass effect
-    private let renderer = MTVideoTransitionRenderer(effect: .pixelize)
+    private let renderer = MTVideoTransitionRenderer(effect: .burn)
     
     override init() {
         super.init()

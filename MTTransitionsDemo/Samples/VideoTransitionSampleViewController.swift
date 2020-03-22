@@ -47,18 +47,11 @@ class VideoTransitionSampleViewController: UIViewController {
             videoView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 544.0/1280.0)
         ])
         
-        let url = Bundle.main.url(forResource: "video1", withExtension: "mp4")!
+        let url = Bundle.main.url(forResource: "video2", withExtension: "mp4")!
         player = AVPlayer(url: url)
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         videoView.layer.addSublayer(playerLayer)
-        
-        player.play()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handlePlayToEndTime),
-                                               name: .AVPlayerItemDidPlayToEndTime,
-                                               object: player.currentItem)
     }
     
     @objc private func handlePlayToEndTime() {
@@ -67,12 +60,13 @@ class VideoTransitionSampleViewController: UIViewController {
     }
     
     private func setupVideoPlaybacks() {
+        // TODO: - currently only support two video asset
         guard let clip1 = loadVideoAsset(named: "video1"),
-            let clip2 = loadVideoAsset(named: "video2"),
+            //let clip2 = loadVideoAsset(named: "video2"),
             let clip3 = loadVideoAsset(named: "video3") else {
             return
         }
-        clips = [clip1, clip2, clip3]
+        clips = [clip1, clip3]
     }
     
     private func loadVideoAsset(named: String) -> AVURLAsset? {
@@ -89,9 +83,13 @@ class VideoTransitionSampleViewController: UIViewController {
     
     @objc private func handleActionButtonClicked() {
         let effect = MTTransition.Effect.burn
-        let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 600)
+        let duration = CMTimeMakeWithSeconds(1.0, preferredTimescale: 12888)
         videoTransition.transitionDuration = duration
         videoTransition.makeTransition(with: clips, effect: effect) { playerItem in
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(self.handlePlayToEndTime), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+            
+            self.player.seek(to: .zero)
             self.player.replaceCurrentItem(with: playerItem)
             self.player.play()
         }

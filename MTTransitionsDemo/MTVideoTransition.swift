@@ -19,6 +19,8 @@ public class MTVideoTransition: NSObject {
     
     private var clipTimeRanges: [CMTimeRange] = []
     
+    private var isLoadingKeys = false
+    
     /// The time range in which the clips should pass through.
     private lazy var passThroughTimeRanges: [CMTimeRange] = {
         let time = CMTime.zero
@@ -32,12 +34,14 @@ public class MTVideoTransition: NSObject {
     }()
     
     public func makeTransition(with assets: [AVAsset], effect: MTTransition.Effect, completion: @escaping ((AVPlayerItem) -> Void)) {
+        if isLoadingKeys { return }
         self.clips.removeAll()
         self.clipTimeRanges.removeAll()
         
         let dispatchGroup = DispatchGroup()
         loadAssetsKeys(assets: assets, usingDispatchGroup: dispatchGroup)
         dispatchGroup.notify(queue: .main) {
+            self.isLoadingKeys = false
             self.doTranstionStaffs(completion: completion)
         }
     }
@@ -45,6 +49,7 @@ public class MTVideoTransition: NSObject {
     private func doTranstionStaffs(completion: @escaping ((AVPlayerItem) -> Void)) {
         let videoTracks = self.clips[0].tracks(withMediaType: .video)
         let videoSize = videoTracks[0].naturalSize
+        print("video size:\(videoSize)")
         
         let composition = AVMutableComposition()
         composition.naturalSize = videoSize
@@ -56,10 +61,10 @@ public class MTVideoTransition: NSObject {
         */
         let videoComposition = AVMutableVideoComposition()
         videoComposition.customVideoCompositorClass = MTVideoCompositor.self
-        videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30) // 30 fps.
+        videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 24) // 30 fps.
         videoComposition.renderSize = videoSize
         
-        self.buildTransitionComposition(composition, videoComposition: videoComposition)
+        buildTransitionComposition(composition, videoComposition: videoComposition)
         
         let playerItem = AVPlayerItem(asset: composition)
         playerItem.videoComposition = videoComposition
@@ -87,6 +92,7 @@ public class MTVideoTransition: NSObject {
         let instructions = makeTransitionInstructions(videoComposition: videoComposition, compositionVideoTracks: compositionVideoTracks)
         guard let newInstructions = instructions as? [AVVideoCompositionInstructionProtocol] else {
             videoComposition.instructions = []
+            print("new instructions empty")
             return
         }
         videoComposition.instructions = newInstructions
@@ -94,24 +100,27 @@ public class MTVideoTransition: NSObject {
     
     private func loadAssetsKeys(assets: [AVAsset], usingDispatchGroup dispatchGroup: DispatchGroup) {
         let assetKeys = ["tracks", "duration", "composable"]
-        
+        isLoadingKeys = true
         for asset in assets {
             dispatchGroup.enter()
             asset.loadValuesAsynchronously(forKeys: assetKeys) {
                 for key in assetKeys {
                     var error: NSError?
                     if asset.statusOfValue(forKey: key, error: &error) == .failed {
+                        print("load assets failed")
                         dispatchGroup.leave()
                         return
                     }
                 }
                 if !asset.isComposable {
+                    print("asset is not composable")
                     dispatchGroup.leave()
                 }
                 self.clips.append(asset)
                 // TODO: - use actual time range
-                self.clipTimeRanges.append(CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
-                                                       duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1)))
+                self.clipTimeRanges.append(CMTimeRange(start: .zero, duration: asset.duration))
+//                self.clipTimeRanges.append(CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
+//                                                       duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1)))
                 dispatchGroup.leave()
             }
         }
