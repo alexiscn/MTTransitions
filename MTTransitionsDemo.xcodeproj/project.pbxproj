@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2A0A6E9F27B524AEA42CF170 /* Pods_MTTransitionsDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E911781A37DB2BF2AD9CBB4 /* Pods_MTTransitionsDemo.framework */; };
 		A32F8A6B22041F5D009C03AD /* GIFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F8A6A22041F5D009C03AD /* GIFGenerator.swift */; };
-		A3393A4322053F00006916C6 /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3393A4222053F00006916C6 /* TransitionManager.swift */; };
 		A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A374123621F98D9A0019F3A3 /* AppDelegate.swift */; };
 		A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A374123821F98D9A0019F3A3 /* ViewController.swift */; };
 		A374123C21F98D9A0019F3A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A374123A21F98D9A0019F3A3 /* Main.storyboard */; };
@@ -38,7 +37,6 @@
 /* Begin PBXFileReference section */
 		9E911781A37DB2BF2AD9CBB4 /* Pods_MTTransitionsDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MTTransitionsDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A32F8A6A22041F5D009C03AD /* GIFGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFGenerator.swift; sourceTree = "<group>"; };
-		A3393A4222053F00006916C6 /* TransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionManager.swift; sourceTree = "<group>"; };
 		A374123321F98D9A0019F3A3 /* MTTransitionsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTTransitionsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A374123621F98D9A0019F3A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A374123821F98D9A0019F3A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 		A3913E832425C6110083E7D3 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				A3393A4222053F00006916C6 /* TransitionManager.swift */,
 				A32F8A6A22041F5D009C03AD /* GIFGenerator.swift */,
 			);
 			path = Helper;
@@ -328,7 +325,6 @@
 				A3913E852425C6A10083E7D3 /* LabelTransitionSampleViewController.swift in Sources */,
 				A3913E91242646580083E7D3 /* PresentBViewController.swift in Sources */,
 				A3913E8F242646480083E7D3 /* PresentAViewController.swift in Sources */,
-				A3393A4322053F00006916C6 /* TransitionManager.swift in Sources */,
 				A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */,
 				A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */,
 				A3913E822425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift in Sources */,

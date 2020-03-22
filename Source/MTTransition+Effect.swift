@@ -1,0 +1,219 @@
+//
+//  MTTransition+Effect.swift
+//  MTTransitions
+//
+//  Created by xushuifeng on 2020/3/22.
+//
+
+import Foundation
+
+extension MTTransition {
+    
+    /// A convenience way to apply transtions.
+    /// If you want to configure parameters, you can use following code:
+    ///
+    /// let effect = MTTransition.Effect.bounce
+    /// effect.shadowHeight = 0.02
+    public enum Effect: CaseIterable {
+        case angular
+        case bounce
+        case bowTieHorizontal
+        case bowTieVertical
+        case burn
+        case butterflyWaveScrawler
+        case cannabisleaf
+        case circle
+        case circleCrop
+        case circleOpen
+        case colorPhase
+        case colourDistance
+        case crazyParametricFun
+        case crossHatch
+        case crossWarp
+        case crossZoom
+        case cube
+        case directional
+        case directionalWarp
+        case directionalWipe
+        case displacement
+        case doomScreen
+        case doorway
+        case dreamy
+        case fadeColor
+        case fadegrayscale
+        case fade
+        case flyeye
+        case glitchDisplace
+        case glitchMemories
+        case gridFlip
+        case heart
+        case hexagonalize
+        case invertedPageCurl
+        case kaleidoScope
+        case linearBlur
+        case luma
+        case luminanceMelt
+        case morph
+        case mosaic
+        case multiplyBlend
+        case perlin
+        case pinwheel
+        case pixelize
+        case polarFunction
+        case polkaDotsCurtain
+        case radial
+        case randomSquares
+        case ripple
+        case rotateScaleFade
+        case simpleZoom
+        case squeeze
+        case stereoViewer
+        case swap
+        case swirl
+        case undulatingBurnOut
+        case waterDrop
+        case windowSlice
+        case windowBlinds
+        case wind
+        case wipeDown
+        case wipeLeft
+        case wipeRight
+        case wipeUp
+        case zoomInCircles
+        
+        public var transiton: MTTransition {
+            switch self {
+            case .angular:
+                return MTAngularTransition()
+            case .bounce:
+                return MTBounceTransition()
+            case .bowTieHorizontal:
+                return MTBowTieHorizontalTransition()
+            case .bowTieVertical:
+                return MTBowTieVerticalTransition()
+            case .burn:
+                return MTBurnTransition()
+            case .butterflyWaveScrawler:
+                return MTButterflyWaveScrawlerTransition()
+            case .cannabisleaf:
+                return MTCannabisleafTransition()
+            case .circle:
+                return MTCircleTransition()
+            case .circleCrop:
+                return MTCircleCropTransition()
+            case .circleOpen:
+                return MTCircleOpenTransition()
+            case .colorPhase:
+                return MTColorPhaseTransition()
+            case .colourDistance:
+                return MTColourDistanceTransition()
+            case .crazyParametricFun:
+                return MTCrazyParametricFunTransition()
+            case .crossHatch:
+                return MTCrossHatchTransition()
+            case .crossWarp:
+                return MTCrossWarpTransition()
+            case .crossZoom:
+                return MTCrossZoomTransition()
+            case .cube:
+                return MTCubeTransition()
+            case .directional:
+                return MTDirectionalTransition()
+            case .directionalWarp:
+                return MTDirectionalWarpTransition()
+            case .directionalWipe:
+                return MTDirectionalWipeTransition()
+            case .displacement:
+                return MTDisplacementTransition()
+            case .doomScreen:
+                return MTDoomScreenTransition()
+            case .doorway:
+                return MTDoorwayTransition()
+            case .dreamy:
+                return MTDreamyTransition()
+            case .fadeColor:
+                return MTFadeColorTransition()
+            case .fadegrayscale:
+                return MTFadegrayscaleTransition()
+            case .fade:
+                return MTFadeTransition()
+            case .flyeye:
+                return MTFlyeyeTransition()
+            case .glitchDisplace:
+                return MTGlitchDisplaceTransition()
+            case .glitchMemories:
+                return MTGlitchMemoriesTransition()
+            case .gridFlip:
+                return MTGridFlipTransition()
+            case .heart:
+                return MTHeartTransition()
+            case .hexagonalize:
+                return MTHexagonalizeTransition()
+            case .invertedPageCurl:
+                return MTInvertedPageCurlTransition()
+            case .kaleidoScope:
+                return MTKaleidoScopeTransition()
+            case .linearBlur:
+                return MTLinearBlurTransition()
+            case .luma:
+                return MTLumaTransition()
+            case .luminanceMelt:
+                return MTLuminanceMeltTransition()
+            case .morph:
+                return MTMorphTransition()
+            case .mosaic:
+                return MTMosaicTransition()
+            case .multiplyBlend:
+                return MTMultiplyBlendTransition()
+            case .perlin:
+                return MTPerlinTransition()
+            case .pinwheel:
+                return MTPinwheelTransition()
+            case .pixelize:
+                return MTPixelizeTransition()
+            case .polarFunction:
+                return MTPolarFunctionTransition()
+            case .polkaDotsCurtain:
+                return MTPolkaDotsCurtainTransition()
+            case .radial:
+                return MTRadialTransition()
+            case .randomSquares:
+                return MTRandomSquaresTransition()
+            case .ripple:
+                return MTRippleTransition()
+            case .rotateScaleFade:
+                return MTRotateScaleFadeTransition()
+            case .simpleZoom:
+                return MTSimpleZoomTransition()
+            case .squeeze:
+                return MTSqueezeTransition()
+            case .stereoViewer:
+                return MTStereoViewerTransition()
+            case .swap:
+                return MTSwapTransition()
+            case .swirl:
+                return MTSwirlTransition()
+            case .undulatingBurnOut:
+                return MTUndulatingBurnOutTransition()
+            case .waterDrop:
+                return MTWaterDropTransition()
+            case .windowSlice:
+                return MTWindowSliceTransition()
+            case .windowBlinds:
+                return MTWindowBlindsTransition()
+            case .wind:
+                return MTWindTransition()
+            case .wipeDown:
+                return MTWipeDownTransition()
+            case .wipeLeft:
+                return MTWipeLeftTransition()
+            case .wipeRight:
+                return MTWipeRightTransition()
+            case .wipeUp:
+                return MTWipeUpTransition()
+            case .zoomInCircles:
+                return MTZoomInCirclesTransition()
+            }
+        }
+    }
+}

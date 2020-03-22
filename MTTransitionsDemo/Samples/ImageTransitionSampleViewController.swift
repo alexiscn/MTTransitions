@@ -24,9 +24,9 @@ class ImageTransitionSampleViewController: UIViewController {
     
     private var transitionIndex: Int = 0
     
-    private var transition: MTTransition?
+    private var effect: MTTransition?
     
-    private var transitions: [MTTransition] = TransitionManager.shared.allTransitions
+    private var effects = MTTransition.Effect.allCases
     
     private var sampleImages: [MTIImage] = []
 
@@ -78,21 +78,21 @@ class ImageTransitionSampleViewController: UIViewController {
     }
 
     private func doTransition() {
-        transition = transitions[transitionIndex]
-        transition?.duration = duration
-        transition?.ratio = Float(512.0/400.0)
-        transition?.transition(from: sampleImages[fromIndex], to: sampleImages[toIndex], updater: { image in
+        let effect = effects[transitionIndex].transiton
+        
+        effect.duration = duration
+        effect.transition(from: sampleImages[fromIndex], to: sampleImages[toIndex], updater: { image in
             self.imageView.image = image
         }, completion: { _ in
             self.doNextTransition()
         })
         
-        let name = NSStringFromClass(transition!.classForCoder).replacingOccurrences(of: "MTTransitions.", with: "")
+        let name = NSStringFromClass(effect.classForCoder).replacingOccurrences(of: "MTTransitions.", with: "")
         nameLabel.text = name
     }
     
     private func doNextTransition() {
-        transitionIndex = (transitionIndex + 1) % transitions.count
+        transitionIndex = (transitionIndex + 1) % effects.count
         fromIndex = toIndex
         var to = Int.random(in: 0...8)
         while to == self.fromIndex {

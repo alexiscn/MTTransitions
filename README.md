@@ -99,12 +99,28 @@ imageView.image = transition.outputImage
 
 ```
 
+### UIView Transition
+
+```swift
+let effect = MTPerlinTransition()
+
+MTTransition.transition(with: view, effect: effect, animations: {
+    // Do your animation to your view
+}) { (_) in
+    // Transition completed
+}
+```
 
 ### UIViewController Push Transition
 
 ```swift
 
-private let transition = MTViewControllerTransition(transition: MTBurnTransition())
+class PushAViewController: UIViewController {
+
+    private let transition = MTViewControllerTransition(transition: MTBurnTransition())
+    
+    // ...
+}
 
 extension PushAViewController: UINavigationControllerDelegate {
     
@@ -114,6 +130,31 @@ extension PushAViewController: UINavigationControllerDelegate {
         }
         return nil
     }
+}
+```
+
+### UIViewController Present Transition
+
+```swift
+
+class PresentAViewController: UIViewController {
+
+    // ...
     
+    let vc = PresentBViewController()
+    vc.modalPresentationStyle = .fullScreen
+    vc.transitioningDelegate = self
+    present(vc, animated: true, completion: nil)
+}
+
+extension PresentAViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return transtion
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return transtion
+    }
 }
 ```

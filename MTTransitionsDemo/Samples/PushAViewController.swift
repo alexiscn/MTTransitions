@@ -11,16 +11,16 @@ import MTTransitions
 
 class PushAViewController: WallpaperViewController {
 
-    private let transition = MTViewControllerTransition(transition: MTBurnTransition())
+    private let transition = MTViewControllerTransition(effect: .displacement)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        view.addGestureRecognizer(tap)
-    }
     
-    @objc private func tapAction() {
+        let actionButton = UIBarButtonItem(title: "Push", style: .plain, target: self, action: #selector(handleActionButtonClicked))
+        navigationItem.rightBarButtonItem = actionButton
+    }
+        
+    @objc private func handleActionButtonClicked() {
         let vc = PushBViewController()
         navigationController?.delegate = self
         navigationController?.pushViewController(vc, animated: true)

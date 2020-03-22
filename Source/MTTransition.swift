@@ -8,8 +8,10 @@
 import Foundation
 import MetalPetal
 
+/// The callback when transition updated
 public typealias MTTransitionUpdater = (_ image: MTIImage) -> Void
 
+/// The callback when transition completed
 public typealias MTTransitionCompletion = (_ finished: Bool) -> Void
 
 public class MTTransition: NSObject, MTIUnaryFilter {
@@ -24,18 +26,17 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public var progress: Float = 0.0
     
-    public var duration: TimeInterval = 2.0
-    
-    public var ratio: Float = Float(512)/Float(400)
+    public var duration: TimeInterval = 1.2
     
     private var updater: MTTransitionUpdater?
     private var completion: MTTransitionCompletion?
     private weak var driver: CADisplayLink?
     private var startTime: TimeInterval?
     
-    internal var fragmentName: String { return "" }
-    internal var parameters: [String: Any] { return [:] }
-    internal var samplers: [String: String] { return [:] }
+    // Subclasses must provide fragmentName
+    var fragmentName: String { return "" }
+    var parameters: [String: Any] { return [:] }
+    var samplers: [String: String] { return [:] }
     
     public var outputImage: MTIImage? {
         guard let input = inputImage, let dest = destImage else {
@@ -50,7 +51,7 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         }
         
         var params = parameters
-        params["ratio"] = ratio
+        params["ratio"] = Float(input.size.width / input.size.height) //ratio
         params["progress"] = progress
         
         let output = kernel.apply(toInputImages: images, parameters: params, outputDescriptors: outputDescriptors).first
@@ -122,67 +123,6 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     }
 }
 
-public final class MTViewControllerTransition: NSObject, UIViewControllerAnimatedTransitioning {
-    
-    private let duration: TimeInterval
-    private let transition: MTTransition
-    
-    public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return duration
-    }
-    
-    public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromView = transitionContext.view(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to),
-            let toView = transitionContext.view(forKey: .to) else {
-            transitionContext.completeTransition(true)
-            return
-        }
-        let containerView = transitionContext.containerView
-        let fromSnapShotImage = containerView.layer.snapshot
-        
-        fromView.alpha = 0
-        toView.frame = transitionContext.finalFrame(for: toVC)
-        containerView.addSubview(toView)
-        let toSnapShotImage = containerView.layer.snapshot
-        
-        guard let fromImage = mtiImage(from: fromSnapShotImage?.cgImage), let toImage = mtiImage(from: toSnapShotImage?.cgImage) else {
-            transitionContext.completeTransition(true)
-            return
-        }
-        fromView.alpha = 1
-        toView.alpha = 0
-        
-        let renderView = MTIImageView(frame: containerView.bounds)
-        renderView.clearColor = MTLClearColorMake(0, 0, 0, 0)
-        renderView.isOpaque = false
-        containerView.addSubview(renderView)
-        
-        transition.ratio = Float(fromView.bounds.width / fromView.bounds.height)
-        transition.transition(from: fromImage, to: toImage, updater: { image in
-            fromView.alpha = 0
-            toView.alpha = 0
-            renderView.image = image
-        }) { _ in
-            fromView.alpha = 1
-            toView.alpha = 1
-            renderView.removeFromSuperview()
-            transitionContext.completeTransition(true)
-        }
-    }
-    
-    private func mtiImage(from cgImage: CGImage?) -> MTIImage? {
-        guard let image = cgImage else { return nil }
-        return MTIImage(cgImage: image, options: [.SRGB: false], isOpaque: false).oriented(.downMirrored).unpremultiplyingAlpha()
-    }
-    
-    public init(transition: MTTransition, duration: TimeInterval = 0.8) {
-        self.duration = duration
-        self.transition = transition
-    }
-    
-}
- 
 extension MTTransition {
 
     private class var transitionLayerName: String { return "MTTransitionLayer" }
@@ -241,7 +181,6 @@ extension MTTransition {
                                        width: commonSize.width,
                                        height: commonSize.height)
         
-        effect.ratio = Float(commonSize.width/commonSize.height)
         effect.transition(from: imageA, to: imageB, updater: { (img) in
             do {
                 let context = try MTIContext.init(device: device)
@@ -263,46 +202,5 @@ extension MTTransition {
     /// Manually clear the transition layer from a view. Useful in reusable components.
     public static func clearTransition(view: UIView) {
         view.layer.sublayers?.removeAll(where: { $0.name == transitionLayerName })
-    }
- 
-}
-
-// Helper extensions
-
-// Based on: https://stackoverflow.com/a/29552143
-fileprivate extension UIImage {
-    func imageWithSize(size:CGSize) -> UIImage? {
-        var scaledImageRect = CGRect.zero
-
-        let aspectWidth:CGFloat = size.width / self.size.width
-        let aspectHeight:CGFloat = size.height / self.size.height
-        let aspectRatio:CGFloat = min(aspectWidth, aspectHeight)
-
-        scaledImageRect.size.width = self.size.width * aspectRatio
-        scaledImageRect.size.height = self.size.height * aspectRatio
-        scaledImageRect.origin.x = (size.width - scaledImageRect.size.width) / 2.0
-        scaledImageRect.origin.y = (size.height - scaledImageRect.size.height) / 2.0
-
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-
-        self.draw(in: scaledImageRect)
-
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
-
-        return scaledImage
-    }
-}
-
-fileprivate extension CALayer {
-    var snapshot: UIImage? {
-        get {
-            UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, UIScreen.main.scale)
-            guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
-            self.render(in: ctx)
-            let result = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return result
-        }
     }
 }
