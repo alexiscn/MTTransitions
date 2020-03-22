@@ -42,6 +42,9 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         }
     }
     
+    // TODO: - pass effect
+    private let renderer = MTVideoTransitionRenderer(effect: .pixelize)
+    
     override init() {
         super.init()
     }
@@ -116,10 +119,10 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
 
         if renderContextDidChange { renderContextDidChange = false }
 
-//        metalRenderer.renderPixelBuffer(dstPixels, usingForegroundSourceBuffer:foregroundSourceBuffer,
-//                                        andBackgroundSourceBuffer:backgroundSourceBuffer,
-//                                        forTweenFactor:Float(tweenFactor))
-
+        renderer.renderPixelBuffer(dstPixels,
+                                   usingForegroundSourceBuffer:foregroundSourceBuffer,
+                                   andBackgroundSourceBuffer:backgroundSourceBuffer,
+                                   forTweenFactor:Float(tweenFactor))
         return dstPixels
     }
 }

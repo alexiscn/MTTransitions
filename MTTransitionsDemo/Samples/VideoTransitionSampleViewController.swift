@@ -58,7 +58,7 @@ class VideoTransitionSampleViewController: UIViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handlePlayToEndTime),
                                                name: .AVPlayerItemDidPlayToEndTime,
-                                               object: nil)
+                                               object: player.currentItem)
     }
     
     @objc private func handlePlayToEndTime() {

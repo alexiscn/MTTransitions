@@ -64,6 +64,9 @@ public class MTVideoTransition: NSObject {
         let playerItem = AVPlayerItem(asset: composition)
         playerItem.videoComposition = videoComposition
         completion(playerItem)
+        
+        // TODO: - export asset
+        //export(composition: composition, videoComposition: videoComposition)
     }
     
     private func buildTransitionComposition(_ composition: AVMutableComposition, videoComposition: AVMutableVideoComposition) {
@@ -234,6 +237,30 @@ public class MTVideoTransition: NSObject {
             }
         }
         return instructions
+    }
+    
+    private func export(composition: AVMutableComposition, videoComposition: AVMutableVideoComposition) {
+        guard let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetMediumQuality) else {
+            return
+        }
+        exportSession.videoComposition = videoComposition
+        
+        let filePath = NSTemporaryDirectory().appending("ExportedProject.mp4")
+        print(filePath)
+        let fileExists = FileManager.default.fileExists(atPath: filePath)
+        if fileExists {
+            do {
+                try FileManager.default.removeItem(atPath: filePath)
+            } catch {
+                print("An error occured deleting the file: \(error)")
+            }
+        }
+        exportSession.outputURL = URL(fileURLWithPath: filePath)
+        exportSession.outputFileType = AVFileType.mp4
+        exportSession.exportAsynchronously(completionHandler: {
+            print(exportSession.error)
+            print("exported")
+        })
     }
     
 }
