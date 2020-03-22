@@ -69,7 +69,7 @@ public final class MTViewControllerTransition: NSObject, UIViewControllerAnimate
     
     public init(effect: MTTransition.Effect, duration: TimeInterval = 0.8) {
         self.duration = duration
-        self.transition = effect.transiton
+        self.transition = effect.transition
         self.transition.duration = duration
     }
 }

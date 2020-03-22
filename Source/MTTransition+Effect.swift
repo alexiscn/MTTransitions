@@ -12,8 +12,8 @@ extension MTTransition {
     /// A convenience way to apply transtions.
     /// If you want to configure parameters, you can use following code:
     ///
-    /// let effect = MTTransition.Effect.bounce
-    /// effect.shadowHeight = 0.02
+    /// let transition = MTTransition.Effect.bounce.transition
+    /// transition.shadowHeight = 0.02
     public enum Effect: CaseIterable {
         case angular
         case bounce
@@ -81,7 +81,7 @@ extension MTTransition {
         case wipeUp
         case zoomInCircles
         
-        public var transiton: MTTransition {
+        public var transition: MTTransition {
             switch self {
             case .angular:
                 return MTAngularTransition()

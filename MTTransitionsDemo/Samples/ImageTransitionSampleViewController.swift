@@ -78,7 +78,7 @@ class ImageTransitionSampleViewController: UIViewController {
     }
 
     private func doTransition() {
-        let effect = effects[transitionIndex].transiton
+        let effect = effects[transitionIndex].transition
         
         effect.duration = duration
         effect.transition(from: sampleImages[fromIndex], to: sampleImages[toIndex], updater: { image in

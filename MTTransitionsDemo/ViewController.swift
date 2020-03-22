@@ -30,6 +30,9 @@ class ViewController: UITableViewController {
         case 3:
             let vc = PresentAViewController()
             navigationController?.pushViewController(vc, animated: true)
+        case 4:
+            let vc = VideoTransitionSampleViewController()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
