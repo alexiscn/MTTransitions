@@ -88,7 +88,7 @@ class VideoTransitionSampleViewController: UIViewController {
     }
     
     @objc private func handleActionButtonClicked() {
-        let effect = MTTransition.Effect.burn
+        let effect = MTTransition.Effect.wipeLeft
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
         videoTransition.transitionDuration = duration
         videoTransition.makeTransition(with: clips, effect: effect) { result in
@@ -100,7 +100,7 @@ class VideoTransitionSampleViewController: UIViewController {
             self.player.replaceCurrentItem(with: playerItem)
             self.player.play()
             
-            //self.export(result)
+            self.export(result)
         }
     }
     

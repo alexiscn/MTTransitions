@@ -7,6 +7,7 @@
 
 import Foundation
 import MetalPetal
+import VideoToolbox
 
 public class MTVideoTransitionRenderer: NSObject {
  
@@ -23,20 +24,28 @@ public class MTVideoTransitionRenderer: NSObject {
                                   usingForegroundSourceBuffer foregroundPixelBuffer: CVPixelBuffer,
                                   andBackgroundSourceBuffer backgroundPixelBuffer: CVPixelBuffer,
                                   forTweenFactor tween: Float) {
-        // TODO: - it seems current render is wrong
-        let fromImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
-        let toImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
+        
+        let foregroundImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
+        let backgroundImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
         
         let transition = effect.transition
-        transition.inputImage = fromImage
-        transition.destImage = toImage
+        transition.inputImage = foregroundImage
+        transition.destImage = backgroundImage
         transition.progress = tween
-        if let output = transition.outputImage {
+
+        if let output = transition.outputImage?.oriented(.downMirrored) {
             try? self.context?.render(output, to: destinationPixelBuffer)
         }
-//        effect.transition.transition(from: fromImage, to: toImage, updater: { image in
-//            try? self.context?.render(image, to: destinationPixelBuffer)
-//        }, completion: nil)
     }
 }
 
+extension UIImage {
+    public convenience init?(pixelBuffer: CVPixelBuffer) {
+        var cgImage: CGImage?
+        VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)
+        guard let image = cgImage else {
+            return nil
+        }
+        self.init(cgImage: image)
+    }
+}

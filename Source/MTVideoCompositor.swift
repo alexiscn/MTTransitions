@@ -128,10 +128,6 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
     }
 }
 
-class MTBounceCompositing: MTVideoCompositor {
-    override var effect: MTTransition.Effect { return .bounce }
-}
 
-class MTPixelizeCompositing: MTVideoCompositor {
-    override var effect: MTTransition.Effect { return .pixelize }
-}
+
+

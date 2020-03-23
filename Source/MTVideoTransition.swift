@@ -52,10 +52,9 @@ public class MTVideoTransition: NSObject {
             semaphore.wait()
         }
         
-        let time = CMTime.zero
-        print(clips.count)
-        passThroughTimeRanges = Array(repeating: CMTimeRangeMake(start: time, duration: time), count: clips.count)
-        transitionTimeRanges = Array(repeating: CMTimeRangeMake(start: time, duration: time), count: clips.count)
+        let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: CMTime.zero)
+        passThroughTimeRanges = Array(repeating: timeRange, count: clips.count)
+        transitionTimeRanges = Array(repeating: timeRange, count: clips.count)
         
         let videoTracks = self.clips[0].tracks(withMediaType: .video)
         let videoSize = videoTracks[0].naturalSize
@@ -69,7 +68,7 @@ public class MTVideoTransition: NSObject {
          Set up the video composition to cycle between "pass through A", "transition from A to B", "pass through B".
         */
         let videoComposition = AVMutableVideoComposition()
-        videoComposition.customVideoCompositorClass = MTPixelizeCompositing.self
+        videoComposition.customVideoCompositorClass = effect.compositor
         videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30) // 30 fps.
         videoComposition.renderSize = videoSize
         
