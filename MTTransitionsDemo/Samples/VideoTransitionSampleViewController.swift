@@ -60,17 +60,15 @@ class VideoTransitionSampleViewController: UIViewController {
     }
     
     private func setupVideoPlaybacks() {
-        // TODO: - currently only support two video asset
-        guard let clip1 = loadVideoAsset(named: "video1"),
-            //let clip2 = loadVideoAsset(named: "video2"),
-            let clip3 = loadVideoAsset(named: "video3") else {
+        guard let clip1 = loadVideoAsset(named: "clip1"),
+            let clip2 = loadVideoAsset(named: "clip2") else {
             return
         }
-        clips = [clip1, clip3]
+        clips = [clip1, clip2]
     }
     
-    private func loadVideoAsset(named: String) -> AVURLAsset? {
-        guard let url = Bundle.main.url(forResource: named, withExtension: "mp4") else {
+    private func loadVideoAsset(named: String, withExtension ext: String = "mp4") -> AVURLAsset? {
+        guard let url = Bundle.main.url(forResource: named, withExtension: ext) else {
             return nil
         }
         return AVURLAsset(url: url)
