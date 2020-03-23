@@ -4,6 +4,24 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 
 ![](Assets/1.gif)
 
+
+## Features
+
+- [x] Up to 76 transitions
+- [x] Image Transitions
+- [x] UIView Transitions
+- [x] UIViewController Push Transtions
+- [x] UIViewController Present Transitions
+- [x] Video Merge Transitions
+
+## Requirements
+
+* iOS 9.0 +
+* Xcode 11.0 +
+* Swift 5.0 +
+
+## Transitions
+
 Support Following Transitions:
 
 - [x] MTAngularTransition
@@ -156,5 +174,24 @@ extension PresentAViewController: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return transtion
     }
+}
+```
+
+### Video Transition
+
+limitations
+
+* Two videos must have the same resolution size
+* Two videos must contains video track and audio track
+* Two videos must large than 5 seconds
+
+
+```
+let effect = MTTransition.Effect.wipeLeft
+let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
+let videoTransition = MTVideoTransition() 
+videoTransition.transitionDuration = duration
+videoTransition.makeTransition(with: clips, effect: effect) { result in
+    // handle the result
 }
 ```

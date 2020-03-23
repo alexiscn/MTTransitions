@@ -18,7 +18,8 @@ public class MTGridFlipTransition: MTTransition {
 
     public var dividerWidth: Float = 0.05 
 
-    public var size: int2 = int2(4, 4)
+    //public var size: int2 = int2(4, 4)
+    public var size: SIMD2<Int32> = SIMD2(4, 4)
 
     override var fragmentName: String {
         return "GridFlipFragment"

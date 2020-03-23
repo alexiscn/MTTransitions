@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MTTransitions'
-  s.version      = '0.2.0'
+  s.version      = '0.3.0'
   s.license = 'MIT'
   s.requires_arc = true
   s.source = { :git => 'https://github.com/alexiscn/MTTransitions.git', :tag => s.version.to_s }
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license         = { :type => 'MIT' }
   s.author          = { 'xushuifeng' => 'shuifengxu@gmail.com' }
   s.platform        = :ios
-  s.swift_version   = '4.2'
+  s.swift_version   = '5.0'
   s.source_files    = 'Source/**/*.{swift,metal,h}'
   s.resource  = 'Source/**/Assets.bundle'
   s.ios.deployment_target = '9.0'
