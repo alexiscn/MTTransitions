@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import MTTransitions
+import Photos
 
 class VideoTransitionSampleViewController: UIViewController {
 
@@ -17,6 +18,8 @@ class VideoTransitionSampleViewController: UIViewController {
     private var playerLayer: AVPlayerLayer!
     private let videoTransition = MTVideoTransition()
     private var clips: [AVAsset] = []
+    
+    private var exporter: MTVideoExporter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,11 @@ class VideoTransitionSampleViewController: UIViewController {
         setupVideoPlaybacks()
         setupSubviews()
         setupNavigationBar()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.handlePlayToEndTime),
+                                               name: .AVPlayerItemDidPlayToEndTime,
+                                               object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,10 +52,10 @@ class VideoTransitionSampleViewController: UIViewController {
             videoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             videoView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             videoView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            videoView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 544.0/1280.0)
+            videoView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 720.0/1280.0)
         ])
         
-        let url = Bundle.main.url(forResource: "video2", withExtension: "mp4")!
+        let url = Bundle.main.url(forResource: "clip1", withExtension: "mp4")!
         player = AVPlayer(url: url)
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
@@ -81,15 +89,48 @@ class VideoTransitionSampleViewController: UIViewController {
     
     @objc private func handleActionButtonClicked() {
         let effect = MTTransition.Effect.burn
-        let duration = CMTimeMakeWithSeconds(1.0, preferredTimescale: 12888)
+        let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
         videoTransition.transitionDuration = duration
-        videoTransition.makeTransition(with: clips, effect: effect) { playerItem in
+        videoTransition.makeTransition(with: clips, effect: effect) { result in
             
-            NotificationCenter.default.addObserver(self, selector: #selector(self.handlePlayToEndTime), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+            let playerItem = AVPlayerItem(asset: result.composition)
+            playerItem.videoComposition = result.videoComposition
             
             self.player.seek(to: .zero)
             self.player.replaceCurrentItem(with: playerItem)
             self.player.play()
+            
+            //self.export(result)
+        }
+    }
+    
+    private func export(_ result: MTVideoTransitionResult) {
+        exporter = try? MTVideoExporter(transitionResult: result)
+        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory().appending("exported.mp4"))
+        exporter?.export(to: fileURL, completion: { error in
+            if let error = error {
+                print("Export error:\(error)")
+            } else {
+                self.saveVideo(fileURL: fileURL)
+            }
+        })
+    }
+    
+    private func saveVideo(fileURL: URL) {
+        PHPhotoLibrary.requestAuthorization { status in
+            switch status {
+            case .authorized:
+                PHPhotoLibrary.shared().performChanges({
+                    let options = PHAssetResourceCreationOptions()
+                    options.shouldMoveFile = true
+                    let creationRequest = PHAssetCreationRequest.forAsset()
+                    creationRequest.addResource(with: .video, fileURL: fileURL, options: options)
+                }) { (success, error) in
+                    print("Saved to camera roll")
+                }
+            default:
+                break
+            }
         }
     }
 }

@@ -26,8 +26,17 @@ public class MTVideoTransitionRenderer: NSObject {
         // TODO: - it seems current render is wrong
         let fromImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
         let toImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
-        effect.transition.transition(from: fromImage, to: toImage, updater: { image in
-            try? self.context?.render(image, to: destinationPixelBuffer)
-        }, completion: nil)
+        
+        let transition = effect.transition
+        transition.inputImage = fromImage
+        transition.destImage = toImage
+        transition.progress = tween
+        if let output = transition.outputImage {
+            try? self.context?.render(output, to: destinationPixelBuffer)
+        }
+//        effect.transition.transition(from: fromImage, to: toImage, updater: { image in
+//            try? self.context?.render(image, to: destinationPixelBuffer)
+//        }, completion: nil)
     }
 }
+

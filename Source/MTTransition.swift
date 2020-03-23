@@ -20,7 +20,7 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public var inputImage: MTIImage?
     
-    private var destImage: MTIImage?
+    public var destImage: MTIImage?
     
     public var outputPixelFormat: MTLPixelFormat = .invalid
     

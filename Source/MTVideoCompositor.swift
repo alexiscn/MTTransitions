@@ -42,7 +42,9 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
     }
     
     // TODO: - pass effect
-    private let renderer = MTVideoTransitionRenderer(effect: .pixelize)
+    private lazy var renderer = MTVideoTransitionRenderer(effect: effect)
+    
+    var effect: MTTransition.Effect { return .angular }
     
     override init() {
         super.init()
@@ -124,4 +126,12 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
                                    forTweenFactor:Float(tweenFactor))
         return dstPixels
     }
+}
+
+class MTBounceCompositing: MTVideoCompositor {
+    override var effect: MTTransition.Effect { return .bounce }
+}
+
+class MTPixelizeCompositing: MTVideoCompositor {
+    override var effect: MTTransition.Effect { return .pixelize }
 }

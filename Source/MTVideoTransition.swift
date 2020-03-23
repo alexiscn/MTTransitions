@@ -8,13 +8,24 @@
 import Foundation
 import AVFoundation
 
+public typealias MTVideoTransitionCompletion = (MTVideoTransitionResult) -> Void
+
+public struct MTVideoTransitionResult {
+    
+    public let composition: AVMutableComposition
+    
+    public let videoComposition: AVMutableVideoComposition
+}
+
 public class MTVideoTransition: NSObject {
     
     /// The duration of the transition.
     public var transitionDuration: CMTime = .invalid
     
+    /// The movie clips.
     private var clips: [AVAsset] = []
     
+    /// The available time ranges for the movie clips.
     private var clipTimeRanges: [CMTimeRange] = []
     
     /// The time range in which the clips should pass through.
@@ -23,10 +34,7 @@ public class MTVideoTransition: NSObject {
     /// The transition time range for the clips.
     private var transitionTimeRanges: [CMTimeRange] = []
     
-    private var compostion: AVMutableComposition?
-    private var videoComposition: AVMutableVideoComposition?
-    
-    public func makeTransition(with assets: [AVAsset], effect: MTTransition.Effect, completion: @escaping ((AVPlayerItem) -> Void)) {
+    public func makeTransition(with assets: [AVAsset], effect: MTTransition.Effect, completion: @escaping MTVideoTransitionCompletion) {
         guard assets.count >= 2 else {
             print("Assets count less than two")
             return
@@ -61,18 +69,14 @@ public class MTVideoTransition: NSObject {
          Set up the video composition to cycle between "pass through A", "transition from A to B", "pass through B".
         */
         let videoComposition = AVMutableVideoComposition()
-        videoComposition.customVideoCompositorClass = MTVideoCompositor.self
+        videoComposition.customVideoCompositorClass = MTPixelizeCompositing.self
         videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30) // 30 fps.
         videoComposition.renderSize = videoSize
         
         buildTransitionComposition(composition, videoComposition: videoComposition)
         
-        self.compostion = composition
-        self.videoComposition = videoComposition
-        
-        let playerItem = AVPlayerItem(asset: composition)
-        playerItem.videoComposition = videoComposition
-        completion(playerItem)
+        let result = MTVideoTransitionResult(composition: composition, videoComposition: videoComposition)
+        completion(result)
     }
     
     private func buildTransitionComposition(_ composition: AVMutableComposition, videoComposition: AVMutableVideoComposition) {
