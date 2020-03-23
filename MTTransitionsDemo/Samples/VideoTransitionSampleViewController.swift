@@ -25,7 +25,7 @@ class VideoTransitionSampleViewController: UIViewController {
     private var result: MTVideoTransitionResult?
     private var exporter: MTVideoExporter?
     
-    private var effect = MTTransition.Effect.crossHatch
+    private var effect = MTTransition.Effect.circleOpen
     
     override func viewDidLoad() {
         super.viewDidLoad()
