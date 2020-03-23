@@ -37,6 +37,13 @@ public class MTVideoTransition: NSObject {
     /// The transition time range for the clips.
     private var transitionTimeRanges: [CMTimeRange] = []
     
+    
+    /// Merge videos with transtion
+    /// - Parameters:
+    ///   - assets: The video assets to be merged. Must be the same renderSize. Current only support two videos.
+    ///   - effect: The effect apply to videos.
+    ///   - transitionDuration: The transiton duration.
+    ///   - completion: Completion callback.
     public func makeTransition(with assets: [AVAsset],
                                effect: MTTransition.Effect,
                                transitionDuration: CMTime,
