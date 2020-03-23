@@ -14,7 +14,8 @@ extension MTTransition {
     ///
     /// let transition = MTTransition.Effect.bounce.transition
     /// transition.shadowHeight = 0.02
-    public enum Effect: CaseIterable {
+    public enum Effect: CaseIterable, CustomStringConvertible {
+        
         case angular
         case bounce
         case bowTieHorizontal
@@ -348,6 +349,141 @@ extension MTTransition {
                 return MTVideoTransition.WipeUpCompositor.self
             case .zoomInCircles:
                 return MTVideoTransition.ZoomInCirclesCompositor.self
+            }
+        }
+        
+        public var description: String {
+            switch self {
+            case .angular:
+                return "Angular"
+            case .bounce:
+                return "Bounce"
+            case .bowTieHorizontal:
+                return "BowTieHorizontal"
+            case .bowTieVertical:
+                return "BowTieVertical"
+            case .burn:
+                return "Burn"
+            case .butterflyWaveScrawler:
+                return "ButterflyWaveScrawler"
+            case .cannabisleaf:
+                return "Cannabisleaf"
+            case .circle:
+                return "Circle"
+            case .circleCrop:
+                return "CircleCrop"
+            case .circleOpen:
+                return "CircleOpen"
+            case .colorPhase:
+                return "ColorPhase"
+            case .colourDistance:
+                return "ColourDistance"
+            case .crazyParametricFun:
+                return "CrazyParametricFun"
+            case .crossHatch:
+                return "CrossHatch"
+            case .crossWarp:
+                return "CrossWarp"
+            case .crossZoom:
+                return "CrossZoom"
+            case .cube:
+                return "Cube"
+            case .directional:
+                return "Directional"
+            case .directionalWarp:
+                return "DirectionalWarp"
+            case .directionalWipe:
+                return "DirectionalWipe"
+            case .displacement:
+                return "Displacement"
+            case .doomScreen:
+                return "DoomScreen"
+            case .doorway:
+                return "Doorway"
+            case .dreamy:
+                return "Dreamy"
+            case .fadeColor:
+                return "FadeColor"
+            case .fadegrayscale:
+                return "Fadegrayscale"
+            case .fade:
+                return "Fade"
+            case .flyeye:
+                return "Flyeye"
+            case .glitchDisplace:
+                return "GlitchDisplace"
+            case .glitchMemories:
+                return "GlitchMemories"
+            case .gridFlip:
+                return "GridFlip"
+            case .heart:
+                return "Heart"
+            case .hexagonalize:
+                return "Hexagonalize"
+            case .invertedPageCurl:
+                return "InvertedPageCurl"
+            case .kaleidoScope:
+                return "KaleidoScope"
+            case .linearBlur:
+                return "LinearBlur"
+            case .luma:
+                return "Luma"
+            case .luminanceMelt:
+                return "LuminanceMelt"
+            case .morph:
+                return "Morph"
+            case .mosaic:
+                return "Mosaic"
+            case .multiplyBlend:
+                return "MultiplyBlend"
+            case .perlin:
+                return "Perlin"
+            case .pinwheel:
+                return "Pinwheel"
+            case .pixelize:
+                return "Pixelize"
+            case .polarFunction:
+                return "PolarFunction"
+            case .polkaDotsCurtain:
+                return "PolkaDotsCurtain"
+            case .radial:
+                return "Radial"
+            case .randomSquares:
+                return "RandomSquares"
+            case .ripple:
+                return "Ripple"
+            case .rotateScaleFade:
+                return "RotateScaleFade"
+            case .simpleZoom:
+                return "SimpleZoom"
+            case .squeeze:
+                return "Squeeze"
+            case .stereoViewer:
+                return "StereoViewer"
+            case .swap:
+                return "Swap"
+            case .swirl:
+                return "Swirl"
+            case .undulatingBurnOut:
+                return "UndulatingBurnOut"
+            case .waterDrop:
+                return "WaterDrop"
+            case .windowSlice:
+                return "WindowSlice"
+            case .windowBlinds:
+                return "WindowBlinds"
+            case .wind:
+                return "Wind"
+            case .wipeDown:
+                return "WipeDown"
+            case .wipeLeft:
+                return "WipeLeft"
+            case .wipeRight:
+                return "WipeRight"
+            case .wipeUp:
+                return "WipeUp"
+            case .zoomInCircles:
+                return "ZoomInCircles"
             }
         }
     }

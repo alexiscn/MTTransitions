@@ -41,9 +41,9 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
         }
     }
     
-    // TODO: - pass effect
     private lazy var renderer = MTVideoTransitionRenderer(effect: effect)
     
+    /// Subclasses must override this property to provide transition effect.
     var effect: MTTransition.Effect { return .angular }
     
     override init() {

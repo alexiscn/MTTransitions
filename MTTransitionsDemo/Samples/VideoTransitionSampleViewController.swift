@@ -14,12 +14,18 @@ import Photos
 class VideoTransitionSampleViewController: UIViewController {
 
     private var videoView: UIView!
+    private var nameLabel: UILabel!
+    private var pickButton: UIButton!
     private var player: AVPlayer!
     private var playerLayer: AVPlayerLayer!
     private let videoTransition = MTVideoTransition()
     private var clips: [AVAsset] = []
+    private var exportButton: UIBarButtonItem!
     
+    private var result: MTVideoTransitionResult?
     private var exporter: MTVideoExporter?
+    
+    private var effect = MTTransition.Effect.crossHatch
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +50,6 @@ class VideoTransitionSampleViewController: UIViewController {
     }
     
     private func setupSubviews() {
-        
         videoView = UIView()
         view.addSubview(videoView)
         videoView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +65,42 @@ class VideoTransitionSampleViewController: UIViewController {
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         videoView.layer.addSublayer(playerLayer)
+        
+        nameLabel = UILabel()
+        nameLabel.text = effect.description
+        nameLabel.textAlignment = .center
+        view.addSubview(nameLabel)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            nameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            nameLabel.topAnchor.constraint(equalTo: videoView.bottomAnchor, constant: 15)
+        ])
+        
+        pickButton = UIButton(type: .system)
+        pickButton.setTitle("Pick A Transition", for: .normal)
+        view.addSubview(pickButton)
+        
+        pickButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pickButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 30),
+            pickButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+        ])
+        
+        pickButton.addTarget(self, action: #selector(handlePickButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc private func handlePickButtonClicked() {
+        let pickerVC = TransitionsPickerViewController()
+        pickerVC.selectionUpdated = { [weak self] effect in
+            guard let self = self else { return }
+            self.effect = effect
+            self.nameLabel.text = effect.description
+            self.result = nil
+            self.exportButton.isEnabled = false
+        }
+        let nav = UINavigationController(rootViewController: pickerVC)
+        present(nav, animated: true, completion: nil)
     }
     
     @objc private func handlePlayToEndTime() {
@@ -84,15 +125,16 @@ class VideoTransitionSampleViewController: UIViewController {
 
     private func setupNavigationBar() {
         let actionButton = UIBarButtonItem(title: "Go", style: .plain, target: self, action: #selector(handleActionButtonClicked))
-        navigationItem.rightBarButtonItem = actionButton
+        
+        exportButton = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(handleExportButtonClicked))
+        exportButton.isEnabled = false
+        
+        navigationItem.rightBarButtonItems = [actionButton, exportButton]
     }
     
     @objc private func handleActionButtonClicked() {
-        let effect = MTTransition.Effect.wipeLeft
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-        videoTransition.transitionDuration = duration
-        videoTransition.makeTransition(with: clips, effect: effect) { result in
-            
+        videoTransition.makeTransition(with: clips, effect: effect, transitionDuration: duration) { result in
             let playerItem = AVPlayerItem(asset: result.composition)
             playerItem.videoComposition = result.videoComposition
             
@@ -100,8 +142,16 @@ class VideoTransitionSampleViewController: UIViewController {
             self.player.replaceCurrentItem(with: playerItem)
             self.player.play()
             
-            self.export(result)
+            self.result = result
+            self.exportButton.isEnabled = true
         }
+    }
+    
+    @objc private func handleExportButtonClicked() {
+        guard let result = result else {
+            return
+        }
+        self.export(result)
     }
     
     private func export(_ result: MTVideoTransitionResult) {

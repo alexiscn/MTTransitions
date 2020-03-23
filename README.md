@@ -186,7 +186,7 @@ limitations
 * Two videos must large than 5 seconds
 
 
-```
+```swift
 let effect = MTTransition.Effect.wipeLeft
 let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
 let videoTransition = MTVideoTransition() 

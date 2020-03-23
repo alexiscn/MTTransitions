@@ -8,6 +8,9 @@
 import Foundation
 import AVFoundation
 
+// TODO: Refactot
+// public typealias MTCompletion = (Result<MTVideoTransitionResult, Error>) -> Void
+
 public typealias MTVideoTransitionCompletion = (MTVideoTransitionResult) -> Void
 
 public struct MTVideoTransitionResult {
@@ -20,7 +23,7 @@ public struct MTVideoTransitionResult {
 public class MTVideoTransition: NSObject {
     
     /// The duration of the transition.
-    public var transitionDuration: CMTime = .invalid
+    private var transitionDuration: CMTime = .invalid
     
     /// The movie clips.
     private var clips: [AVAsset] = []
@@ -34,7 +37,10 @@ public class MTVideoTransition: NSObject {
     /// The transition time range for the clips.
     private var transitionTimeRanges: [CMTimeRange] = []
     
-    public func makeTransition(with assets: [AVAsset], effect: MTTransition.Effect, completion: @escaping MTVideoTransitionCompletion) {
+    public func makeTransition(with assets: [AVAsset],
+                               effect: MTTransition.Effect,
+                               transitionDuration: CMTime,
+                               completion: @escaping MTVideoTransitionCompletion) {
         guard assets.count >= 2 else {
             print("Assets count less than two")
             return
@@ -44,14 +50,20 @@ public class MTVideoTransition: NSObject {
         passThroughTimeRanges.removeAll()
         transitionTimeRanges.removeAll()
         
+        /*
+        Load Asset with keys: ["tracks", "duration", "composable"]
+        */
         let semaphore = DispatchSemaphore(value: 0)
         for asset in assets {
-            loadAssetsKeys(asset: asset) {
+            loadAsset(asset) {
                 semaphore.signal()
             }
             semaphore.wait()
         }
         
+        /*
+         Create time ranges
+         */
         let timeRange = CMTimeRangeMake(start: CMTime.zero, duration: CMTime.zero)
         passThroughTimeRanges = Array(repeating: timeRange, count: clips.count)
         transitionTimeRanges = Array(repeating: timeRange, count: clips.count)
@@ -92,7 +104,9 @@ public class MTVideoTransition: NSObject {
              composition.addMutableTrack(withMediaType: AVMediaType.audio,
                                          preferredTrackID: kCMPersistentTrackID_Invalid)!]
 
-        buildComposition(compositionVideoTracks: &compositionVideoTracks, compositionAudioTracks: &compositionAudioTracks)
+        buildComposition(compositionVideoTracks: &compositionVideoTracks,
+                         compositionAudioTracks: &compositionAudioTracks)
+        
         let instructions = makeTransitionInstructions(videoComposition: videoComposition, compositionVideoTracks: compositionVideoTracks)
         guard let newInstructions = instructions as? [AVVideoCompositionInstructionProtocol] else {
             videoComposition.instructions = []
@@ -102,7 +116,7 @@ public class MTVideoTransition: NSObject {
         videoComposition.instructions = newInstructions
     }
     
-    private func loadAssetsKeys(asset: AVAsset, completion: @escaping (() -> Void)) {
+    private func loadAsset(_ asset: AVAsset, completion: @escaping (() -> Void)) {
         let assetKeys = ["tracks", "duration", "composable"]
         asset.loadValuesAsynchronously(forKeys: assetKeys) {
             for key in assetKeys {
@@ -120,8 +134,9 @@ public class MTVideoTransition: NSObject {
             }
             self.clips.append(asset)
             // This code assumes that both assets are atleast 5 seconds long.
-            self.clipTimeRanges.append(CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
-                                                   duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1)))
+            let clipTimeRange = CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
+                                            duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1))
+            self.clipTimeRanges.append(clipTimeRange)
             completion()
         }
     }
