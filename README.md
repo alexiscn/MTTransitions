@@ -1,6 +1,6 @@
 # MTTransitions
 
-Transitions ports from [GL-Transitions](https://gl-transitions.com/)
+Transitions ports from [GL-Transitions](https://gl-transitions.com/) to Metal.
 
 ![](Assets/2.gif)
 
@@ -183,7 +183,6 @@ limitations
 
 * Two videos must have the same resolution size
 * Two videos must contains video track and audio track
-* Two videos must large than 5 seconds
 
 
 ```swift
