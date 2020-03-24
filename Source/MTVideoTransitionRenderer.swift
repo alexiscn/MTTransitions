@@ -29,11 +29,11 @@ public class MTVideoTransitionRenderer: NSObject {
         let backgroundImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
         
         let transition = effect.transition
-        transition.inputImage = foregroundImage
-        transition.destImage = backgroundImage
+        transition.inputImage = foregroundImage.oriented(.downMirrored)
+        transition.destImage = backgroundImage.oriented(.downMirrored)
         transition.progress = tween
 
-        if let output = transition.outputImage?.oriented(.downMirrored) {
+        if let output = transition.outputImage {
             try? self.context?.render(output, to: destinationPixelBuffer)
         }
     }

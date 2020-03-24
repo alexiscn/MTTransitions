@@ -36,11 +36,7 @@ class VideoTransitionSampleViewController: UIViewController {
         setupVideoPlaybacks()
         setupSubviews()
         setupNavigationBar()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.handlePlayToEndTime),
-                                               name: .AVPlayerItemDidPlayToEndTime,
-                                               object: nil)
+        makeTransition()
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,7 +52,7 @@ class VideoTransitionSampleViewController: UIViewController {
         NSLayoutConstraint.activate([
             videoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             videoView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
-            videoView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            videoView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -80),
             videoView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 720.0/1280.0)
         ])
         
@@ -89,25 +85,7 @@ class VideoTransitionSampleViewController: UIViewController {
         
         pickButton.addTarget(self, action: #selector(handlePickButtonClicked), for: .touchUpInside)
     }
-    
-    @objc private func handlePickButtonClicked() {
-        let pickerVC = TransitionsPickerViewController()
-        pickerVC.selectionUpdated = { [weak self] effect in
-            guard let self = self else { return }
-            self.effect = effect
-            self.nameLabel.text = effect.description
-            self.result = nil
-            self.exportButton.isEnabled = false
-        }
-        let nav = UINavigationController(rootViewController: pickerVC)
-        present(nav, animated: true, completion: nil)
-    }
-    
-    @objc private func handlePlayToEndTime() {
-        player.seek(to: .zero)
-        player.play()
-    }
-    
+
     private func setupVideoPlaybacks() {
         guard let clip1 = loadVideoAsset(named: "clip1"),
             let clip2 = loadVideoAsset(named: "clip2") else {
@@ -115,26 +93,20 @@ class VideoTransitionSampleViewController: UIViewController {
         }
         clips = [clip1, clip2]
     }
-    
-    private func loadVideoAsset(named: String, withExtension ext: String = "mp4") -> AVURLAsset? {
-        guard let url = Bundle.main.url(forResource: named, withExtension: ext) else {
-            return nil
-        }
-        return AVURLAsset(url: url)
-    }
 
     private func setupNavigationBar() {
-        let actionButton = UIBarButtonItem(title: "Go", style: .plain, target: self, action: #selector(handleActionButtonClicked))
-        
         exportButton = UIBarButtonItem(title: "Export", style: .plain, target: self, action: #selector(handleExportButtonClicked))
         exportButton.isEnabled = false
         
-        navigationItem.rightBarButtonItems = [actionButton, exportButton]
+        navigationItem.rightBarButtonItem = exportButton
     }
     
-    @objc private func handleActionButtonClicked() {
+    private func makeTransition() {
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-        videoTransition.makeTransition(with: clips, effect: effect, transitionDuration: duration) { result in
+        videoTransition.makeTransition(with: clips,
+                                       effect: effect,
+                                       transitionDuration: duration) { [weak self] result in
+            guard let self = self else { return }
             let playerItem = AVPlayerItem(asset: result.composition)
             playerItem.videoComposition = result.videoComposition
             
@@ -142,16 +114,19 @@ class VideoTransitionSampleViewController: UIViewController {
             self.player.replaceCurrentItem(with: playerItem)
             self.player.play()
             
+            self.registerNotifications()
+            
             self.result = result
             self.exportButton.isEnabled = true
         }
     }
     
-    @objc private func handleExportButtonClicked() {
-        guard let result = result else {
-            return
-        }
-        self.export(result)
+    private func registerNotifications() {
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.handlePlayToEndTime),
+                                               name: .AVPlayerItemDidPlayToEndTime,
+                                               object: player.currentItem)
     }
     
     private func export(_ result: MTVideoTransitionResult) {
@@ -176,11 +151,61 @@ class VideoTransitionSampleViewController: UIViewController {
                     let creationRequest = PHAssetCreationRequest.forAsset()
                     creationRequest.addResource(with: .video, fileURL: fileURL, options: options)
                 }) { (success, error) in
-                    print("Saved to camera roll")
+                    DispatchQueue.main.async {
+                        if success {
+                            let alert = UIAlertController(title: "Video Saved To Camera Roll", message: nil, preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+                                
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                    }
                 }
             default:
+                print("PhotoLibrary not authorized")
                 break
             }
         }
+    }
+}
+
+// MARK: - Events
+extension VideoTransitionSampleViewController {
+    
+    @objc private func handleExportButtonClicked() {
+        guard let result = result else {
+            return
+        }
+        self.export(result)
+    }
+    
+    @objc private func handlePlayToEndTime() {
+        player.seek(to: .zero)
+        player.play()
+    }
+    
+    @objc private func handlePickButtonClicked() {
+        let pickerVC = TransitionsPickerViewController()
+        pickerVC.selectionUpdated = { [weak self] effect in
+            guard let self = self else { return }
+            self.effect = effect
+            self.nameLabel.text = effect.description
+            self.result = nil
+            self.exportButton.isEnabled = false
+            self.makeTransition()
+        }
+        let nav = UINavigationController(rootViewController: pickerVC)
+        present(nav, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Helper
+extension VideoTransitionSampleViewController {
+    
+    private func loadVideoAsset(named: String, withExtension ext: String = "mp4") -> AVURLAsset? {
+        guard let url = Bundle.main.url(forResource: named, withExtension: ext) else {
+            return nil
+        }
+        return AVURLAsset(url: url)
     }
 }

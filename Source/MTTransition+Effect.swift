@@ -67,6 +67,7 @@ extension MTTransition {
         case ripple
         case rotateScaleFade
         case simpleZoom
+        case squaresWire
         case squeeze
         case stereoViewer
         case swap
@@ -186,6 +187,8 @@ extension MTTransition {
                 return MTRotateScaleFadeTransition()
             case .simpleZoom:
                 return MTSimpleZoomTransition()
+            case .squaresWire:
+                return MTSquaresWireTransition()
             case .squeeze:
                 return MTSqueezeTransition()
             case .stereoViewer:
@@ -321,6 +324,8 @@ extension MTTransition {
                 return MTVideoTransition.RotateScaleFadeCompositor.self
             case .simpleZoom:
                 return MTVideoTransition.SimpleZoomCompositor.self
+            case .squaresWire:
+                return MTVideoTransition.SquaresWireCompositor.self
             case .squeeze:
                 return MTVideoTransition.SqueezeCompositor.self
             case .stereoViewer:
@@ -456,6 +461,8 @@ extension MTTransition {
                 return "RotateScaleFade"
             case .simpleZoom:
                 return "SimpleZoom"
+            case .squaresWire:
+                return "SquaresWire"
             case .squeeze:
                 return "Squeeze"
             case .stereoViewer:

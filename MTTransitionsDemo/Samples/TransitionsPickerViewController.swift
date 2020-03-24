@@ -21,6 +21,7 @@ class TransitionsPickerViewController: UIViewController {
         super.viewDidLoad()
 
         setupSubviews()
+        setupNavigationBar()
     }
     
     private func setupSubviews() {
@@ -38,6 +39,15 @@ class TransitionsPickerViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+    }
+    
+    private func setupNavigationBar() {
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCloseButtonClicked))
+        navigationItem.leftBarButtonItem = cancelButton
+    }
+    
+    @objc private func handleCloseButtonClicked() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

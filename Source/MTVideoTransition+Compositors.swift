@@ -213,6 +213,10 @@ extension MTVideoTransition {
         override var effect: MTTransition.Effect { return .simpleZoom }
     }
     
+    class SquaresWireCompositor: MTVideoCompositor {
+        override var effect: MTTransition.Effect { return .squaresWire }
+    }
+    
     class SqueezeCompositor: MTVideoCompositor {
         override var effect: MTTransition.Effect { return .squeeze }
     }
