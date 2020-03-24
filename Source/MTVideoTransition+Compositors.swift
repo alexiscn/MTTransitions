@@ -233,6 +233,10 @@ extension MTVideoTransition {
         override var effect: MTTransition.Effect { return .swirl }
     }
     
+    class TVStaticCompositor: MTVideoCompositor {
+        override var effect: MTTransition.Effect { return .tvStatic }
+    }
+    
     class UndulatingBurnOutCompositor: MTVideoCompositor {
         override var effect: MTTransition.Effect { return .undulatingBurnOut }
     }

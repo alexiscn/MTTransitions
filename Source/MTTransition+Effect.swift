@@ -72,6 +72,7 @@ extension MTTransition {
         case stereoViewer
         case swap
         case swirl
+        case tvStatic
         case undulatingBurnOut
         case waterDrop
         case windowSlice
@@ -197,6 +198,8 @@ extension MTTransition {
                 return MTSwapTransition()
             case .swirl:
                 return MTSwirlTransition()
+            case .tvStatic:
+                return MTTVStaticTransition()
             case .undulatingBurnOut:
                 return MTUndulatingBurnOutTransition()
             case .waterDrop:
@@ -334,6 +337,8 @@ extension MTTransition {
                 return MTVideoTransition.SwapCompositor.self
             case .swirl:
                 return MTVideoTransition.SwirlCompositor.self
+            case .tvStatic:
+                return MTVideoTransition.TVStaticCompositor.self
             case .undulatingBurnOut:
                 return MTVideoTransition.UndulatingBurnOutCompositor.self
             case .waterDrop:
@@ -471,6 +476,8 @@ extension MTTransition {
                 return "Swap"
             case .swirl:
                 return "Swirl"
+            case .tvStatic:
+                return "TVStatic"
             case .undulatingBurnOut:
                 return "UndulatingBurnOut"
             case .waterDrop:
