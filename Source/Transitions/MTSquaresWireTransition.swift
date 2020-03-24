@@ -11,7 +11,7 @@ public class MTSquaresWireTransition: MTTransition {
     
     public var direction: CGPoint = CGPoint(x: 1.0, y: -0.5) 
 
-    public var squares: CGSize = CGSize(width: 10, height: 10) 
+    public var squares: SIMD2<Int32> = SIMD2(10, 10) 
 
     public var smoothness: Float = 1.6 
 

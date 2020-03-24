@@ -7,7 +7,6 @@
 
 using namespace metalpetal;
 
-// It seems wrong effect. TODO
 fragment float4 SquaresWireFragment(VertexOut vertexIn [[ stage_in ]],
                                     texture2d<float, access::sample> fromTexture [[ texture(0) ]],
                                     texture2d<float, access::sample> toTexture [[ texture(1) ]],
@@ -33,7 +32,12 @@ fragment float4 SquaresWireFragment(VertexOut vertexIn [[ stage_in ]],
     float2 squarep = fract(uv * float2(squares));
     float2 squaremin = float2(pr/2.0);
     float2 squaremax = float2(1.0 - pr/2.0);
-    float a = (1.0 - step(progress, 0.0)) * step(squaremin.x, squarep.x) * step(squaremin.y, squarep.y) * step(squarep.x, squaremax.x) * step(squarep.y, squaremax.y);
+    float a = (1.0 - step(progress, 0.0))
+                * step(squaremin.x, squarep.x)
+                * step(squaremin.y, squarep.y)
+                * step(squarep.x, squaremax.x)
+                * step(squarep.y, squaremax.y);
+    
     return mix(getFromColor(uv, fromTexture, ratio, _fromR),
                getToColor(uv, toTexture, ratio, _toR),
                a);
