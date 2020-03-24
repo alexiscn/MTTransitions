@@ -2,7 +2,7 @@
 
 Transitions ports from [GL-Transitions](https://gl-transitions.com/)
 
-![](Assets/1.gif)
+![](Assets/2.gif)
 
 
 ## Features
@@ -102,7 +102,7 @@ pod MTTransitions
 
 ## Get Started
 
-Each transition requires two input `MTIImage`.
+Each transition requires two input `MTIImage`. Image should be `.oriented(.downMirrored)`.
 
 ```swift
 import MTTransitions
