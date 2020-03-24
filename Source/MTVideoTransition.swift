@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-// TODO: Refactot
+// TODO: Refactor
 // public typealias MTCompletion = (Result<MTVideoTransitionResult, Error>) -> Void
 
 public typealias MTVideoTransitionCompletion = (MTVideoTransitionResult) -> Void
@@ -52,10 +52,11 @@ public class MTVideoTransition: NSObject {
             print("Assets count less than two")
             return
         }
-        clips.removeAll()
-        clipTimeRanges.removeAll()
-        passThroughTimeRanges.removeAll()
-        transitionTimeRanges.removeAll()
+        self.transitionDuration = transitionDuration
+        self.clips.removeAll()
+        self.clipTimeRanges.removeAll()
+        self.passThroughTimeRanges.removeAll()
+        self.transitionTimeRanges.removeAll()
         
         /*
         Load Asset with keys: ["tracks", "duration", "composable"]
@@ -141,9 +142,13 @@ public class MTVideoTransition: NSObject {
             }
             self.clips.append(asset)
             // This code assumes that both assets are atleast 5 seconds long.
-            let clipTimeRange = CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
-                                            duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1))
-            self.clipTimeRanges.append(clipTimeRange)
+            if let timeRange = asset.tracks(withMediaType: .video).first?.timeRange {
+                self.clipTimeRanges.append(timeRange)
+            } else {
+                let clipTimeRange = CMTimeRange(start: CMTimeMakeWithSeconds(0, preferredTimescale: 1),
+                                                duration: CMTimeMakeWithSeconds(5, preferredTimescale: 1))
+                self.clipTimeRanges.append(clipTimeRange)
+            }
             completion()
         }
     }
@@ -152,12 +157,14 @@ public class MTVideoTransition: NSObject {
                                   compositionAudioTracks: inout [AVMutableCompositionTrack]) {
         
         // Make transitionDuration no greater than half the shortest clip duration.
+        print(transitionDuration)
         for timeRange in clipTimeRanges {
             var halfClipDuration = timeRange.duration
             // You can halve a rational by doubling its denominator.
             halfClipDuration.timescale *= 2
             transitionDuration = CMTimeMinimum(transitionDuration, halfClipDuration)
         }
+        print(transitionDuration)
         let clipsCount = clips.count
         var alternatingIndex = 0
         var nextClipStartTime = CMTime.zero
