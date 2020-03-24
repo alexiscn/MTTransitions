@@ -157,14 +157,12 @@ public class MTVideoTransition: NSObject {
                                   compositionAudioTracks: inout [AVMutableCompositionTrack]) {
         
         // Make transitionDuration no greater than half the shortest clip duration.
-        print(transitionDuration)
         for timeRange in clipTimeRanges {
             var halfClipDuration = timeRange.duration
             // You can halve a rational by doubling its denominator.
             halfClipDuration.timescale *= 2
             transitionDuration = CMTimeMinimum(transitionDuration, halfClipDuration)
         }
-        print(transitionDuration)
         let clipsCount = clips.count
         var alternatingIndex = 0
         var nextClipStartTime = CMTime.zero
