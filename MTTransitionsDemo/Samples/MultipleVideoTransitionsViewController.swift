@@ -1,8 +1,8 @@
 //
-//  VideoTransitionSampleViewController.swift
+//  MultipleVideoTransitionsViewController.swift
 //  MTTransitionsDemo
 //
-//  Created by xushuifeng on 2020/3/22.
+//  Created by xushuifeng on 2020/3/25.
 //  Copyright © 2020 xu.shuifeng. All rights reserved.
 //
 
@@ -11,11 +11,9 @@ import AVFoundation
 import MTTransitions
 import Photos
 
-class VideoTransitionSampleViewController: UIViewController {
+class MultipleVideoTransitionsViewController: UIViewController {
 
     private var videoView: UIView!
-    private var nameLabel: UILabel!
-    private var pickButton: UIButton!
     private var player: AVPlayer!
     private var playerLayer: AVPlayerLayer!
     private let videoTransition = MTVideoTransition()
@@ -24,8 +22,6 @@ class VideoTransitionSampleViewController: UIViewController {
     
     private var result: MTVideoTransitionResult?
     private var exporter: MTVideoExporter?
-    
-    private var effect = MTTransition.Effect.circleOpen
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,42 +52,21 @@ class VideoTransitionSampleViewController: UIViewController {
             videoView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 720.0/1280.0)
         ])
         
-        let url = Bundle.main.url(forResource: "clip1", withExtension: "mp4")!
+        let url = Bundle.main.url(forResource: "cut1", withExtension: "mp4")!
         player = AVPlayer(url: url)
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         videoView.layer.addSublayer(playerLayer)
-        
-        nameLabel = UILabel()
-        nameLabel.text = effect.description
-        nameLabel.textAlignment = .center
-        view.addSubview(nameLabel)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            nameLabel.topAnchor.constraint(equalTo: videoView.bottomAnchor, constant: 15)
-        ])
-        
-        pickButton = UIButton(type: .system)
-        pickButton.setTitle("Pick A Transition", for: .normal)
-        view.addSubview(pickButton)
-        
-        pickButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            pickButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 30),
-            pickButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-        ])
-        
-        pickButton.addTarget(self, action: #selector(handlePickButtonClicked), for: .touchUpInside)
+
     }
 
     private func setupVideoPlaybacks() {
-        guard let clip1 = loadVideoAsset(named: "clip1"),
-            let clip2 = loadVideoAsset(named: "clip2") else {
+        guard let clip1 = loadVideoAsset(named: "cut1"),
+            let clip2 = loadVideoAsset(named: "cut2"),
+            let clip3 = loadVideoAsset(named: "cut3") else {
             return
         }
-        clips = [clip1, clip2]
+        clips = [clip1, clip2, clip3]
     }
 
     private func setupNavigationBar() {
@@ -103,8 +78,9 @@ class VideoTransitionSampleViewController: UIViewController {
     
     private func makeTransition() {
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
+        let effects: [MTTransition.Effect] = [.squaresWire, .circleOpen]
         try? videoTransition.makeTransition(with: clips,
-                                            effect: effect,
+                                            effects: effects,
                                             transitionDuration: duration) { [weak self] result in
             guard let self = self else { return }
             let playerItem = AVPlayerItem(asset: result.composition)
@@ -119,8 +95,11 @@ class VideoTransitionSampleViewController: UIViewController {
             self.result = result
             self.exportButton.isEnabled = true
         }
+        
+        // comment upside codes and uncomment following code to see multiple effects.
+        // makeTransitionsWithMultipleEffects()
     }
-    
+   
     private func registerNotifications() {
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self,
@@ -170,7 +149,7 @@ class VideoTransitionSampleViewController: UIViewController {
 }
 
 // MARK: - Events
-extension VideoTransitionSampleViewController {
+extension MultipleVideoTransitionsViewController {
     
     @objc private func handleExportButtonClicked() {
         guard let result = result else {
@@ -183,24 +162,10 @@ extension VideoTransitionSampleViewController {
         player.seek(to: .zero)
         player.play()
     }
-    
-    @objc private func handlePickButtonClicked() {
-        let pickerVC = TransitionsPickerViewController()
-        pickerVC.selectionUpdated = { [weak self] effect in
-            guard let self = self else { return }
-            self.effect = effect
-            self.nameLabel.text = effect.description
-            self.result = nil
-            self.exportButton.isEnabled = false
-            self.makeTransition()
-        }
-        let nav = UINavigationController(rootViewController: pickerVC)
-        present(nav, animated: true, completion: nil)
-    }
 }
 
 // MARK: - Helper
-extension VideoTransitionSampleViewController {
+extension MultipleVideoTransitionsViewController {
     
     private func loadVideoAsset(named: String, withExtension ext: String = "mp4") -> AVURLAsset? {
         guard let url = Bundle.main.url(forResource: named, withExtension: ext) else {
