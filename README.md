@@ -181,16 +181,25 @@ extension PresentAViewController: UIViewControllerTransitioningDelegate {
 
 limitations
 
-* Two videos must have the same resolution size
-* Two videos must contains video track and audio track
-
+* Currently only support two videos merge
+* videos must have the same resolution size
 
 ```swift
+// pick one transtion effect
 let effect = MTTransition.Effect.wipeLeft
 let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-let videoTransition = MTVideoTransition() 
-videoTransition.transitionDuration = duration
-videoTransition.makeTransition(with: clips, effect: effect) { result in
-    // handle the result
+videoTransition.makeTransition(with: clips,
+                               effect: effect,
+                               transitionDuration: duration) { [weak self] result in
+    
+    guard let self = self else { return }
+    let playerItem = AVPlayerItem(asset: result.composition)
+    playerItem.videoComposition = result.videoComposition
+    
+    self.player.seek(to: .zero)
+    self.player.replaceCurrentItem(with: playerItem)
+    self.player.play()
 }
 ```
+
+Please refer `VideoTransitionSampleViewController` for more details.
