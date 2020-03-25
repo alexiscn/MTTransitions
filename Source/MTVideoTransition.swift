@@ -40,7 +40,7 @@ public class MTVideoTransition: NSObject {
     
     /// Merge videos with transtion
     /// - Parameters:
-    ///   - assets: The video assets to be merged. Must be the same renderSize. Current only support two videos.
+    ///   - assets: The video assets to be merged with transition. Must be the same resolution size.
     ///   - effect: The effect apply to videos.
     ///   - transitionDuration: The transiton duration.
     ///   - completion: Completion callback.
@@ -172,7 +172,7 @@ public class MTVideoTransition: NSObject {
             alternatingIndex = index % 2
             let asset = clips[index]
             var timeRangeInAsset: CMTimeRange
-            if index < clipTimeRanges.count {
+            if index < (clipTimeRanges.count - 1) {
                 timeRangeInAsset = clipTimeRanges[index]
             } else {
                 timeRangeInAsset = CMTimeRangeMake(start: CMTime.zero, duration: asset.duration)
@@ -259,13 +259,21 @@ public class MTVideoTransition: NSObject {
                     ]
                     let timeRange = transitionTimeRanges[index]
                     let videoInstruction = MTVideoCompositionInstruction(theSourceTrackIDs: trackIDs, forTimeRange: timeRange)
+                    
+                    /* Code From AVCustomEdit
                     if alternatingIndex == 0 {
                         // First track -> Foreground track while compositing.
                         videoInstruction.foregroundTrackID = compositionVideoTracks[alternatingIndex].trackID
                         // Second track -> Background track while compositing.
                         videoInstruction.backgroundTrackID =
                             compositionVideoTracks[1 - alternatingIndex].trackID
-                    }
+                    }*/
+                    
+                    // First track -> Foreground track while compositing.
+                    videoInstruction.foregroundTrackID = compositionVideoTracks[alternatingIndex].trackID
+                    // Second track -> Background track while compositing.
+                    videoInstruction.backgroundTrackID =
+                        compositionVideoTracks[1 - alternatingIndex].trackID
                     instructions.append(videoInstruction)
                 } else {
                     let transitionInstruction = AVMutableVideoCompositionInstruction()

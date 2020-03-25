@@ -181,7 +181,6 @@ extension PresentAViewController: UIViewControllerTransitioningDelegate {
 
 limitations
 
-* Currently only support two videos merge
 * videos must have the same resolution size
 
 ```swift

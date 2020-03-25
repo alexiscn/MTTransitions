@@ -30,6 +30,7 @@
 		A3913EC4242886280083E7D3 /* clip2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3913EC2242886280083E7D3 /* clip2.mp4 */; };
 		A3913ED42428DE620083E7D3 /* TransitionsPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913ED32428DE620083E7D3 /* TransitionsPickerViewController.swift */; };
 		A3913ED62428F3BA0083E7D3 /* clip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3913ED52428F3BA0083E7D3 /* clip3.mp4 */; };
+		A3CFA847242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFA846242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift */; };
 		A3E0AD272205BEA6002DD092 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD1E2205BEA5002DD092 /* 3.jpg */; };
 		A3E0AD282205BEA6002DD092 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD1F2205BEA5002DD092 /* 8.jpg */; };
 		A3E0AD292205BEA6002DD092 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD202205BEA5002DD092 /* 1.jpg */; };
@@ -67,6 +68,7 @@
 		A3913EC2242886280083E7D3 /* clip2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = clip2.mp4; sourceTree = "<group>"; };
 		A3913ED32428DE620083E7D3 /* TransitionsPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionsPickerViewController.swift; sourceTree = "<group>"; };
 		A3913ED52428F3BA0083E7D3 /* clip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = clip3.mp4; sourceTree = "<group>"; };
+		A3CFA846242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoFromImagesViewController.swift; sourceTree = "<group>"; };
 		A3E0AD1E2205BEA5002DD092 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
 		A3E0AD1F2205BEA5002DD092 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		A3E0AD202205BEA5002DD092 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				A3913E94242648150083E7D3 /* WallpaperViewController.swift */,
 				A3913EA9242761A30083E7D3 /* VideoTransitionSampleViewController.swift */,
 				A3913ED32428DE620083E7D3 /* TransitionsPickerViewController.swift */,
+				A3CFA846242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift */,
 			);
 			path = Samples;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				A3913E852425C6A10083E7D3 /* LabelTransitionSampleViewController.swift in Sources */,
 				A3913E91242646580083E7D3 /* PresentBViewController.swift in Sources */,
 				A3913E8F242646480083E7D3 /* PresentAViewController.swift in Sources */,
+				A3CFA847242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift in Sources */,
 				A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */,
 				A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */,
 				A3913E822425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift in Sources */,

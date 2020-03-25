@@ -33,7 +33,7 @@ public class MTVideoExporter {
         self.exportSession.videoComposition = videoComposition
     }
     
-    /// Export
+    /// Export the composition to local file.
     /// - Parameters:
     ///   - fileURL: The output fileURL.
     ///   - outputFileType: The output file type. `mp4` by default.
@@ -59,5 +59,4 @@ public class MTVideoExporter {
             completion(self?.exportSession.error)
         })
     }
-    
 }

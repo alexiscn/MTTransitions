@@ -88,10 +88,11 @@ class VideoTransitionSampleViewController: UIViewController {
 
     private func setupVideoPlaybacks() {
         guard let clip1 = loadVideoAsset(named: "clip1"),
-            let clip2 = loadVideoAsset(named: "clip2") else {
+            let clip2 = loadVideoAsset(named: "clip2"),
+            let clip3 = loadVideoAsset(named: "clip3") else {
             return
         }
-        clips = [clip1, clip2]
+        clips = [clip1, clip2, clip3]
     }
 
     private func setupNavigationBar() {
