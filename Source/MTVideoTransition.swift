@@ -112,7 +112,7 @@ public class MTVideoTransition: NSObject {
              composition.addMutableTrack(withMediaType: AVMediaType.audio,
                                          preferredTrackID: kCMPersistentTrackID_Invalid)!]
 
-        buildComposition(compositionVideoTracks: &compositionVideoTracks,
+        buildComposition(composition, compositionVideoTracks: &compositionVideoTracks,
                          compositionAudioTracks: &compositionAudioTracks)
         
         let instructions = makeTransitionInstructions(videoComposition: videoComposition, compositionVideoTracks: compositionVideoTracks)
@@ -153,7 +153,8 @@ public class MTVideoTransition: NSObject {
         }
     }
     
-    private func buildComposition(compositionVideoTracks: inout [AVMutableCompositionTrack],
+    private func buildComposition(_ composition: AVMutableComposition,
+                                  compositionVideoTracks: inout [AVMutableCompositionTrack],
                                   compositionAudioTracks: inout [AVMutableCompositionTrack]) {
         
         // Make transitionDuration no greater than half the shortest clip duration.
@@ -187,6 +188,12 @@ public class MTVideoTransition: NSObject {
                 if let clipAudioTrack = asset.tracks(withMediaType: AVMediaType.audio).first {
                     try compositionAudioTracks[alternatingIndex].insertTimeRange(timeRangeInAsset, of: clipAudioTrack, at: nextClipStartTime)
                 } else {
+                    /*
+                    Remove audio track if not exists, otherwise it will cause export error:
+                    Error Domain=AVFoundationErrorDomain Code=-11838
+                    "Operation Stopped" UserInfo={NSLocalizedFailureReason=The operation is not supported for this media., NSLocalizedDescription=Operation Stopped, NSUnderlyingError=0x2808acde0 {Error Domain=NSOSStatusErrorDomain Code=-16976 "(null)"}}
+                    */
+                    composition.removeTrack(compositionAudioTracks[alternatingIndex])
                     print("audio track nil")
                 }
             } catch {
