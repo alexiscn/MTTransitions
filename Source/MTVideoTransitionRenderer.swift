@@ -11,12 +11,15 @@ import VideoToolbox
 
 public class MTVideoTransitionRenderer: NSObject {
  
-    private let effect: MTTransition.Effect
+    let effect: MTTransition.Effect
+    
+    private let transition: MTTransition
     
     private let context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
     
     public init(effect: MTTransition.Effect) {
         self.effect = effect
+        self.transition = effect.transition
         super.init()
     }
     
@@ -28,7 +31,6 @@ public class MTVideoTransitionRenderer: NSObject {
         let foregroundImage = MTIImage(cvPixelBuffer: foregroundPixelBuffer, alphaType: .alphaIsOne)
         let backgroundImage = MTIImage(cvPixelBuffer: backgroundPixelBuffer, alphaType: .alphaIsOne)
         
-        let transition = effect.transition
         transition.inputImage = foregroundImage.oriented(.downMirrored)
         transition.destImage = backgroundImage.oriented(.downMirrored)
         transition.progress = tween

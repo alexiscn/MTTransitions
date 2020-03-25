@@ -20,6 +20,13 @@ public struct MTVideoTransitionResult {
     public let videoComposition: AVMutableVideoComposition
 }
 
+public enum MTVideoTransitionError: Error {
+    /// The number of assets must equal or more than 2.
+    case numberOfAssetsMustLargeThanTwo
+    /// The number of effects should equal to assets.count - 1.
+    case numberOfEffectsWrong
+}
+
 public class MTVideoTransition: NSObject {
     
     /// The duration of the transition.
@@ -27,6 +34,9 @@ public class MTVideoTransition: NSObject {
     
     /// The movie clips.
     private var clips: [AVAsset] = []
+    
+    /// The effects of transitions. The count of effects should be clips.count - 1
+    private var effects: [MTTransition.Effect] = []
     
     /// The available time ranges for the movie clips.
     private var clipTimeRanges: [CMTimeRange] = []
@@ -38,25 +48,48 @@ public class MTVideoTransition: NSObject {
     private var transitionTimeRanges: [CMTimeRange] = []
     
     
-    /// Merge videos with transtion
+    /// Merge videos with transtions
     /// - Parameters:
     ///   - assets: The video assets to be merged with transition. Must be the same resolution size.
     ///   - effect: The effect apply to videos.
     ///   - transitionDuration: The transiton duration.
     ///   - completion: Completion callback.
+    /// - Throws: An error occurs.
+    public func makeTransition(with assets: [AVAsset], effect: MTTransition.Effect, transitionDuration: CMTime, completion: @escaping MTVideoTransitionCompletion) throws {
+        
+        let effects = Array(repeating: effect, count: assets.count - 1)
+        try makeTransition(with: assets,
+                           effects: effects,
+                           transitionDuration:transitionDuration,
+                           completion: completion)
+    }
+    
+    /// Merge videos with transtions
+    /// - Parameters:
+    ///   - assets: The video assets to be merged with transition. Must be the same resolution size.
+    ///   - effects: The effect apply to videos. The number of effects must equal to assets.count - 1.
+    ///   - transitionDuration: The transiton duration.
+    ///   - completion: Completion callback.
+    /// - Throws: An error occurs.
     public func makeTransition(with assets: [AVAsset],
-                               effect: MTTransition.Effect,
+                               effects: [MTTransition.Effect],
                                transitionDuration: CMTime,
-                               completion: @escaping MTVideoTransitionCompletion) {
+                               completion: @escaping MTVideoTransitionCompletion) throws {
+        
         guard assets.count >= 2 else {
-            print("Assets count less than two")
-            return
+            throw MTVideoTransitionError.numberOfAssetsMustLargeThanTwo
         }
-        self.transitionDuration = transitionDuration
+        
+        guard effects.count == assets.count - 1 else {
+            throw MTVideoTransitionError.numberOfEffectsWrong
+        }
+        
         self.clips.removeAll()
         self.clipTimeRanges.removeAll()
         self.passThroughTimeRanges.removeAll()
         self.transitionTimeRanges.removeAll()
+        self.effects = effects
+        self.transitionDuration = transitionDuration
         
         /*
         Load Asset with keys: ["tracks", "duration", "composable"]
@@ -88,7 +121,7 @@ public class MTVideoTransition: NSObject {
          Set up the video composition to cycle between "pass through A", "transition from A to B", "pass through B".
         */
         let videoComposition = AVMutableVideoComposition()
-        videoComposition.customVideoCompositorClass = effect.compositor
+        videoComposition.customVideoCompositorClass = MTVideoCompositor.self
         videoComposition.frameDuration = CMTimeMake(value: 1, timescale: 30) // 30 fps.
         videoComposition.renderSize = videoSize
         
@@ -259,7 +292,7 @@ public class MTVideoTransition: NSObject {
                     ]
                     let timeRange = transitionTimeRanges[index]
                     let videoInstruction = MTVideoCompositionInstruction(theSourceTrackIDs: trackIDs, forTimeRange: timeRange)
-                    
+                    videoInstruction.effect = effects[index]
                     /* Code From AVCustomEdit
                     if alternatingIndex == 0 {
                         // First track -> Foreground track while compositing.

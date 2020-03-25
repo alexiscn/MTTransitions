@@ -10,11 +10,14 @@ import AVFoundation
 
 class MTVideoCompositionInstruction: NSObject, AVVideoCompositionInstructionProtocol {
     
-    /// ID used by subclasses to identify the foreground frame.
+    /// ID used to identify the foreground frame.
     var foregroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
     
-    /// ID used by subclasses to identify the background frame.
+    /// ID used to identify the background frame.
     var backgroundTrackID: CMPersistentTrackID = kCMPersistentTrackID_Invalid
+    
+    /// Effect applied to video transition
+    var effect: MTTransition.Effect = .angular
     
     var timeRange: CMTimeRange {
         get { return self.overrideTimeRange }

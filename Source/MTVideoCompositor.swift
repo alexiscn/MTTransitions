@@ -43,7 +43,7 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
     
     private lazy var renderer = MTVideoTransitionRenderer(effect: effect)
     
-    /// Subclasses must override this property to provide transition effect.
+    /// Effect apply to video transition
     var effect: MTTransition.Effect { return .angular }
     
     override init() {
@@ -66,6 +66,13 @@ class MTVideoCompositor: NSObject, AVVideoCompositing {
                 if self.shouldCancelAllRequests {
                     asyncVideoCompositionRequest.finishCancelledRequest()
                 } else {
+                    guard let currentInstruction = asyncVideoCompositionRequest.videoCompositionInstruction as? MTVideoCompositionInstruction else {
+                        return
+                    }
+                    if self.renderer.effect != currentInstruction.effect {
+                        self.renderer = MTVideoTransitionRenderer(effect: currentInstruction.effect)
+                    }
+                    
                     guard let resultPixels = self.newRenderedPixelBufferForRequest(asyncVideoCompositionRequest) else {
                         asyncVideoCompositionRequest.finish(with: PixelBufferRequestError.newRenderedPixelBufferForRequestFailure)
                         return

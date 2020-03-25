@@ -104,9 +104,36 @@ class VideoTransitionSampleViewController: UIViewController {
     
     private func makeTransition() {
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-        videoTransition.makeTransition(with: clips,
-                                       effect: effect,
-                                       transitionDuration: duration) { [weak self] result in
+        try? videoTransition.makeTransition(with: clips,
+                                            effect: effect,
+                                            transitionDuration: duration) { [weak self] result in
+            guard let self = self else { return }
+            let playerItem = AVPlayerItem(asset: result.composition)
+            playerItem.videoComposition = result.videoComposition
+            
+            self.player.seek(to: .zero)
+            self.player.replaceCurrentItem(with: playerItem)
+            self.player.play()
+            
+            self.registerNotifications()
+            
+            self.result = result
+            self.exportButton.isEnabled = true
+        }
+        
+        // comment upside codes and uncomment following code to see multiple effects.
+        // makeTransitionsWithMultipleEffects()
+    }
+    
+    private func makeTransitionsWithMultipleEffects() {
+        let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
+        let effects = [
+            MTTransition.Effect.wipeUp,
+            MTTransition.Effect.wipeDown
+        ]
+        try? videoTransition.makeTransition(with: clips,
+                                            effects: effects,
+                                            transitionDuration: duration) { [weak self] result in
             guard let self = self else { return }
             let playerItem = AVPlayerItem(asset: result.composition)
             playerItem.videoComposition = result.videoComposition
