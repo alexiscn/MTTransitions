@@ -103,9 +103,7 @@ class VideoTransitionSampleViewController: UIViewController {
     
     private func makeTransition() {
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-        try? videoTransition.makeTransition(with: clips,
-                                            effect: effect,
-                                            transitionDuration: duration) { [weak self] result in
+        try? videoTransition.merge(clips, effect: effect, transitionDuration: duration) { [weak self] result in
             guard let self = self else { return }
             let playerItem = AVPlayerItem(asset: result.composition)
             playerItem.videoComposition = result.videoComposition

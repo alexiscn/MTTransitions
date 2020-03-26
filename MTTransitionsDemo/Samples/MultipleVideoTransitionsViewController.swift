@@ -63,10 +63,11 @@ class MultipleVideoTransitionsViewController: UIViewController {
     private func setupVideoPlaybacks() {
         guard let clip1 = loadVideoAsset(named: "cut1"),
             let clip2 = loadVideoAsset(named: "cut2"),
-            let clip3 = loadVideoAsset(named: "cut3") else {
+            let clip3 = loadVideoAsset(named: "cut3"),
+            let clip4 = loadVideoAsset(named: "clip1") else {
             return
         }
-        clips = [clip1, clip2, clip3]
+        clips = [clip1, clip2, clip3, clip4]
     }
 
     private func setupNavigationBar() {
@@ -78,10 +79,8 @@ class MultipleVideoTransitionsViewController: UIViewController {
     
     private func makeTransition() {
         let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-        let effects: [MTTransition.Effect] = [.squaresWire, .circleOpen]
-        try? videoTransition.makeTransition(with: clips,
-                                            effects: effects,
-                                            transitionDuration: duration) { [weak self] result in
+        let effects: [MTTransition.Effect] = [.squaresWire, .circleOpen, .burn]
+        try? videoTransition.merge(clips, effects: effects, transitionDuration: duration) { [weak self] result in
             guard let self = self else { return }
             let playerItem = AVPlayerItem(asset: result.composition)
             playerItem.videoComposition = result.videoComposition

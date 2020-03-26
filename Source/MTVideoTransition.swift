@@ -55,13 +55,12 @@ public class MTVideoTransition: NSObject {
     ///   - transitionDuration: The transiton duration.
     ///   - completion: Completion callback.
     /// - Throws: An error occurs.
-    public func makeTransition(with assets: [AVAsset], effect: MTTransition.Effect, transitionDuration: CMTime, completion: @escaping MTVideoTransitionCompletion) throws {
-        
+    public func merge(_ assets: [AVAsset],
+                      effect: MTTransition.Effect,
+                      transitionDuration: CMTime,
+                      completion: @escaping MTVideoTransitionCompletion) throws {
         let effects = Array(repeating: effect, count: assets.count - 1)
-        try makeTransition(with: assets,
-                           effects: effects,
-                           transitionDuration:transitionDuration,
-                           completion: completion)
+        try merge(assets, effects: effects, transitionDuration:transitionDuration, completion: completion)
     }
     
     /// Merge videos with transtions
@@ -71,10 +70,10 @@ public class MTVideoTransition: NSObject {
     ///   - transitionDuration: The transiton duration.
     ///   - completion: Completion callback.
     /// - Throws: An error occurs.
-    public func makeTransition(with assets: [AVAsset],
-                               effects: [MTTransition.Effect],
-                               transitionDuration: CMTime,
-                               completion: @escaping MTVideoTransitionCompletion) throws {
+    public func merge(_ assets: [AVAsset],
+                      effects: [MTTransition.Effect],
+                      transitionDuration: CMTime,
+                      completion: @escaping MTVideoTransitionCompletion) throws {
         
         guard assets.count >= 2 else {
             throw MTVideoTransitionError.numberOfAssetsMustLargeThanTwo

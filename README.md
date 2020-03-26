@@ -179,23 +179,20 @@ extension PresentAViewController: UIViewControllerTransitioningDelegate {
 
 ### Video Transition
 
-`MTTransition` also support merging videos with transitions. 
+`MTTransitions` also support merging videos with transitions. 
 
 * Support merge multiple video files
 * Support multiple transition effects
-
-But there are some limits here:
-
-* videos must have the same resolution size
+* Support different multiple render size.
 
 ```swift
 // pick one transtion effect
 let effect = MTTransition.Effect.wipeLeft
 let duration = CMTimeMakeWithSeconds(2.0, preferredTimescale: 1000)
-try? videoTransition.makeTransition(with: clips,
-                               effect: effect,
-                               transitionDuration: duration) { [weak self] result in
-    
+try? videoTransition.merge(clips,
+                           effect: effect,
+                           transitionDuration: duration) { [weak self] result in
+
     guard let self = self else { return }
     let playerItem = AVPlayerItem(asset: result.composition)
     playerItem.videoComposition = result.videoComposition
@@ -206,4 +203,4 @@ try? videoTransition.makeTransition(with: clips,
 }
 ```
 
-Please refer `VideoTransitionSampleViewController` for more details.
+Please refer `VideoTransitionSampleViewController` and `MultipleVideoTransitionsViewController` for more details.

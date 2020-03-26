@@ -86,7 +86,6 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         self.startTime = nil
         let driver = CADisplayLink(target: self, selector: #selector(render(sender:)))
         driver.add(to: .main, forMode: .common)
-        driver.add(to: .main, forMode: .tracking)
         self.driver = driver
     }
     
