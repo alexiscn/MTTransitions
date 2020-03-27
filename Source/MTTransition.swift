@@ -26,6 +26,7 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     public var progress: Float = 0.0
     
+    /// The duration of the transition. 1.2 second by default.
     public var duration: TimeInterval = 1.2
     
     var completion: MTTransitionCompletion?
@@ -47,8 +48,9 @@ public class MTTransition: NSObject, MTIUnaryFilter {
         let outputDescriptors = [ MTIRenderPassOutputDescriptor(dimensions: MTITextureDimensions(cgSize: input.size), pixelFormat: outputPixelFormat)]
         
         for key in samplers.keys {
-            let name = samplers[key]!
-            images.append(samplerImage(name: name)!)
+            if let name = samplers[key], let samplerImage = samplerImage(name: name) {
+                images.append(samplerImage)
+            }
         }
         
         var params = parameters
@@ -68,8 +70,10 @@ public class MTTransition: NSObject, MTIUnaryFilter {
     
     private func samplerImage(name: String) -> MTIImage? {
         let bundle = Bundle(for: MTTransition.self)
-        let bundleUrl = bundle.url(forResource: "Assets", withExtension: "bundle")!
-        let resourceBundle = Bundle(url: bundleUrl)!
+        guard let bundleUrl = bundle.url(forResource: "Assets", withExtension: "bundle"),
+            let resourceBundle = Bundle(url: bundleUrl) else {
+            return nil
+        }
         
         if let imageUrl = resourceBundle.url(forResource: name, withExtension: nil) {
             let ciImage = CIImage(contentsOf: imageUrl)
