@@ -14,8 +14,9 @@ public enum MTMovieWriterError: Error {
     case imagesAndEffectsDoesNotMatch
 }
 
+public typealias MTMovieWriterCompletion = (Result<URL, Error>) -> Void
+
 // Create video from images with transitions
-// TODO
 public class MTMovieWriter: NSObject {
 
     /// Video Settings
@@ -28,30 +29,34 @@ public class MTMovieWriter: NSObject {
     
     private let outputURL: URL
     
-    private let queue: DispatchQueue
-    
     private let writingQueue: DispatchQueue
-    
-    private var images: [UIImage] = []
     
     private let context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
     
     public init(outputURL: URL) {
         self.outputURL = outputURL
-        self.queue = DispatchQueue(label: "me.shuifeng.MTTransitions.MovieWriter")
         self.writingQueue = DispatchQueue(label: "me.shuifeng.MTTransitions.MovieWriter.writingQueue")
         super.init()
     }
     
-    public func makeVideo(with images: [UIImage],
-                          effect: MTTransition.Effect,
-                          frameDuration: TimeInterval,
-                          transitionDuration: TimeInterval) throws {
-        
+    /// Create video from images.
+    /// - Parameters:
+    ///   - images: The input images. Should be same width and height.
+    ///   - effects: The transition applied to switch images. The number of effects must equals to images.count - 1.
+    ///   - frameDuration: The duration each image display.
+    ///   - transitionDuration: The duration of transition.
+    /// - Throws: Throws an exception.
+    public func createVideo(with images: [MTIImage],
+                            effects: [MTTransition.Effect],
+                            frameDuration: TimeInterval = 1,
+                            transitionDuration: TimeInterval = 0.8,
+                            completion: @escaping MTMovieWriterCompletion) throws {
         guard images.count >= 2 else {
             throw MTMovieWriterError.imagesMustMoreThanTwo
         }
-        self.images = images
+        guard effects.count == images.count - 1 else {
+            throw MTMovieWriterError.imagesAndEffectsDoesNotMatch
+        }
         if FileManager.default.fileExists(atPath: outputURL.path) {
             try FileManager.default.removeItem(at: outputURL)
         }
@@ -65,14 +70,13 @@ public class MTMovieWriter: NSObject {
         let writerInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
 
         let sourceBufferAttributes: [String: Any] = [
-            (kCVPixelBufferPixelFormatTypeKey as String): kCVPixelFormatType_32ARGB,
+            (kCVPixelBufferPixelFormatTypeKey as String): kCVPixelFormatType_32BGRA,
             (kCVPixelBufferWidthKey as String): outputSize.width,
-            (kCVPixelBufferHeightKey as String): outputSize.height,
-            (kCVPixelBufferCGImageCompatibilityKey as String): NSNumber(value: true),
-            (kCVPixelBufferCGBitmapContextCompatibilityKey as String): NSNumber(value: true)
+            (kCVPixelBufferHeightKey as String): outputSize.height
         ]
         
-        let pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerInput, sourcePixelBufferAttributes: sourceBufferAttributes)
+        let pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerInput,
+                                                                      sourcePixelBufferAttributes: sourceBufferAttributes)
         writer?.add(writerInput)
         
         guard let success = writer?.startWriting(), success == true else {
@@ -81,45 +85,43 @@ public class MTMovieWriter: NSObject {
         writer?.startSession(atSourceTime: .zero)
         writerInput.requestMediaDataWhenReady(on: writingQueue) {
             var index = 0
-            let presentTime = CMTimeMake(value: 0, timescale: 600)
-            while true {
-                if index >= images.count {
-                    break
-                }
-                while !writerInput.isReadyForMoreMediaData {
-                    Thread.sleep(forTimeInterval: 0.1)
-                }
+            while index < images.count {
+                var presentTime = CMTimeMake(value: Int64(frameDuration * Double(index) * 1000), timescale: 1000)
                 let fromImage = images[index]
-                let toImage: UIImage? = (index != images.count - 1) ? images[index + 1] : nil
-
-                if let buffer = self.createPixelBuffer(from: fromImage) {
-                    pixelBufferAdaptor.append(buffer, withPresentationTime: presentTime)
-                }
-                // TODO
-                let seamphore = DispatchSemaphore(value: 0)
-                if let fromCGImage = fromImage.cgImage, let toCGImage = toImage?.cgImage {
-                    let from = MTIImage(cgImage: fromCGImage, options: nil).oriented(.downMirrored)
-                    let to = MTIImage(cgImage: toCGImage, options: nil).oriented(.downMirrored)
-                    effect.transition.duration = transitionDuration
-                    effect.transition.transition(from: from, to: to, updater: { image in
-                        print(effect.transition.progress)
-                        if let buffer = self.createPixelBuffer(size: outputSize) {
-                            try? self.context?.render(image, to: buffer)
+                let toImage = (index != images.count - 1) ? images[index + 1] : nil
+                
+                // Do the transition, simluate progress from 0.0 - 1.0
+                if let toImage = toImage {
+                    let transition = effects[index].transition
+                    transition.inputImage = fromImage
+                    transition.destImage = toImage
+                    transition.duration = transitionDuration
+                    let frameBeginTime = presentTime
+                    
+                    for counter in 0 ... 30 {
+                        while !writerInput.isReadyForMoreMediaData {
+                            Thread.sleep(forTimeInterval: 0.01)
+                        }
+                        let progress = Float(counter) / 30
+                        transition.progress = progress
+                        let frameTime = CMTimeMake(value: Int64(transitionDuration * Double(progress) * 1000), timescale: 1000)
+                        presentTime = CMTimeAdd(frameBeginTime, frameTime)
+                        if let buffer = self.createPixelBuffer(size: outputSize), let frame = transition.outputImage {
+                            try? self.context?.render(frame, to: buffer)
                             pixelBufferAdaptor.append(buffer, withPresentationTime: presentTime)
                         }
-                    }) { _ in
-                        seamphore.signal()
                     }
-                    seamphore.wait()
                 }
                 index += 1
             }
             writerInput.markAsFinished()
             self.writer?.finishWriting {
-                if let error = self.writer?.error {
-                    print(error)
-                } else {
-                    print("write success")
+                DispatchQueue.main.async {
+                    if let error = self.writer?.error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(self.outputURL))
+                    }
                 }
             }
         }
@@ -127,21 +129,22 @@ public class MTMovieWriter: NSObject {
     
     private func createPixelBuffer(size: CGSize) -> CVPixelBuffer? {
         let options: [String: Any] = [
-            kCVPixelBufferCGImageCompatibilityKey as String: NSNumber(value: true),
-            kCVPixelBufferCGBitmapContextCompatibilityKey as String: NSNumber(value: true)
+            (kCVPixelBufferIOSurfacePropertiesKey as String): [:],
+            (kCVPixelBufferCGImageCompatibilityKey as String): NSNumber(value: true)
         ]
-        
         var buffer: CVPixelBuffer?
         CVPixelBufferCreate(
-            kCFAllocatorDefault, Int(size.width),
+            kCFAllocatorDefault,
+            Int(size.width),
             Int(size.height),
-            kCVPixelFormatType_32ARGB,
-            options as CFDictionary?,
+            kCVPixelFormatType_32BGRA,
+            options as CFDictionary,
             &buffer
         )
         return buffer
     }
     
+    /*
     private func createPixelBuffer(from image: UIImage) -> CVPixelBuffer? {
         
         guard let cgImage = image.cgImage else {
@@ -173,5 +176,5 @@ public class MTMovieWriter: NSObject {
         context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
         CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
         return pixelBuffer
-    }
+    }*/
 }
