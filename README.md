@@ -209,13 +209,13 @@ Please refer `VideoTransitionSampleViewController` and `MultipleVideoTransitions
 
 ### Create Video From Images
 
-`MTMovieWriter` support create video from a sequence images with transitions.
+`MTMovieMaker` support create video from a sequence images with transitions.
 
 ```swift
 let fileURL = URL(fileURLWithPath: path)
-movieWriter = MTMovieWriter(outputURL: fileURL)
+movieMaker = MTMovieMaker(outputURL: fileURL)
 do {
-    try movieWriter?.createVideo(with: images, effects: effects) { result in
+    try MTMovieMaker?.createVideo(with: images, effects: effects) { result in
         switch result {
         case .success(let url):
             print(url)

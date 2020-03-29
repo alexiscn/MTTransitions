@@ -1,5 +1,5 @@
 //
-//  MTMovieWriter.swift
+//  MTMovieMaker.swift
 //  MTTransitions
 //
 //  Created by xushuifeng on 2020/3/25.
@@ -9,21 +9,17 @@ import Foundation
 import AVFoundation
 import MetalPetal
 
-public enum MTMovieWriterError: Error {
+public enum MTMovieMakerError: Error {
     case imagesMustMoreThanTwo
     case imagesAndEffectsDoesNotMatch
 }
 
-public typealias MTMovieWriterCompletion = (Result<URL, Error>) -> Void
+public typealias MTMovieMakerProgressHandler = (Float) -> Void
+
+public typealias MTMovieMakerCompletion = (Result<URL, Error>) -> Void
 
 // Create video from images with transitions
-public class MTMovieWriter: NSObject {
-
-    /// Video Settings
-    public var videoTrackSettings: [String: Any]?
-    
-    /// Audio Settings
-    public var audioTrackSettings: [String: Any]?
+public class MTMovieMaker: NSObject {
     
     private var writer: AVAssetWriter?
     
@@ -46,20 +42,25 @@ public class MTMovieWriter: NSObject {
     ///   - frameDuration: The duration each image display.
     ///   - transitionDuration: The duration of transition.
     /// - Throws: Throws an exception.
-    public func createVideo(with images: [MTIImage],
+    public func createVideo(with images: [UIImage],
                             effects: [MTTransition.Effect],
                             frameDuration: TimeInterval = 1,
                             transitionDuration: TimeInterval = 0.8,
-                            completion: @escaping MTMovieWriterCompletion) throws {
+                            completion: @escaping MTMovieMakerCompletion) throws {
         guard images.count >= 2 else {
-            throw MTMovieWriterError.imagesMustMoreThanTwo
+            throw MTMovieMakerError.imagesMustMoreThanTwo
         }
         guard effects.count == images.count - 1 else {
-            throw MTMovieWriterError.imagesAndEffectsDoesNotMatch
+            throw MTMovieMakerError.imagesAndEffectsDoesNotMatch
         }
         if FileManager.default.fileExists(atPath: outputURL.path) {
             try FileManager.default.removeItem(at: outputURL)
         }
+        
+        let inputImages = images.map {
+            return MTIImage(cgImage: $0.cgImage!, options: [.SRGB: false]).oriented(.downMirrored)
+        }
+        
         writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
         let outputSize = images.first!.size
         let videoSettings: [String: Any] = [
@@ -85,10 +86,10 @@ public class MTMovieWriter: NSObject {
         writer?.startSession(atSourceTime: .zero)
         writerInput.requestMediaDataWhenReady(on: writingQueue) {
             var index = 0
-            while index < images.count {
+            while index < inputImages.count {
                 var presentTime = CMTimeMake(value: Int64(frameDuration * Double(index) * 1000), timescale: 1000)
-                let fromImage = images[index]
-                let toImage = (index != images.count - 1) ? images[index + 1] : nil
+                let fromImage = inputImages[index]
+                let toImage = (index != inputImages.count - 1) ? inputImages[index + 1] : nil
                 
                 // Do the transition, simluate progress from 0.0 - 1.0
                 if let toImage = toImage {
@@ -124,6 +125,21 @@ public class MTMovieWriter: NSObject {
                     }
                 }
             }
+        }
+    }
+    
+    // TODO: Add movie maker audio support
+    private func mixAudio(_ audio: AVAsset, video: AVAsset) {
+        guard let audioTrack = audio.tracks(withMediaType: .audio).first else {
+            return
+        }
+        let composition = AVMutableComposition()
+        if video.duration > audio.duration {
+            
+        } else {
+            let track = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+            let timeRange = CMTimeRangeMake(start: .zero, duration: video.duration)
+            try? track?.insertTimeRange(timeRange, of: audioTrack, at: .zero)
         }
     }
     

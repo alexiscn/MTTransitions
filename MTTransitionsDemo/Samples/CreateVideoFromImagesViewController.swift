@@ -19,7 +19,7 @@ class CreateVideoFromImagesViewController: UIViewController {
     private var exportButton: UIBarButtonItem!
     
     private var fileURL: URL?
-    private var movieWriter: MTMovieWriter?
+    private var movieMaker: MTMovieMaker?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ class CreateVideoFromImagesViewController: UIViewController {
     }
     
     private func createVideo() {
-        var images: [MTIImage] = []
+        var images: [UIImage] = []
         
         for i in 1 ... 9 {
             if let img = loadImage(named: "\(i)") {
@@ -70,20 +70,19 @@ class CreateVideoFromImagesViewController: UIViewController {
             }
         }
         let effects: [MTTransition.Effect] = [
-        .circleOpen,
-        .circleCrop,
-        .heart,
-        .crossZoom,
-        .dreamy,
-        .rotateScaleFade,
-        .wipeDown,
-        .wipeUp
-        ]
+            .circleOpen,
+            .circleCrop,
+            .heart,
+            .crossZoom,
+            .dreamy,
+            .rotateScaleFade,
+            .wipeDown,
+            .wipeUp]
         let path = NSTemporaryDirectory().appending("CreateVideoFromImages.mp4")
         let fileURL = URL(fileURLWithPath: path)
-        movieWriter = MTMovieWriter(outputURL: fileURL)
+        movieMaker = MTMovieMaker(outputURL: fileURL)
         do {
-            try movieWriter?.createVideo(with: images, effects: effects) { [weak self] result in
+            try movieMaker?.createVideo(with: images, effects: effects) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let url):
@@ -102,11 +101,11 @@ class CreateVideoFromImagesViewController: UIViewController {
         }
     }
     
-    private func loadImage(named: String) -> MTIImage? {
+    private func loadImage(named: String) -> UIImage? {
         guard let url = Bundle.main.url(forResource: named, withExtension: "jpg") else {
             return nil
         }
-        return MTIImage(contentsOf: url, options: [.SRGB: false])!.oriented(.downMirrored)
+        return UIImage(contentsOfFile: url.path)
     }
     
     private func registerNotifications() {
