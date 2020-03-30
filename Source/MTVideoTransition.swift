@@ -47,7 +47,6 @@ public class MTVideoTransition: NSObject {
     /// The transition time range for the clips.
     private var transitionTimeRanges: [CMTimeRange] = []
     
-    
     /// Merge videos with transtions
     /// - Parameters:
     ///   - assets: The video assets to be merged with transition. Must be the same resolution size.
@@ -292,15 +291,6 @@ public class MTVideoTransition: NSObject {
                     let timeRange = transitionTimeRanges[index]
                     let videoInstruction = MTVideoCompositionInstruction(theSourceTrackIDs: trackIDs, forTimeRange: timeRange)
                     videoInstruction.effect = effects[index]
-                    /* Code From AVCustomEdit
-                    if alternatingIndex == 0 {
-                        // First track -> Foreground track while compositing.
-                        videoInstruction.foregroundTrackID = compositionVideoTracks[alternatingIndex].trackID
-                        // Second track -> Background track while compositing.
-                        videoInstruction.backgroundTrackID =
-                            compositionVideoTracks[1 - alternatingIndex].trackID
-                    }*/
-                    
                     // First track -> Foreground track while compositing.
                     videoInstruction.foregroundTrackID = compositionVideoTracks[alternatingIndex].trackID
                     // Second track -> Background track while compositing.

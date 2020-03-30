@@ -70,14 +70,10 @@ class CreateVideoFromImagesViewController: UIViewController {
             }
         }
         let effects: [MTTransition.Effect] = [
-            .circleOpen,
-            .circleCrop,
-            .heart,
-            .crossZoom,
-            .dreamy,
-            .rotateScaleFade,
-            .wipeDown,
-            .wipeUp]
+            .circleOpen, .circleCrop, .none,
+            .crossZoom, .dreamy, .rotateScaleFade,
+            .wipeDown, .wipeUp]
+        
         let path = NSTemporaryDirectory().appending("CreateVideoFromImages.mp4")
         let fileURL = URL(fileURLWithPath: path)
         movieMaker = MTMovieMaker(outputURL: fileURL)

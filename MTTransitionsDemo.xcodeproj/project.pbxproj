@@ -30,6 +30,7 @@
 		A3913EC4242886280083E7D3 /* clip2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3913EC2242886280083E7D3 /* clip2.mp4 */; };
 		A3913ED42428DE620083E7D3 /* TransitionsPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3913ED32428DE620083E7D3 /* TransitionsPickerViewController.swift */; };
 		A3913ED62428F3BA0083E7D3 /* clip3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3913ED52428F3BA0083E7D3 /* clip3.mp4 */; };
+		A3C9E1F52431D640002F82D9 /* audio2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E1F42431D640002F82D9 /* audio2.mp3 */; };
 		A3CFA847242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFA846242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift */; };
 		A3CFA849242B94A000F2E660 /* MultipleVideoTransitionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFA848242B94A000F2E660 /* MultipleVideoTransitionsViewController.swift */; };
 		A3CFA84B242B96E900F2E660 /* cut3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A3CFA84A242B96E900F2E660 /* cut3.mp4 */; };
@@ -70,6 +71,7 @@
 		A3913EC2242886280083E7D3 /* clip2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = clip2.mp4; sourceTree = "<group>"; };
 		A3913ED32428DE620083E7D3 /* TransitionsPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionsPickerViewController.swift; sourceTree = "<group>"; };
 		A3913ED52428F3BA0083E7D3 /* clip3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = clip3.mp4; sourceTree = "<group>"; };
+		A3C9E1F42431D640002F82D9 /* audio2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio2.mp3; sourceTree = "<group>"; };
 		A3CFA846242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoFromImagesViewController.swift; sourceTree = "<group>"; };
 		A3CFA848242B94A000F2E660 /* MultipleVideoTransitionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleVideoTransitionsViewController.swift; sourceTree = "<group>"; };
 		A3CFA84A242B96E900F2E660 /* cut3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cut3.mp4; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 		A374124D21F991E70019F3A3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A3C9E1F42431D640002F82D9 /* audio2.mp3 */,
 				A369F7DC242A035C00546190 /* cut1.mp4 */,
 				A369F7DD242A035C00546190 /* cut2.mp4 */,
 				A3CFA84A242B96E900F2E660 /* cut3.mp4 */,
@@ -289,6 +292,7 @@
 				A3913ED62428F3BA0083E7D3 /* clip3.mp4 in Resources */,
 				A369F7DE242A035C00546190 /* cut1.mp4 in Resources */,
 				A3CFA84B242B96E900F2E660 /* cut3.mp4 in Resources */,
+				A3C9E1F52431D640002F82D9 /* audio2.mp3 in Resources */,
 				A3E0AD292205BEA6002DD092 /* 1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
