@@ -15,8 +15,6 @@ public class MTVideoTransitionRenderer: NSObject {
     
     private let transition: MTTransition
     
-    private let context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
-    
     public init(effect: MTTransition.Effect) {
         self.effect = effect
         self.transition = effect.transition
@@ -36,7 +34,7 @@ public class MTVideoTransitionRenderer: NSObject {
         transition.progress = tween
 
         if let output = transition.outputImage {
-            try? self.context?.render(output, to: destinationPixelBuffer)
+            try? MTTransition.context?.render(output, to: destinationPixelBuffer)
         }
     }
 }

@@ -27,12 +27,31 @@ public class MTMovieMaker: NSObject {
     
     private let writingQueue: DispatchQueue
     
-    private let context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
-    
     public init(outputURL: URL) {
         self.outputURL = outputURL
         self.writingQueue = DispatchQueue(label: "me.shuifeng.MTTransitions.MovieWriter.writingQueue")
         super.init()
+    }
+    
+    /// Create video from images with single transition effect.
+    /// - Parameters:
+    ///   - images: The input images. Should be same width and height.
+    ///   - effect: The transition applied to switch images
+    ///   - frameDuration: The duration each image display.
+    ///   - transitionDuration: The duration of transition.
+    ///   - completion: completion callback.
+    /// - Throws: Throws an exception.
+    public func createVideo(with images: [MTIImage],
+                            effect: MTTransition.Effect,
+                            frameDuration: TimeInterval = 1,
+                            transitionDuration: TimeInterval = 0.8,
+                            completion: MTMovieMakerCompletion? = nil) throws {
+        let effects = Array(repeating: effect, count: images.count - 1)
+        try createVideo(with: images,
+                        effects: effects,
+                        frameDuration: frameDuration,
+                        transitionDuration: transitionDuration,
+                        completion: completion)
     }
     
     /// Create video from images.
@@ -41,12 +60,39 @@ public class MTMovieMaker: NSObject {
     ///   - effects: The transition applied to switch images. The number of effects must equals to images.count - 1.
     ///   - frameDuration: The duration each image display.
     ///   - transitionDuration: The duration of transition.
+    ///   - completion: completion callback.
     /// - Throws: Throws an exception.
     public func createVideo(with images: [UIImage],
                             effects: [MTTransition.Effect],
                             frameDuration: TimeInterval = 1,
                             transitionDuration: TimeInterval = 0.8,
                             completion: @escaping MTMovieMakerCompletion) throws {
+        
+        
+        let inputImages = images.map {
+            return MTIImage(cgImage: $0.cgImage!, options: [.SRGB: false]).oriented(.downMirrored)
+        }
+        try createVideo(with: inputImages,
+                        effects: effects,
+                        frameDuration: frameDuration,
+                        transitionDuration: transitionDuration,
+                        completion: completion)
+    }
+    
+    /// Create video from images.
+    /// - Parameters:
+    ///   - images: The input images. Should be same width and height.
+    ///   - effects: The transition applied to switch images. The number of effects must equals to images.count - 1.
+    ///   - frameDuration: The duration each image display.
+    ///   - transitionDuration: The duration of transition.
+    ///   - completion: completion callback.
+    /// - Throws: Throws an exception.
+    public func createVideo(with images: [MTIImage],
+                            effects: [MTTransition.Effect],
+                            frameDuration: TimeInterval = 1,
+                            transitionDuration: TimeInterval = 0.8,
+                            completion: MTMovieMakerCompletion? = nil) throws {
+        
         guard images.count >= 2 else {
             throw MTMovieMakerError.imagesMustMoreThanTwo
         }
@@ -57,10 +103,6 @@ public class MTMovieMaker: NSObject {
             try FileManager.default.removeItem(at: outputURL)
         }
         
-        let inputImages = images.map {
-            return MTIImage(cgImage: $0.cgImage!, options: [.SRGB: false]).oriented(.downMirrored)
-        }
-        
         writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
         let outputSize = images.first!.size
         let videoSettings: [String: Any] = [
@@ -69,46 +111,38 @@ public class MTMovieMaker: NSObject {
             AVVideoHeightKey: outputSize.height
         ]
         let writerInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
-
-        let sourceBufferAttributes: [String: Any] = [
-            (kCVPixelBufferPixelFormatTypeKey as String): kCVPixelFormatType_32BGRA,
-            (kCVPixelBufferWidthKey as String): outputSize.width,
-            (kCVPixelBufferHeightKey as String): outputSize.height
-        ]
-        
+        let attributes = sourceBufferAttributes(outputSize: outputSize)
         let pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerInput,
-                                                                      sourcePixelBufferAttributes: sourceBufferAttributes)
+                                                                      sourcePixelBufferAttributes: attributes)
         writer?.add(writerInput)
         
         guard let success = writer?.startWriting(), success == true else {
             fatalError("Can not start writing")
         }
-        writer?.startSession(atSourceTime: .zero)
-        writerInput.requestMediaDataWhenReady(on: writingQueue) {
+        
+        self.writer?.startSession(atSourceTime: .zero)
+        writerInput.requestMediaDataWhenReady(on: self.writingQueue) {
             var index = 0
-            while index < inputImages.count {
+            while index < (images.count - 1) {
                 var presentTime = CMTimeMake(value: Int64(frameDuration * Double(index) * 1000), timescale: 1000)
-                let fromImage = inputImages[index]
-                let toImage = (index != inputImages.count - 1) ? inputImages[index + 1] : nil
+                let transition = effects[index].transition
+                transition.inputImage = images[index]
+                transition.destImage = images[index + 1]
+                transition.duration = transitionDuration
                 
-                // Do the transition, simluate progress from 0.0 - 1.0
-                if let toImage = toImage {
-                    let transition = effects[index].transition
-                    transition.inputImage = fromImage
-                    transition.destImage = toImage
-                    transition.duration = transitionDuration
-                    let frameBeginTime = presentTime
-                    
-                    for counter in 0 ... 30 {
+                let frameBeginTime = presentTime
+                let frameCount = 29
+                for counter in 0 ... frameCount {
+                    autoreleasepool {
                         while !writerInput.isReadyForMoreMediaData {
                             Thread.sleep(forTimeInterval: 0.01)
                         }
-                        let progress = Float(counter) / 30
+                        let progress = Float(counter) / Float(frameCount)
                         transition.progress = progress
                         let frameTime = CMTimeMake(value: Int64(transitionDuration * Double(progress) * 1000), timescale: 1000)
                         presentTime = CMTimeAdd(frameBeginTime, frameTime)
                         if let buffer = self.createPixelBuffer(size: outputSize), let frame = transition.outputImage {
-                            try? self.context?.render(frame, to: buffer)
+                            try? MTTransition.context?.render(frame, to: buffer)
                             pixelBufferAdaptor.append(buffer, withPresentationTime: presentTime)
                         }
                     }
@@ -119,13 +153,22 @@ public class MTMovieMaker: NSObject {
             self.writer?.finishWriting {
                 DispatchQueue.main.async {
                     if let error = self.writer?.error {
-                        completion(.failure(error))
+                        completion?(.failure(error))
                     } else {
-                        completion(.success(self.outputURL))
+                        completion?(.success(self.outputURL))
                     }
                 }
             }
         }
+    }
+    
+    private func sourceBufferAttributes(outputSize: CGSize) -> [String: Any] {
+        let attributes: [String: Any] = [
+            (kCVPixelBufferPixelFormatTypeKey as String): kCVPixelFormatType_32BGRA,
+            (kCVPixelBufferWidthKey as String): outputSize.width,
+            (kCVPixelBufferHeightKey as String): outputSize.height
+        ]
+        return attributes
     }
     
     // TODO: Add movie maker audio support

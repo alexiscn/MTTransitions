@@ -16,6 +16,8 @@ public typealias MTTransitionCompletion = (_ finished: Bool) -> Void
 
 public class MTTransition: NSObject, MTIUnaryFilter {
     
+    public static let context = try? MTIContext(device: MTLCreateSystemDefaultDevice()!)
+    
     public override init() { }
 
     public var inputImage: MTIImage?

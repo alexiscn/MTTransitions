@@ -16,7 +16,6 @@ extension MTTransition {
     public static func transition(with view: UIView, effect: MTTransition,
                                   animations: (() -> Void)?,
                                   completion: ((Bool) -> Void)? = nil) {
-        guard let device = MTLCreateSystemDefaultDevice() else { completion?(false); return; }
         // Check if effect is already in use
         guard effect.completion == nil else { completion?(false); return; }
         // Check if view has a transition in progress
@@ -69,8 +68,7 @@ extension MTTransition {
         
         effect.transition(from: imageA, to: imageB, updater: { (img) in
             do {
-                let context = try MTIContext.init(device: device)
-                let transitionImage = try context.makeCGImage(from: img)
+                let transitionImage = try MTTransition.context?.makeCGImage(from: img)
                 transitionLayer.contents = transitionImage
             } catch {}
         }, completion: { (_) in

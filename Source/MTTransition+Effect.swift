@@ -16,7 +16,7 @@ extension MTTransition {
     /// transition.shadowHeight = 0.02
     public enum Effect: CaseIterable, CustomStringConvertible {
         /// none transition applied
-        case none
+        //case none
         case angular
         case bounce
         case bowTieHorizontal
@@ -87,8 +87,8 @@ extension MTTransition {
         
         public var transition: MTTransition {
             switch self {
-            case .none:
-                return MTNoneTransition()
+//            case .none:
+//                return MTNoneTransition()
             case .angular:
                 return MTAngularTransition()
             case .bounce:
@@ -228,8 +228,8 @@ extension MTTransition {
         
         public var description: String {
             switch self {
-            case .none:
-                return "None"
+//            case .none:
+//                return "None"
             case .angular:
                 return "Angular"
             case .bounce:
