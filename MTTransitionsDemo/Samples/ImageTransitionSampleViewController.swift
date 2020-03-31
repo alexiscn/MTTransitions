@@ -29,6 +29,8 @@ class ImageTransitionSampleViewController: UIViewController {
     private var effects = MTTransition.Effect.allCases
     
     private var sampleImages: [MTIImage] = []
+    
+    //private var movieMaker: MTMovieMaker?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +92,26 @@ class ImageTransitionSampleViewController: UIViewController {
         let name = NSStringFromClass(effect.classForCoder).replacingOccurrences(of: "MTTransitions.", with: "")
         nameLabel.text = name
     }
+    
+//    private func doTransition() {
+//        let effect = effects[transitionIndex].transition
+//        effect.duration = duration
+//
+//        let images: [MTIImage] = [sampleImages[fromIndex], sampleImages[toIndex]]
+//        let name = NSStringFromClass(effect.classForCoder).replacingOccurrences(of: "MTTransitions.", with: "")
+//        movieMaker = MTMovieMaker(outputURL: URL(fileURLWithPath: NSTemporaryDirectory().appending("\(name).mp4")))
+//        effect.transition(from: sampleImages[fromIndex], to: sampleImages[toIndex], updater: { image in
+//            self.imageView.image = image
+//        }, completion: { _ in
+//
+//            try? self.movieMaker?.createVideo(with: images, effect: self.effects[self.transitionIndex]) { _ in
+//                self.doNextTransition()
+//            }
+//        })
+//
+//        //let name = NSStringFromClass(effect.classForCoder).replacingOccurrences(of: "MTTransitions.", with: "")
+//        nameLabel.text = name
+//    }
     
     private func doNextTransition() {
         transitionIndex = (transitionIndex + 1) % effects.count
