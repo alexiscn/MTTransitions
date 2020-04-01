@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'MTTransitions'
-  s.version      = '1.5.2'
+  s.version      = '1.5.3'
   s.license = 'MIT'
   s.requires_arc = true
   s.source = { :git => 'https://github.com/alexiscn/MTTransitions.git', :tag => s.version.to_s }

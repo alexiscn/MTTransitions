@@ -120,6 +120,10 @@ public class MTMovieMaker: NSObject {
             fatalError("Can not start writing")
         }
         
+        guard let pixelBufferPool = pixelBufferAdaptor.pixelBufferPool else {
+            fatalError("AVAssetWriterInputPixelBufferAdaptor pixelBufferPool empty")
+        }
+        
         self.writer?.startSession(atSourceTime: .zero)
         writerInput.requestMediaDataWhenReady(on: self.writingQueue) {
             var index = 0
@@ -141,7 +145,9 @@ public class MTMovieMaker: NSObject {
                         transition.progress = progress
                         let frameTime = CMTimeMake(value: Int64(transitionDuration * Double(progress) * 1000), timescale: 1000)
                         presentTime = CMTimeAdd(frameBeginTime, frameTime)
-                        if let buffer = self.createPixelBuffer(size: outputSize), let frame = transition.outputImage {
+                        var pixelBuffer: CVPixelBuffer?
+                        CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pixelBufferPool, &pixelBuffer)
+                        if let buffer = pixelBuffer, let frame = transition.outputImage {
                             try? MTTransition.context?.render(frame, to: buffer)
                             pixelBufferAdaptor.append(buffer, withPresentationTime: presentTime)
                         }
@@ -185,55 +191,4 @@ public class MTMovieMaker: NSObject {
             try? track?.insertTimeRange(timeRange, of: audioTrack, at: .zero)
         }
     }
-    
-    private func createPixelBuffer(size: CGSize) -> CVPixelBuffer? {
-        let options: [String: Any] = [
-            (kCVPixelBufferIOSurfacePropertiesKey as String): [:],
-            (kCVPixelBufferCGImageCompatibilityKey as String): NSNumber(value: true)
-        ]
-        var buffer: CVPixelBuffer?
-        CVPixelBufferCreate(
-            kCFAllocatorDefault,
-            Int(size.width),
-            Int(size.height),
-            kCVPixelFormatType_32BGRA,
-            options as CFDictionary,
-            &buffer
-        )
-        return buffer
-    }
-    
-    /*
-    private func createPixelBuffer(from image: UIImage) -> CVPixelBuffer? {
-        
-        guard let cgImage = image.cgImage else {
-            return nil
-        }
-        let size = CGSize(width: cgImage.width, height: cgImage.height)
-        var pixelBuffer:CVPixelBuffer? = nil
-        let status = CVPixelBufferCreate(kCFAllocatorDefault,
-                                         Int(size.width),
-                                         Int(size.height),
-                                         kCVPixelFormatType_32BGRA ,
-                                         nil,
-                                         &pixelBuffer)
-        if status != kCVReturnSuccess || pixelBuffer == nil {
-            return nil
-        }
-        
-        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags.init(rawValue: 0))
-        let data = CVPixelBufferGetBaseAddress(pixelBuffer!)
-        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-        let bitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue)
-        let context = CGContext(data: data,
-                                width: Int(size.width),
-                                height: Int(size.height),
-                                bitsPerComponent: 8,
-                                bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!),
-                                space: rgbColorSpace,
-                                bitmapInfo: bitmapInfo.rawValue)
-        context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
-        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
-        return pixelBuffer
-    }*/
 }
