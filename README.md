@@ -185,6 +185,7 @@ extension PresentAViewController: UIViewControllerTransitioningDelegate {
 * Support merge multiple video files
 * Support multiple transition effects
 * Support different multiple render size.
+* Support passthrough transition.
 
 ```swift
 // pick one transtion effect
