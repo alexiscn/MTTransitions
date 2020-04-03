@@ -14,7 +14,7 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/) to Metal.
 - [x] UIViewController Present Transitions
 - [x] Video Merge Transitions
 - [x] Create video from images with transitions 
-- [x] Create video from images with transitions with background music
+- [x] Create video from images with transitions and background music
 
 ## Requirements
 
