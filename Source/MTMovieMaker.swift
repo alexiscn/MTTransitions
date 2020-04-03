@@ -27,6 +27,8 @@ public class MTMovieMaker: NSObject {
     
     private let writingQueue: DispatchQueue
     
+    private var exportSession: AVAssetExportSession?
+    
     public init(outputURL: URL) {
         self.outputURL = outputURL
         self.writingQueue = DispatchQueue(label: "me.shuifeng.MTTransitions.MovieWriter.writingQueue")
@@ -39,18 +41,21 @@ public class MTMovieMaker: NSObject {
     ///   - effect: The transition applied to switch images
     ///   - frameDuration: The duration each image display.
     ///   - transitionDuration: The duration of transition.
+    ///   - audioURL: The local url of audio to be mixed to the video.
     ///   - completion: completion callback.
     /// - Throws: Throws an exception.
     public func createVideo(with images: [MTIImage],
                             effect: MTTransition.Effect,
                             frameDuration: TimeInterval = 1,
                             transitionDuration: TimeInterval = 0.8,
+                            audioURL: URL? = nil,
                             completion: MTMovieMakerCompletion? = nil) throws {
         let effects = Array(repeating: effect, count: images.count - 1)
         try createVideo(with: images,
                         effects: effects,
                         frameDuration: frameDuration,
                         transitionDuration: transitionDuration,
+                        audioURL: audioURL,
                         completion: completion)
     }
     
@@ -60,12 +65,14 @@ public class MTMovieMaker: NSObject {
     ///   - effects: The transition applied to switch images. The number of effects must equals to images.count - 1.
     ///   - frameDuration: The duration each image display.
     ///   - transitionDuration: The duration of transition.
+    ///   - audioURL: The local url of audio to be mixed to the video.
     ///   - completion: completion callback.
     /// - Throws: Throws an exception.
     public func createVideo(with images: [UIImage],
                             effects: [MTTransition.Effect],
                             frameDuration: TimeInterval = 1,
                             transitionDuration: TimeInterval = 0.8,
+                            audioURL: URL? = nil,
                             completion: @escaping MTMovieMakerCompletion) throws {
         
         
@@ -76,6 +83,7 @@ public class MTMovieMaker: NSObject {
                         effects: effects,
                         frameDuration: frameDuration,
                         transitionDuration: transitionDuration,
+                        audioURL: audioURL,
                         completion: completion)
     }
     
@@ -85,12 +93,14 @@ public class MTMovieMaker: NSObject {
     ///   - effects: The transition applied to switch images. The number of effects must equals to images.count - 1.
     ///   - frameDuration: The duration each image display.
     ///   - transitionDuration: The duration of transition.
+    ///   - audioURL: The local url of audio to be mixed to the video.
     ///   - completion: completion callback.
     /// - Throws: Throws an exception.
     public func createVideo(with images: [MTIImage],
                             effects: [MTTransition.Effect],
                             frameDuration: TimeInterval = 1,
                             transitionDuration: TimeInterval = 0.8,
+                            audioURL: URL? = nil,
                             completion: MTMovieMakerCompletion? = nil) throws {
         
         guard images.count >= 2 else {
@@ -157,11 +167,21 @@ public class MTMovieMaker: NSObject {
             }
             writerInput.markAsFinished()
             self.writer?.finishWriting {
-                DispatchQueue.main.async {
-                    if let error = self.writer?.error {
+                if let audioURL = audioURL, self.writer?.error == nil {
+                    do {
+                        let audioAsset = AVAsset(url: audioURL)
+                        let videoAsset = AVAsset(url: self.outputURL)
+                        try self.mixAudio(audioAsset, video: videoAsset, completion: completion)
+                    } catch {
                         completion?(.failure(error))
-                    } else {
-                        completion?(.success(self.outputURL))
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        if let error = self.writer?.error {
+                            completion?(.failure(error))
+                        } else {
+                            completion?(.success(self.outputURL))
+                        }
                     }
                 }
             }
@@ -177,18 +197,65 @@ public class MTMovieMaker: NSObject {
         return attributes
     }
     
-    // TODO: Add movie maker audio support
-    private func mixAudio(_ audio: AVAsset, video: AVAsset) {
+    private func mixAudio(_ audio: AVAsset, video: AVAsset, completion: MTMovieMakerCompletion? = nil) throws {
+        guard let videoTrack = video.tracks(withMediaType: .video).first else {
+            fatalError("Can not found videoTrack in Video File")
+        }
         guard let audioTrack = audio.tracks(withMediaType: .audio).first else {
+            fatalError("Can not found audioTrack in Audio File")
+        }
+        
+        let composition = AVMutableComposition()
+        guard let videoComposition = composition.addMutableTrack(withMediaType: .video, preferredTrackID: CMPersistentTrackID(1)),
+            let audioComposition = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: CMPersistentTrackID(2)) else {
             return
         }
-        let composition = AVMutableComposition()
+        
+        let videoTimeRange = CMTimeRange(start: .zero, duration: video.duration)
+        try videoComposition.insertTimeRange(videoTimeRange, of: videoTrack, at: .zero)
+        
         if video.duration > audio.duration {
-            
+            let repeatCount = Int(video.duration.seconds / audio.duration.seconds)
+            let remain = video.duration.seconds.truncatingRemainder(dividingBy: audio.duration.seconds)
+            let audioTimeRange = CMTimeRange(start: .zero, duration: audio.duration)
+            for i in 0 ..< repeatCount {
+                let start = CMTime(seconds: Double(i) * audio.duration.seconds, preferredTimescale: audio.duration.timescale)
+                try audioComposition.insertTimeRange(audioTimeRange, of: audioTrack, at: start)
+            }
+            if remain > 0 {
+                let startSeconds = Double(repeatCount) * audio.duration.seconds
+                let start = CMTime(seconds: startSeconds, preferredTimescale: audio.duration.timescale)
+                let remainDuration = CMTime(seconds: remain, preferredTimescale: audio.duration.timescale)
+                let remainTimeRange = CMTimeRange(start: .zero, duration: remainDuration)
+                try audioComposition.insertTimeRange(remainTimeRange, of: audioTrack, at: start)
+            }
         } else {
-            let track = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
-            let timeRange = CMTimeRangeMake(start: .zero, duration: video.duration)
-            try? track?.insertTimeRange(timeRange, of: audioTrack, at: .zero)
+            let audioTimeRange = CMTimeRangeMake(start: .zero, duration: video.duration)
+            try audioComposition.insertTimeRange(audioTimeRange, of: audioTrack, at: .zero)
+        }
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory().appending("temp.mp4"))
+        try? FileManager.default.removeItem(at: tempURL)
+        exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
+        exportSession?.outputFileType = .mp4
+        exportSession?.outputURL = tempURL
+        exportSession?.timeRange = videoTimeRange
+        exportSession?.exportAsynchronously { [weak self] in
+            guard let self = self, let exporter = self.exportSession else { return }
+            DispatchQueue.main.async {
+                if let error = exporter.error {
+                    completion?(.failure(error))
+                } else {
+                    do {
+                        if FileManager.default.fileExists(atPath: self.outputURL.path) {
+                            try FileManager.default.removeItem(at: self.outputURL)
+                        }
+                        try FileManager.default.moveItem(at: tempURL, to: self.outputURL)
+                        completion?(.success(self.outputURL))
+                    } catch {
+                        completion?(.failure(error))
+                    }
+                }
+            }
         }
     }
 }

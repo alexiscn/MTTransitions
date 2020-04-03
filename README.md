@@ -13,7 +13,8 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/) to Metal.
 - [x] UIViewController Push Transtions
 - [x] UIViewController Present Transitions
 - [x] Video Merge Transitions
-- [X] Create video from images with transitions 
+- [x] Create video from images with transitions 
+- [x] Create video from images with transitions with background music
 
 ## Requirements
 
@@ -210,7 +211,7 @@ Please refer `VideoTransitionSampleViewController` and `MultipleVideoTransitions
 
 ### Create Video From Images
 
-`MTMovieMaker` support create video from a sequence images with transitions.
+`MTMovieMaker` support create video from a sequence images with transitions. You can also pass a local audio file url to `MTMovieMaker` to create background music. 
 
 ```swift
 let fileURL = URL(fileURLWithPath: path)

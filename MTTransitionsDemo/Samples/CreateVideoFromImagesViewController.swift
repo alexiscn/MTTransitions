@@ -74,11 +74,13 @@ class CreateVideoFromImagesViewController: UIViewController {
             .crossZoom, .dreamy, .rotateScaleFade,
             .wipeDown, .wipeUp]
         
+        let audioURL = Bundle.main.url(forResource: "audio2", withExtension: "mp3")
+        //let audioURL = Bundle.main.url(forResource: "audio1", withExtension: "mp3")
         let path = NSTemporaryDirectory().appending("CreateVideoFromImages.mp4")
         let fileURL = URL(fileURLWithPath: path)
         movieMaker = MTMovieMaker(outputURL: fileURL)
         do {
-            try movieMaker?.createVideo(with: images, effects: effects) { [weak self] result in
+            try movieMaker?.createVideo(with: images, effects: effects, audioURL: audioURL) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let url):
