@@ -83,6 +83,8 @@ Support Following Transitions:
 - [x] MTStereoViewerTransition
 - [x] MTSwapTransition
 - [x] MTSwirlTransition
+- [x] MTTangentMotionBlurTransition
+- [x] MTTVStaticTransition
 - [x] MTUndulatingBurnOutTransition
 - [x] MTWaterDropTransition
 - [x] MTWindTransition

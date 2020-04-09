@@ -22,21 +22,24 @@ class ViewController: UITableViewController {
             let vc = ImageTransitionSampleViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = LabelTransitionSampleViewController()
+            let vc = PickImageTransitionViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 2:
-            let vc = PushAViewController()
+            let vc = LabelTransitionSampleViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 3:
-            let vc = PresentAViewController()
+            let vc = PushAViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 4:
-            let vc = VideoTransitionSampleViewController()
+            let vc = PresentAViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 5:
-            let vc = MultipleVideoTransitionsViewController()
+            let vc = VideoTransitionSampleViewController()
             navigationController?.pushViewController(vc, animated: true)
         case 6:
+            let vc = MultipleVideoTransitionsViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        case 7:
             let vc = CreateVideoFromImagesViewController()
             navigationController?.pushViewController(vc, animated: true)
         default:

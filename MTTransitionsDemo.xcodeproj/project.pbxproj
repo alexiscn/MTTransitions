@@ -44,6 +44,7 @@
 		A3E0AD2D2205BEA6002DD092 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD242205BEA6002DD092 /* 5.jpg */; };
 		A3E0AD2E2205BEA6002DD092 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD252205BEA6002DD092 /* 2.jpg */; };
 		A3E0AD2F2205BEA6002DD092 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3E0AD262205BEA6002DD092 /* 6.jpg */; };
+		A3F2636A243EF67B00A093D2 /* PickImageTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F26369243EF67B00A093D2 /* PickImageTransitionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		A3E0AD242205BEA6002DD092 /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
 		A3E0AD252205BEA6002DD092 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		A3E0AD262205BEA6002DD092 /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
+		A3F26369243EF67B00A093D2 /* PickImageTransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickImageTransitionViewController.swift; sourceTree = "<group>"; };
 		B836BB87FE171E542E923255 /* Pods-MTTransitionsDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTTransitionsDemo.debug.xcconfig"; path = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DFFA7AD2345E40333C6D8F8D /* Pods-MTTransitionsDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MTTransitionsDemo.release.xcconfig"; path = "Target Support Files/Pods-MTTransitionsDemo/Pods-MTTransitionsDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				A3913E812425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift */,
+				A3F26369243EF67B00A093D2 /* PickImageTransitionViewController.swift */,
 				A3913E842425C6A10083E7D3 /* LabelTransitionSampleViewController.swift */,
 				A3913E862426277E0083E7D3 /* PushAViewController.swift */,
 				A3913E88242627890083E7D3 /* PushBViewController.swift */,
@@ -390,6 +393,7 @@
 				A3913E91242646580083E7D3 /* PresentBViewController.swift in Sources */,
 				A3913E8F242646480083E7D3 /* PresentAViewController.swift in Sources */,
 				A3CFA847242B7A2300F2E660 /* CreateVideoFromImagesViewController.swift in Sources */,
+				A3F2636A243EF67B00A093D2 /* PickImageTransitionViewController.swift in Sources */,
 				A374123921F98D9A0019F3A3 /* ViewController.swift in Sources */,
 				A374123721F98D9A0019F3A3 /* AppDelegate.swift in Sources */,
 				A3913E822425C5FE0083E7D3 /* ImageTransitionSampleViewController.swift in Sources */,

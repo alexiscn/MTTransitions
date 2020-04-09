@@ -73,6 +73,7 @@ extension MTTransition {
         case stereoViewer
         case swap
         case swirl
+        case tangentMotionBlur
         case tvStatic
         case undulatingBurnOut
         case waterDrop
@@ -201,6 +202,8 @@ extension MTTransition {
                 return MTSwapTransition()
             case .swirl:
                 return MTSwirlTransition()
+            case .tangentMotionBlur:
+                return MTTangentMotionBlurTransition()
             case .tvStatic:
                 return MTTVStaticTransition()
             case .undulatingBurnOut:
@@ -342,6 +345,8 @@ extension MTTransition {
                 return "Swap"
             case .swirl:
                 return "Swirl"
+            case .tangentMotionBlur:
+                return "TangentMotionBlur"
             case .tvStatic:
                 return "TVStatic"
             case .undulatingBurnOut:
