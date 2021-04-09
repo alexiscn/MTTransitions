@@ -15,7 +15,7 @@
     "xushuifeng": "shuifengxu@gmail.com"
   },
   "platforms": {
-    "ios": "9.0"
+    "ios": "10.0"
   },
   "swift_versions": "5.0",
   "source_files": "Source/**/*.{swift,metal,h}",
@@ -26,6 +26,9 @@
   "weak_frameworks": "MetalKit",
   "dependencies": {
     "MetalPetal": [
+
+    ],
+    "MetalPetal/Swift": [
 
     ]
   },

@@ -18,7 +18,7 @@ Transitions ports from [GL-Transitions](https://gl-transitions.com/) to Metal.
 
 ## Requirements
 
-* iOS 9.0 +
+* iOS 10.0 +
 * Xcode 11.0 +
 * Swift 5.0 +
 
