@@ -4,7 +4,7 @@ PODS:
   - MetalPetal/Core (1.9.0)
   - MetalPetal/Swift (1.9.0):
     - MetalPetal/Core
-  - MTTransitions (1.6.2):
+  - MTTransitions (1.6.5):
     - MetalPetal
     - MetalPetal/Swift
 
@@ -21,8 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   MetalPetal: 07d93f6b0e8bcdd4da238dbb2b769b5405f183c0
-  MTTransitions: ba0a4a22c1f098f23aae4190b10e0bda17d128ca
+  MTTransitions: f4818ba485abc477545af4ee483c00b717dfd76e
 
-PODFILE CHECKSUM: f25f5114d0b23dd8d0de17e3a4ff22fcbcb89073
+PODFILE CHECKSUM: 1c191667b33e66fe3cb9571c46a03b195023b8c4
 
 COCOAPODS: 1.10.1

@@ -69,6 +69,7 @@ extension MTTransition {
         case randomNoisex
         case randomSquares
         case ripple
+        case rotate
         case rotateScaleFade
         case simpleZoom
         case squaresWire
@@ -145,6 +146,7 @@ extension MTTransition {
             case .randomNoisex: return MTRandomNoisexTransition()
             case .randomSquares: return MTRandomSquaresTransition()
             case .ripple: return MTRippleTransition()
+            case .rotate: return MTRotateTransition()
             case .rotateScaleFade: return MTRotateScaleFadeTransition()
             case .simpleZoom: return MTSimpleZoomTransition()
             case .squaresWire: return MTSquaresWireTransition()
@@ -223,6 +225,7 @@ extension MTTransition {
             case .randomNoisex: return "RandomNoisex"
             case .randomSquares: return "RandomSquares"
             case .ripple: return "Ripple"
+            case .rotate: return "Rotate"
             case .rotateScaleFade: return "RotateScaleFade"
             case .simpleZoom: return "SimpleZoom"
             case .squaresWire: return "SquaresWire"
