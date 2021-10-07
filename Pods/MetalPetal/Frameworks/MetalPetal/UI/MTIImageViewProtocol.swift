@@ -7,7 +7,13 @@
 
 import Metal
 
-public protocol MTIImageViewProtocol: class {
+#if SWIFT_PACKAGE
+import MetalPetalObjectiveC.Core
+#endif
+
+public protocol MTIImageViewProtocol: AnyObject {
+    
+    var automaticallyCreatesContext: Bool { get set }
     
     var colorPixelFormat: MTLPixelFormat { get set }
     
@@ -15,7 +21,7 @@ public protocol MTIImageViewProtocol: class {
     
     var resizingMode: MTIDrawableRenderingResizingMode { get set }
     
-    var context: MTIContext { get set }
+    var context: MTIContext? { get set }
     
     var image: MTIImage? { get set }
 }

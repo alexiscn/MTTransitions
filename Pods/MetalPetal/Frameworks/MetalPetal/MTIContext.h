@@ -10,21 +10,22 @@
 #import <MetalKit/MetalKit.h>
 #import <CoreImage/CoreImage.h>
 #import <CoreVideo/CoreVideo.h>
-#import "MTIKernel.h"
-#import "MTIImagePromise.h"
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIMemoryWarningObserver.h>
+#else
 #import "MTIMemoryWarningObserver.h"
-#import "MTICVMetalTextureBridging.h"
-#import "MTITextureLoader.h"
-#import "MTITexturePool.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MTICVMetalTextureCache;
+@protocol MTITextureLoader, MTITexturePool, MTICVMetalTextureBridging;
 
 FOUNDATION_EXPORT NSString * const MTIContextDefaultLabel;
 
 /// Options for creating a MTIContext.
-@interface MTIContextOptions : NSObject <NSCopying>
+__attribute__((objc_subclassing_restricted))
+@interface MTIContextOptions : NSObject
 
 @property (nonatomic, copy, nullable) NSDictionary<CIContextOption,id> *coreImageContextOptions;
 
@@ -34,8 +35,8 @@ FOUNDATION_EXPORT NSString * const MTIContextDefaultLabel;
 /// Whether the render graph optimization is enabled. The default value for this property is NO.
 @property (nonatomic) BOOL enablesRenderGraphOptimization;
 
-/// Automatically reclaim resources on memory warning.
-@property (nonatomic) BOOL automaticallyReclaimResources;
+/// Automatically reclaims resources on memory warning.
+@property (nonatomic) BOOL automaticallyReclaimsResources;
 
 /// Whether to enable native support for YCbCr textures. The default value for this property is YES. YCbCr textures can be used when this property is set to YES, and the device supports this feature.
 @property (nonatomic) BOOL enablesYCbCrPixelFormatSupport;
@@ -46,29 +47,21 @@ FOUNDATION_EXPORT NSString * const MTIContextDefaultLabel;
 /// The built-in metal library URL.
 @property (nonatomic, copy) NSURL *defaultLibraryURL;
 
-/// The texture loader to use. Possible values are MTKTextureLoader.class, MTITextureLoaderForiOS9WithImageOrientationFix.class
-@property (nonatomic) Class<MTITextureLoader> textureLoaderClass;
+/// The texture loader to use. When this property is nil, the context uses `MTIDefaultTextureLoader`.
+@property (nonatomic, nullable) Class<MTITextureLoader> textureLoaderClass;
 
-/// The core video - metal texture bridge class to use. Possible values are MTICVMetalTextureCache.class (using CVMetalTextureRef), MTICVMetalIOSurfaceBridge.class (using IOSurface to convert CVPixelBuffer to metal texture).
-@property (nonatomic) Class<MTICVMetalTextureBridging> coreVideoMetalTextureBridgeClass;
+/// The core video - metal texture bridge class to use. Possible values are MTICVMetalTextureCache.class (using CVMetalTextureRef), MTICVMetalIOSurfaceBridge.class (using IOSurface to convert CVPixelBuffer to metal texture). When this property is nil, the context uses `MTICVMetalIOSurfaceBridge` for iOS 11+/macOS 10.11+ and `MTICVMetalTextureCache` for operating systems before iOS 11/macOS 10.11.
+@property (nonatomic, nullable) Class<MTICVMetalTextureBridging> coreVideoMetalTextureBridgeClass;
 
-/// The texture pool class to use.
-@property (nonatomic) Class<MTITexturePool> texturePoolClass;
-
-/// The default value for this property is MTKTextureLoader.class
-@property (nonatomic, class) Class<MTITextureLoader> defaultTextureLoaderClass;
-
-/// On iOS 11/macOS 10.11 or later, the default value is MTICVMetalIOSurfaceBridge.class. Before iOS 11/macOS 10.11, the defualt value is MTICVMetalTextureCache.class.
-@property (nonatomic, class) Class<MTICVMetalTextureBridging> defaultCoreVideoMetalTextureBridgeClass;
-
-/// The default value for this property is MTIDeviceTexturePool.class
-@property (nonatomic, class) Class<MTITexturePool> defaultTexturePoolClass;
+/// The texture pool class to use. When this property is nil, the context uses `MTIHeapTexturePool` if possible, and falls back to `MTIDeviceTexturePool`.
+@property (nonatomic, nullable) Class<MTITexturePool> texturePoolClass;
 
 @end
 
 FOUNDATION_EXPORT NSURL * _Nullable MTIDefaultLibraryURLForBundle(NSBundle *bundle);
 
 /// An evaluation context for rendering image processing results.
+__attribute__((objc_subclassing_restricted))
 @interface MTIContext : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -85,9 +78,20 @@ FOUNDATION_EXPORT NSURL * _Nullable MTIDefaultLibraryURLForBundle(NSBundle *bund
 
 @property (nonatomic, copy, readonly) NSString *label;
 
+/// Whether the device supports MetalPerformanceShaders.
 @property (nonatomic, readonly) BOOL isMetalPerformanceShadersSupported;
 
+/// Whether the device supports YCbCr pixel formats.
 @property (nonatomic, readonly) BOOL isYCbCrPixelFormatSupported;
+
+/// Whether the device supports memoryless texture.
+@property (nonatomic, readonly) BOOL isMemorylessTextureSupported;
+
+/// Whether the device supports programmable blending.
+@property (nonatomic, readonly) BOOL isProgrammableBlendingSupported;
+
+/// Whether the default library is compiled with programmable blending support.
+@property (nonatomic, readonly) BOOL defaultLibrarySupportsProgrammableBlending;
 
 @property (nonatomic, strong, readonly) id<MTLDevice> device;
 
@@ -110,6 +114,16 @@ FOUNDATION_EXPORT NSURL * _Nullable MTIDefaultLibraryURLForBundle(NSBundle *bund
 @property (nonatomic, readonly) NSUInteger idleResourceCount;
 
 + (void)enumerateAllInstances:(void (^)(MTIContext *context))enumerator;
+
+/// Whether a device supports memoryless render targets.
++ (BOOL)deviceSupportsMemorylessTexture:(id<MTLDevice>)device;
+
+/// Whether a device supports YCbCr pixel formats.
++ (BOOL)deviceSupportsYCbCrPixelFormat:(id<MTLDevice>)device;
+
+/// Whether a device supports programmable blending.
+/// @discussion This only indicates whether the device supports programmable blending. To use programmable blending you need to make sure the metal library is compiled with the supported metal language version. For Mac and MacCatalyst, `MTLLanguageVersion2_3` is required.
++ (BOOL)deviceSupportsProgrammableBlending:(id<MTLDevice>)device;
 
 @end
 

@@ -14,6 +14,7 @@
 
 #include <vector>
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIStack<__covariant ObjectType> : NSObject <NSFastEnumeration> {
     std::vector<__strong id> *_items;
 }
@@ -103,9 +104,7 @@
         _texture = texture;
         _textureDescriptor = [descriptor copy];
         _valid = YES;
-        if (@available(iOS 10.0, *)) {
-            _heap = texture.heap;
-        }
+        _heap = texture.heap;
     }
     return self;
 }
@@ -269,6 +268,7 @@
 
 #import "MTIHasher.h"
 
+__attribute__((objc_subclassing_restricted))
 NS_AVAILABLE(10_15, 13_0)
 @interface MTIHeapTextureReuseKey : NSObject <NSCopying>
 

@@ -48,22 +48,66 @@ FOUNDATION_EXPORT MTIBlendMode const MTIBlendModeColorLookup512x512;
 
 @class MTIFunctionDescriptor;
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIBlendFunctionDescriptors: NSObject <NSCopying>
+
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)new NS_UNAVAILABLE;
 
 @property (nonatomic,copy,readonly) MTIFunctionDescriptor *fragmentFunctionDescriptorForBlendFilter;
 
-@property (nonatomic,copy,readonly) MTIFunctionDescriptor *fragmentFunctionDescriptorForMultilayerCompositingFilter;
+@property (nonatomic,copy,readonly,nullable) MTIFunctionDescriptor *fragmentFunctionDescriptorForMultilayerCompositingFilterWithProgrammableBlending;
+
+@property (nonatomic,copy,readonly,nullable) MTIFunctionDescriptor *fragmentFunctionDescriptorForMultilayerCompositingFilterWithoutProgrammableBlending;
 
 - (instancetype)initWithFragmentFunctionDescriptorForBlendFilter:(MTIFunctionDescriptor *)fragmentFunctionDescriptorForBlendFilter
-        fragmentFunctionDescriptorForMultilayerCompositingFilter:(MTIFunctionDescriptor *)fragmentFunctionDescriptorForMultilayerCompositingFilter;
+fragmentFunctionDescriptorForMultilayerCompositingFilterWithProgrammableBlending:(nullable MTIFunctionDescriptor *)fragmentFunctionDescriptorForMultilayerCompositingFilterWithProgrammableBlending
+fragmentFunctionDescriptorForMultilayerCompositingFilterWithoutProgrammableBlending:(nullable MTIFunctionDescriptor *)fragmentFunctionDescriptorForMultilayerCompositingFilterWithoutProgrammableBlending NS_DESIGNATED_INITIALIZER;
+
+/// Creates a `MTIBlendFunctionDescriptors` using a metal shader function.
+///
+/// @discussion
+/// The name of the function must be `blend`. The function must have exactly two arguments of type `float4`. The first argument represents the value of the backdrop pixel and the second represents the source pixel. The value returned by the function will be the new destination color. All colors should have unpremultiplied alpha component.
+///
+/// Example:
+///
+/// @textblock
+/// float4 blend(float4 backdrop, float4 source) {
+///     return float4(backdrop.rgb + source.rgb, 1.0);
+/// }
+/// @/textblock
+///
+/// You can optionally provide a `modify_source_texture_coordinates` function. This function is used to modify the sample coordinates of the source texture. It must have three arguments. The first argument represents the value of the backdrop pixel, the second represents the normalized sample coordinates for the source texture and the third position represents the pixel size of the source texture. The value returned by the function will be the new sample coordinates.
+///
+/// Example:
+///
+/// @textblock
+/// float2 modify_source_texture_coordinates(float4 backdrop, float2 coordinates, uint2 source_texture_size) {
+///     return coordinates;
+/// }
+///
+/// float4 blend(float4 backdrop, float4 source) {
+///     return float4(backdrop.rgb + source.rgb, 1.0);
+/// }
+/// @/textblock
+
+- (instancetype)initWithBlendFormula:(NSString *)formula;
 
 @end
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIBlendModes: NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)new NS_UNAVAILABLE;
 
 @property (nonatomic,copy,readonly,class) NSArray<MTIBlendMode> *allModes NS_SWIFT_NAME(all);
 
 + (void)registerBlendMode:(MTIBlendMode)blendMode withFunctionDescriptors:(MTIBlendFunctionDescriptors *)functionDescriptors;
+
++ (void)unregisterBlendMode:(MTIBlendMode)blendMode;
 
 + (nullable MTIBlendFunctionDescriptors *)functionDescriptorsForBlendMode:(MTIBlendMode)blendMode NS_SWIFT_NAME(functionDescriptors(for:));
 

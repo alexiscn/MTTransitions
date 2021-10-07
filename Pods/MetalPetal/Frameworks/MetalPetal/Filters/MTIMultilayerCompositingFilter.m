@@ -22,6 +22,14 @@
     return kernel;
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _rasterSampleCount = 1;
+        _outputAlphaType = MTIAlphaTypeNonPremultiplied;
+    }
+    return self;
+}
+
 - (MTIImage *)outputImage {
     if (!_inputBackgroundImage) {
         return nil;
@@ -31,6 +39,8 @@
     }
     return [self.class.kernel applyToBackgroundImage:_inputBackgroundImage
                                               layers:_layers
+                                   rasterSampleCount:_rasterSampleCount
+                                     outputAlphaType:_outputAlphaType
                              outputTextureDimensions:MTITextureDimensionsMake2DFromCGSize(_inputBackgroundImage.size)
                                    outputPixelFormat:_outputPixelFormat];
 }

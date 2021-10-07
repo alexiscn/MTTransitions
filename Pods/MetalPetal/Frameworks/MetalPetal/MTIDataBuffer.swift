@@ -6,6 +6,11 @@
 //
 
 import Foundation
+import Metal
+
+#if SWIFT_PACKAGE
+import MetalPetalObjectiveC.Core
+#endif
 
 extension MTIDataBuffer {
     

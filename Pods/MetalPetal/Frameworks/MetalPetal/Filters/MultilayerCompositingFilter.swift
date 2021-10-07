@@ -6,6 +6,12 @@
 //
 
 import Foundation
+import CoreGraphics
+import Metal
+
+#if SWIFT_PACKAGE
+import MetalPetalObjectiveC.Core
+#endif
 
 extension MTILayer.FlipOptions: Hashable {
     
@@ -44,6 +50,8 @@ public class MultilayerCompositingFilter: MTIFilter {
         
         public var contentFlipOptions: MTILayer.FlipOptions = []
         
+        public var mask: MTIMask? = nil
+        
         public var compositingMask: MTIMask? = nil
         
         public var layoutUnit: MTILayer.LayoutUnit
@@ -54,7 +62,13 @@ public class MultilayerCompositingFilter: MTIFilter {
         
         public var rotation: Float = 0
         
-        public var opacity: Float = 0
+        public var opacity: Float = 1
+        
+        public var cornerRadius: MTICornerRadius = MTICornerRadius(0)
+        
+        public var cornerCurve: MTICornerCurve = .circular
+        
+        public var tintColor: MTIColor = .clear
         
         public var blendMode: MTIBlendMode = .normal
         
@@ -73,6 +87,7 @@ public class MultilayerCompositingFilter: MTIFilter {
             hasher.combine(contentRegion.size.width)
             hasher.combine(contentRegion.size.height)
             hasher.combine(contentFlipOptions)
+            hasher.combine(mask)
             hasher.combine(compositingMask)
             hasher.combine(layoutUnit)
             hasher.combine(position.x)
@@ -81,17 +96,97 @@ public class MultilayerCompositingFilter: MTIFilter {
             hasher.combine(size.height)
             hasher.combine(rotation)
             hasher.combine(opacity)
+            hasher.combine(cornerRadius)
+            hasher.combine(cornerCurve)
+            hasher.combine(tintColor)
             hasher.combine(blendMode)
+        }
+        
+        private func mutating(_ block: (inout Layer) -> Void) -> Layer {
+            var layer = self
+            block(&layer)
+            return layer
+        }
+        
+        public static func content(_ image: MTIImage) -> Layer {
+            Layer(content: image)
+        }
+        
+        public static func content(_ image: MTIImage, modifier: (inout Layer) -> Void) -> Layer {
+            Layer(content: image).mutating(modifier)
+        }
+        
+        public func opacity(_ value: Float) -> Layer {
+            self.mutating({ $0.opacity = value })
+        }
+        
+        public func contentRegion(_ contentRegion: CGRect) -> Layer {
+            self.mutating({ $0.contentRegion = contentRegion })
+        }
+        
+        public func contentFlipOptions(_ contentFlipOptions: MTILayer.FlipOptions) -> Layer {
+            self.mutating({ $0.contentFlipOptions = contentFlipOptions })
+        }
+        
+        public func mask(_ mask: MTIMask?) -> Layer {
+            self.mutating({ $0.mask = mask })
+        }
+        
+        public func compositingMask(_ mask: MTIMask?) -> Layer {
+            self.mutating({ $0.compositingMask = mask })
+        }
+        
+        public func frame(_ rect: CGRect, layoutUnit: MTILayer.LayoutUnit) -> Layer {
+            self.mutating({
+                $0.size = rect.size
+                $0.position = CGPoint(x: rect.midX, y: rect.midY)
+                $0.layoutUnit = layoutUnit
+            })
+        }
+        
+        public func frame(center: CGPoint, size: CGSize, layoutUnit: MTILayer.LayoutUnit) -> Layer {
+            self.mutating({
+                $0.size = size
+                $0.position = center
+                $0.layoutUnit = layoutUnit
+            })
+        }
+        
+        public func rotation(_ rotation: Float) -> Layer {
+            self.mutating({ $0.rotation = rotation })
+        }
+        
+        public func tintColor(_ color: MTIColor?) -> Layer {
+            self.mutating({ $0.tintColor = color ?? .clear })
+        }
+        
+        public func blendMode(_ blendMode: MTIBlendMode) -> Layer {
+            self.mutating({ $0.blendMode = blendMode })
+        }
+        
+        public func corner(radius: MTICornerRadius, curve: MTICornerCurve) -> Layer {
+            self.mutating({
+                $0.cornerRadius = radius
+                $0.cornerCurve = curve
+            })
+        }
+        
+        public func cornerRadius(_ radius: MTICornerRadius) -> Layer {
+            self.mutating({ $0.cornerRadius = radius })
+        }
+        
+        public func cornerRadius(_ radius: Float) -> Layer {
+            self.mutating({ $0.cornerRadius = MTICornerRadius(radius) })
+        }
+        
+        public func cornerCurve(_ curve: MTICornerCurve) -> Layer {
+            self.mutating({ $0.cornerCurve = curve })
         }
     }
     
     public var outputPixelFormat: MTLPixelFormat {
-        get {
-            return internalFilter.outputPixelFormat
-        }
-        set {
-            internalFilter.outputPixelFormat = newValue
-        }
+        get { internalFilter.outputPixelFormat }
+        set { internalFilter.outputPixelFormat = newValue }
     }
     
     public var outputImage: MTIImage? {
@@ -99,12 +194,13 @@ public class MultilayerCompositingFilter: MTIFilter {
     }
     
     public var inputBackgroundImage: MTIImage? {
-        get {
-            return internalFilter.inputBackgroundImage
-        }
-        set {
-            internalFilter.inputBackgroundImage = newValue
-        }
+        get { internalFilter.inputBackgroundImage }
+        set { internalFilter.inputBackgroundImage = newValue }
+    }
+    
+    public var outputAlphaType: MTIAlphaType {
+        get { internalFilter.outputAlphaType }
+        set { internalFilter.outputAlphaType = newValue }
     }
     
     private var _layers: [Layer] = []
@@ -119,6 +215,11 @@ public class MultilayerCompositingFilter: MTIFilter {
         }
     }
     
+    public var rasterSampleCount: Int {
+        set { internalFilter.rasterSampleCount = UInt(newValue) }
+        get { Int(internalFilter.rasterSampleCount) }
+    }
+    
     private var internalFilter = MTIMultilayerCompositingFilter()
     
     public init() {
@@ -127,6 +228,7 @@ public class MultilayerCompositingFilter: MTIFilter {
 }
 
 extension MultilayerCompositingFilter {
+    @available(*, deprecated, message: "Use MultilayerCompositingFilter.Layer(content:).frame(...).opacity(...)... instead.")
     public static func makeLayer(content: MTIImage, configurator: (_ layer: inout Layer) -> Void) -> Layer {
         var layer = Layer(content: content)
         configurator(&layer)
@@ -136,7 +238,7 @@ extension MultilayerCompositingFilter {
 
 extension MultilayerCompositingFilter.Layer {
     fileprivate func bridgeToObjectiveC() -> MTILayer {
-        return MTILayer(content: self.content, contentRegion: self.contentRegion, contentFlipOptions: self.contentFlipOptions, compositingMask: self.compositingMask, layoutUnit: self.layoutUnit, position: self.position, size: self.size, rotation: self.rotation, opacity: self.opacity, blendMode: self.blendMode)
+        return MTILayer(content: self.content, contentRegion: self.contentRegion, contentFlipOptions: self.contentFlipOptions, mask: self.mask, compositingMask: self.compositingMask, layoutUnit: self.layoutUnit, position: self.position, size: self.size, rotation: self.rotation, opacity: self.opacity, cornerRadius: self.cornerRadius, cornerCurve: self.cornerCurve, tintColor: self.tintColor, blendMode: self.blendMode)
     }
 }
 

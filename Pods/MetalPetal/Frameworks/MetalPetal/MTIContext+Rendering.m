@@ -26,6 +26,7 @@
 #import "MTICoreImageRendering.h"
 #import "MTIRenderTask.h"
 #import "MTIImageRenderingContext+Internal.h"
+#import "MTIPixelFormat.h"
 
 @implementation MTIContext (Rendering)
 
@@ -75,7 +76,7 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
     [renderingContext.commandBuffer commit];
     [renderingContext.commandBuffer waitUntilScheduled];
     
-    CIImage *ciImage = [CIImage imageWithMTLTexture:resolution.texture options:@{kCIImageColorSpace: (id)options.colorSpace ?: [NSNull null]}];
+    CIImage *ciImage = [CIImage imageWithMTLTexture:resolution.texture options:@{kCIImageColorSpace: (id)options.colorSpace ?: (id)CFBridgingRelease(CGColorSpaceCreateDeviceRGB())}];
     if (options.isFlipped) {
         ciImage = [ciImage imageByApplyingOrientation:4];
     }
@@ -83,16 +84,7 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
     if (image.alphaType == MTIAlphaTypeNonPremultiplied) {
         //ref: https://developer.apple.com/documentation/coreimage/ciimage/1645894-premultiplyingalpha
         //Premultiplied alpha speeds up the rendering of images, so Core Image filters require that input image data be premultiplied. If you have an image without premultiplied alpha that you want to feed into a filter, use this method before applying the filter.
-        if (@available(iOS 10.0, *)) {
-            ciImage = [ciImage imageByPremultiplyingAlpha];
-        } else {
-            CIFilter *premultiplyFilter = [CIFilter filterWithName:@"CIPremultiply"];
-            NSAssert(premultiplyFilter, @"");
-            if (premultiplyFilter) {
-                [premultiplyFilter setValue:ciImage forKey:kCIInputImageKey];
-                ciImage = premultiplyFilter.outputImage;
-            }
-        }
+        ciImage = [ciImage imageByPremultiplyingAlpha];
     }
     objc_setAssociatedObject(ciImage, MTICIImageMTIImageAssociationKey, persistentImage, OBJC_ASSOCIATION_RETAIN);
     return ciImage;
@@ -115,12 +107,18 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
 }
 
 - (CGImageRef)createCGImageFromImage:(MTIImage *)image error:(NSError * __autoreleasing *)inOutError {
-    return [self createCGImageFromImage:image sRGB:NO error:inOutError];
+    return [self createCGImageFromImage:image colorSpace:nil error:inOutError];
 }
 
 - (CGImageRef)createCGImageFromImage:(MTIImage *)image sRGB:(BOOL)sRGB error:(NSError * __autoreleasing *)inOutError {
     CGImageRef outImage = NULL;
     __unused MTIRenderTask *renderTask = [self startTaskToCreateCGImage:&outImage fromImage:image sRGB:sRGB error:inOutError];
+    return outImage;
+}
+
+- (CGImageRef)createCGImageFromImage:(MTIImage *)image colorSpace:(CGColorSpaceRef)colorSpace error:(NSError * __autoreleasing *)inOutError {
+    CGImageRef outImage = NULL;
+    __unused MTIRenderTask *renderTask = [self startTaskToCreateCGImage:&outImage fromImage:image colorSpace:colorSpace error:inOutError];
     return outImage;
 }
 
@@ -183,6 +181,18 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
                 return nil;
             }
         } break;
+        case kCVPixelFormatType_420YpCbCr10BiPlanarVideoRange:
+        case kCVPixelFormatType_420YpCbCr10BiPlanarFullRange: {
+            if (renderingContext.context.isYCbCrPixelFormatSupported) {
+                targetPixelFormat = sRGB ? MTIPixelFormatYCBCR10_420_2P_sRGB : MTIPixelFormatYCBCR10_420_2P;
+            } else {
+                NSError *error = MTIErrorCreate(MTIErrorUnsupportedCVPixelBufferFormat, nil);
+                if (inOutError) {
+                    *inOutError = error;
+                }
+                return nil;
+            }
+        } break;
         case kCVPixelFormatType_64RGBAHalf: {
             targetPixelFormat = MTLPixelFormatRGBA16Float;
         } break;
@@ -190,7 +200,7 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
             targetPixelFormat = MTLPixelFormatRGBA32Float;
         } break;
         case kCVPixelFormatType_OneComponent8: {
-            #if TARGET_OS_IPHONE
+            #if TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST && !TARGET_OS_TV
             targetPixelFormat = sRGB ? MTLPixelFormatR8Unorm_sRGB : MTLPixelFormatR8Unorm;
             #else
             NSParameterAssert(!sRGB); //R8Unorm_sRGB texture is not available on macOS.
@@ -328,6 +338,46 @@ static const void * const MTICIImageMTIImageAssociationKey = &MTICIImageMTIImage
     if (errorCode == kCVReturnSuccess && pixelBuffer) {
         NSError *error;
         MTIRenderTask *renderTask = [self startTaskToRenderImage:image toCVPixelBuffer:pixelBuffer sRGB:sRGB error:&error completion:completion];
+        if (error) {
+            if (inOutError) {
+                *inOutError = error;
+            }
+            return nil;
+        }
+        OSStatus returnCode = VTCreateCGImageFromCVPixelBuffer(pixelBuffer, NULL, outImage);
+        CVPixelBufferRelease(pixelBuffer);
+        if (returnCode != noErr) {
+            if (inOutError) {
+                *inOutError = MTIErrorCreate(MTIErrorFailedToCreateCGImageFromCVPixelBuffer, @{NSUnderlyingErrorKey: [NSError errorWithDomain:NSOSStatusErrorDomain code:returnCode userInfo:nil]});
+            }
+            return nil;
+        }
+        return renderTask;
+    } else {
+        if (inOutError) {
+            *inOutError = MTIErrorCreate(MTIErrorFailedToCreateCVPixelBuffer, @{NSUnderlyingErrorKey: [NSError errorWithDomain:NSOSStatusErrorDomain code:errorCode userInfo:nil]});
+        }
+        return nil;
+    }
+}
+
+- (MTIRenderTask *)startTaskToCreateCGImage:(CGImageRef *)outImage fromImage:(MTIImage *)image colorSpace:(CGColorSpaceRef)colorSpace error:(NSError * __autoreleasing *)inOutError {
+    return [self startTaskToCreateCGImage:outImage fromImage:image colorSpace:colorSpace error:inOutError completion:nil];
+}
+
+- (MTIRenderTask *)startTaskToCreateCGImage:(CGImageRef *)outImage fromImage:(MTIImage *)image colorSpace:(CGColorSpaceRef)colorSpace error:(NSError * __autoreleasing *)inOutError completion:(void (^)(MTIRenderTask *))completion {
+    CVPixelBufferRef pixelBuffer = NULL;
+    CVReturn errorCode = CVPixelBufferCreate(kCFAllocatorDefault, image.size.width, image.size.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)@{(id)kCVPixelBufferIOSurfacePropertiesKey: @{}, (id)kCVPixelBufferCGImageCompatibilityKey: @YES}, &pixelBuffer);
+    if (errorCode == kCVReturnSuccess && pixelBuffer) {
+        if (!colorSpace) {
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            CVBufferSetAttachment(pixelBuffer, kCVImageBufferCGColorSpaceKey, colorSpace, kCVAttachmentMode_ShouldPropagate);
+            CGColorSpaceRelease(colorSpace);
+        } else {
+            CVBufferSetAttachment(pixelBuffer, kCVImageBufferCGColorSpaceKey, colorSpace, kCVAttachmentMode_ShouldPropagate);
+        }
+        NSError *error;
+        MTIRenderTask *renderTask = [self startTaskToRenderImage:image toCVPixelBuffer:pixelBuffer sRGB:NO error:&error completion:completion];
         if (error) {
             if (inOutError) {
                 *inOutError = error;

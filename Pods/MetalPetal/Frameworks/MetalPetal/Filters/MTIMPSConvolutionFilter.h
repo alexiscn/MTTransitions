@@ -6,10 +6,15 @@
 //
 //
 
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIFilter.h>
+#else
 #import "MTIFilter.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIMPSConvolutionFilter : NSObject <MTIUnaryFilter>
 
 /*! @property    bias

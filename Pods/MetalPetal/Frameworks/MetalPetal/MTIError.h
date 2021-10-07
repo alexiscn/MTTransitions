@@ -20,19 +20,25 @@ typedef NS_ERROR_ENUM(MTIErrorDomain, MTIError) {
     MTIErrorFailedToCreateTexture = 1004,
     MTIErrorFailedToCreateCommandEncoder = 1005,
     MTIErrorFailedToCreateHeap = 1006,
+    MTIErrorDefaultLibraryNotFound = 1007,
+    MTIErrorBlendFunctionNotFound = 1008,
     
     //Texture loading errors
     MTIErrorUnsupportedCVPixelBufferFormat = 2001,
     MTIErrorTextureDimensionsMismatch = 2002,
-    
+    MTIErrorTextureLoaderFailedToCreateCGContext = 2004,
+    MTIErrorTextureLoaderFailedToCreateCGImage = 2005,
+
     //Image errors
     MTIErrorUnsupportedImageCachePolicy = 3001,
     
     //Kernel errors
-    MTIErrorDataBufferSizeMismatch = 4001,
-    MTIErrorParameterDataTypeNotSupported = 4002,
+    MTIErrorParameterDataSizeMismatch = 4001,
+    MTIErrorUnsupportedParameterType = 4002,
     MTIErrorMPSKernelInputCountMismatch = 4003,
     MTIErrorMPSKernelNotSupported = 4004,
+    MTIErrorTextureBindingFailed = 4005,
+    MTIErrorParameterDataTypeMismatch = 4006,
     
     //Render errors
     MTIErrorEmptyDrawable = 5001,
@@ -45,7 +51,7 @@ typedef NS_ERROR_ENUM(MTIErrorDomain, MTIError) {
     //For operations do not support cross device or cross context rendering, we report these errors.
     MTIErrorCrossDeviceRendering = 5006,
     MTIErrorCrossContextRendering = 5007,
-    
+        
     //For features not available on iOS simulator.
     MTIErrorFeatureNotAvailableOnSimulator = 6001
 };

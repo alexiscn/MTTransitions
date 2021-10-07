@@ -6,18 +6,24 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
-#import <CoreImage/CoreImage.h>
 #import <MetalKit/MetalKit.h>
+#import <CoreImage/CoreImage.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTICVPixelBufferRendering.h>
+#import <MetalPetal/MTIColor.h>
+#import <MetalPetal/MTIAlphaType.h>
+#import <MetalPetal/MTITextureDimensions.h>
+#else
 #import "MTICVPixelBufferRendering.h"
 #import "MTIColor.h"
 #import "MTIAlphaType.h"
 #import "MTITextureDimensions.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MTISamplerDescriptor, MTICIImageRenderingOptions, MTICVPixelBufferRenderingOptions;
+@class MTISamplerDescriptor, MTICIImageRenderingOptions, MTICVPixelBufferRenderingOptions, MTICGImageLoadingOptions;
 
 typedef NS_ENUM(NSInteger, MTIImageCachePolicy) {
     MTIImageCachePolicyTransient,
@@ -25,6 +31,7 @@ typedef NS_ENUM(NSInteger, MTIImageCachePolicy) {
 } NS_SWIFT_NAME(MTIImage.CachePolicy);
 
 /// A representation of an image to be processed or produced.
+__attribute__((objc_subclassing_restricted))
 @interface MTIImage : NSObject <NSCopying>
 
 @property (nonatomic, readonly) MTIImageCachePolicy cachePolicy;
@@ -65,11 +72,17 @@ typedef NS_ENUM(NSInteger, MTIImageCachePolicy) {
 
 - (instancetype)initWithCVPixelBuffer:(CVPixelBufferRef)pixelBuffer planeIndex:(NSUInteger)planeIndex textureDescriptor:(MTLTextureDescriptor *)textureDescriptor alphaType:(MTIAlphaType)alphaType;
 
-- (instancetype)initWithCGImage:(CGImageRef)cgImage options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options;
+- (instancetype)initWithCGImage:(CGImageRef)cgImage options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options NS_REFINED_FOR_SWIFT;
 
-- (instancetype)initWithCGImage:(CGImageRef)cgImage options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options alphaType:(MTIAlphaType)alphaType __attribute__((deprecated("Replaced by MTIImage(cgImage:options:isOpaque:)")));
+- (instancetype)initWithCGImage:(CGImageRef)cgImage options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options alphaType:(MTIAlphaType)alphaType __attribute__((deprecated("Replaced by MTIImage(cgImage:options:isOpaque:)"))) NS_SWIFT_UNAVAILABLE("Replaced by MTIImage(cgImage:options:isOpaque:)");
 
-- (instancetype)initWithCGImage:(CGImageRef)cgImage options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options isOpaque:(BOOL)isOpaque;
+- (instancetype)initWithCGImage:(CGImageRef)cgImage options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options isOpaque:(BOOL)isOpaque NS_REFINED_FOR_SWIFT;
+
+- (instancetype)initWithCGImage:(CGImageRef)cgImage loadingOptions:(nullable MTICGImageLoadingOptions *)options NS_REFINED_FOR_SWIFT;
+
+- (instancetype)initWithCGImage:(CGImageRef)cgImage loadingOptions:(nullable MTICGImageLoadingOptions *)options isOpaque:(BOOL)isOpaque NS_REFINED_FOR_SWIFT;
+
+- (instancetype)initWithCGImage:(CGImageRef)cgImage orientation:(CGImagePropertyOrientation)orientation loadingOptions:(nullable MTICGImageLoadingOptions *)options isOpaque:(BOOL)isOpaque NS_REFINED_FOR_SWIFT;
 
 
 - (instancetype)initWithTexture:(id<MTLTexture>)texture alphaType:(MTIAlphaType)alphaType;
@@ -84,9 +97,15 @@ typedef NS_ENUM(NSInteger, MTIImageCachePolicy) {
 - (instancetype)initWithCIImage:(CIImage *)ciImage bounds:(CGRect)bounds isOpaque:(BOOL)isOpaque options:(MTICIImageRenderingOptions *)options;
 
 
-- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options;
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options NS_REFINED_FOR_SWIFT;
 
-- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options alphaType:(MTIAlphaType)alphaType;
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options alphaType:(MTIAlphaType)alphaType NS_REFINED_FOR_SWIFT;
+
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL size:(CGSize)size options:(nullable NSDictionary<MTKTextureLoaderOption,id> *)options alphaType:(MTIAlphaType)alphaType NS_REFINED_FOR_SWIFT;
+
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL loadingOptions:(nullable MTICGImageLoadingOptions *)options NS_REFINED_FOR_SWIFT;
+
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)URL loadingOptions:(nullable MTICGImageLoadingOptions *)options isOpaque:(BOOL)isOpaque NS_REFINED_FOR_SWIFT;
 
 //MTIAlphaTypeNonPremultiplied
 - (instancetype)initWithColor:(MTIColor)color sRGB:(BOOL)sRGB size:(CGSize)size;

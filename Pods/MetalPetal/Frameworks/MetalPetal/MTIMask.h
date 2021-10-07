@@ -5,8 +5,11 @@
 //  Created by Yu Ao on 14/11/2017.
 //
 
-#import <Foundation/Foundation.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIColor.h>
+#else
 #import "MTIColor.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +20,7 @@ typedef NS_ENUM(NSInteger, MTIMaskMode) {
     MTIMaskModeOneMinusMaskValue
 };
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIMask : NSObject <NSCopying>
 
 @property (nonatomic, strong, readonly) MTIImage *content;

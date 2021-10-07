@@ -5,13 +5,17 @@
 //  Created by Yu Ao on 26/11/2017.
 //
 
-#import <Foundation/Foundation.h>
-#import "MTIVertex.h"
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIGeometry.h>
+#else
+#import "MTIGeometry.h"
+#endif
 
 @class MTIRenderPipelineKernel, MTIImage, MTIRenderPassOutputDescriptor;
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIRenderCommand : NSObject <NSCopying>
 
 @property (nonatomic, strong, readonly) MTIRenderPipelineKernel *kernel;

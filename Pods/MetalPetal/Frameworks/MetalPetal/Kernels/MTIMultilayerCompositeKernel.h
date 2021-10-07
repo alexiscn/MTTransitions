@@ -5,22 +5,28 @@
 //  Created by YuAo on 27/09/2017.
 //
 
-#import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIKernel.h>
+#import <MetalPetal/MTITextureDimensions.h>
+#import <MetalPetal/MTIAlphaType.h>
+#else
 #import "MTIKernel.h"
-#import "MTIBlendModes.h"
 #import "MTITextureDimensions.h"
-#import "MTIPixelFormat.h"
-#import "MTIImagePromise.h"
+#import "MTIAlphaType.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MTIRenderPipeline, MTIFunctionDescriptor, MTIContext, MTIImage, MTILayer;
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIMultilayerCompositeKernel : NSObject <MTIKernel>
 
 - (MTIImage *)applyToBackgroundImage:(MTIImage *)image
                               layers:(NSArray<MTILayer *> *)layers
+                   rasterSampleCount:(NSUInteger)rasterSampleCount
+                     outputAlphaType:(MTIAlphaType)outputAlphaType
              outputTextureDimensions:(MTITextureDimensions)outputTextureDimensions
                    outputPixelFormat:(MTLPixelFormat)outputPixelFormat;
 

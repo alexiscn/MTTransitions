@@ -15,9 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIMemoryWarningObserver : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)new NS_UNAVAILABLE;
 
 + (void)addMemoryWarningHandler:(id<MTIMemoryWarningHandling>)memoryWarningHandler;
 

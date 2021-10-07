@@ -50,6 +50,8 @@
             _pixelWidth = CGImageGetWidth(image);
             _pixelHeight = CGImageGetHeight(image);
             
+            _bitsPerComponent = CGImageGetBitsPerComponent(image);
+            
             CGImageRelease(image);
             
             NSNumber *orientationValue = properties[(id)kCGImagePropertyOrientation];
@@ -88,7 +90,7 @@
     return self;
 }
 
-- (instancetype)initWithCGImage:(CGImageRef)image {
+- (instancetype)initWithCGImage:(CGImageRef)image orientation:(CGImagePropertyOrientation)orientation {
     NSParameterAssert(image);
     if (self = [super init]) {
         CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(image);
@@ -103,12 +105,38 @@
         _pixelWidth = CGImageGetWidth(image);
         _pixelHeight = CGImageGetHeight(image);
         
+        _bitsPerComponent = CGImageGetBitsPerComponent(image);
+        
         _displayWidth = _pixelWidth;
         _displayHeight = _pixelHeight;
         
-        _orientation = kCGImagePropertyOrientationUp;
+        _orientation = orientation;
+        
+        switch (orientation) {
+            case kCGImagePropertyOrientationUp:
+            case kCGImagePropertyOrientationDown:
+            case kCGImagePropertyOrientationUpMirrored:
+            case kCGImagePropertyOrientationDownMirrored:
+                _displayHeight = _pixelHeight;
+                _displayWidth = _pixelWidth;
+                break;
+            case kCGImagePropertyOrientationLeft:
+            case kCGImagePropertyOrientationRight:
+            case kCGImagePropertyOrientationLeftMirrored:
+            case kCGImagePropertyOrientationRightMirrored:
+                _displayWidth = _pixelHeight;
+                _displayHeight = _pixelWidth;
+                break;
+            default:
+                NSAssert(NO, @"Unknown orientation");
+                return nil;
+        }
     }
     return self;
+}
+
+- (instancetype)initWithCGImage:(CGImageRef)image {
+    return [self initWithCGImage:image orientation:kCGImagePropertyOrientationUp];
 }
 
 - (instancetype)initWithImageAtURL:(NSURL *)URL {

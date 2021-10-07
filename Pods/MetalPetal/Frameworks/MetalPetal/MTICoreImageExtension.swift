@@ -7,8 +7,12 @@
 
 import Foundation
 import CoreImage
-import MetalPetal.Extension
 
+#if SWIFT_PACKAGE
+@_implementationOnly import MetalPetalObjectiveC.Extension
+#else
+@_implementationOnly import MetalPetal.Extension
+#endif
 
 /// `MTICoreImageKernel` provides the ability to use CoreImage filters with MetalPetal with little or no overhead.
 @available(iOS 11.0, macOS 10.13, *)
@@ -89,7 +93,7 @@ public struct MTICoreImageKernel {
                     return try ciImage(for: $0, from: texture)
                 }
             })
-            let renderTarget = try renderingContext.context.makeRenderTarget(resuableTextureDescriptor: MTITextureDescriptor(pixelFormat: pixelFormat == .invalid ? renderingContext.context.workingPixelFormat : pixelFormat, width: dimensions.width, height: dimensions.height, mipmapped: false, usage: [.shaderRead,.shaderWrite], resourceOptions: .storageModePrivate))
+            let renderTarget = try renderingContext.context.makeRenderTarget(reusableTextureDescriptor: MTITextureDescriptor(pixelFormat: pixelFormat == .invalid ? renderingContext.context.workingPixelFormat : pixelFormat, width: dimensions.width, height: dimensions.height, mipmapped: false, usage: [.shaderRead,.shaderWrite], resourceOptions: .storageModePrivate))
             let outputCIImage = try filter(inputCIImages)
             let renderDestination = CIRenderDestination(mtlTexture: renderTarget.texture!, commandBuffer: renderingContext.commandBuffer)
             renderDestination.isFlipped = true
@@ -174,6 +178,9 @@ public final class MTICoreImageUnaryFilter: MTIUnaryFilter {
     
     public var outputImageSize: CGSize?
     
+    /// Specifies the alpha type of the output image.
+    public var outputAlphaType: MTIAlphaType = .nonPremultiplied
+    
     public var outputImage: MTIImage? {
         guard let inputImage = self.inputImage, let filter = filter?.copy() as? CIFilter else {
             return self.inputImage
@@ -191,6 +198,6 @@ public final class MTICoreImageUnaryFilter: MTIUnaryFilter {
                 dimensions = inputImage.dimensions
             }
         }
-        return MTICoreImageKernel.image(byProcessing: inputImage, using: filter, colorSpace: colorSpace, outputDimensions: dimensions, outputPixelFormat: outputPixelFormat, outputAlphaType: .nonPremultiplied)
+        return MTICoreImageKernel.image(byProcessing: inputImage, using: filter, colorSpace: colorSpace, outputDimensions: dimensions, outputPixelFormat: outputPixelFormat, outputAlphaType: outputAlphaType)
     }
 }

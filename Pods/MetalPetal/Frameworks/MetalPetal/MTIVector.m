@@ -53,6 +53,50 @@
     return self;
 }
 
+- (instancetype)initWithShortValues:(const short *)values count:(NSUInteger)count {
+    if (self = [super init]) {
+        NSParameterAssert(values);
+        NSParameterAssert(count > 0);
+        _count = count;
+        _data = [NSData dataWithBytes:values length:count * sizeof(short)];
+        _scalarType = MTIVectorScalarTypeShort;
+    }
+    return self;
+}
+
+- (instancetype)initWithUShortValues:(const unsigned short *)values count:(NSUInteger)count {
+    if (self = [super init]) {
+        NSParameterAssert(values);
+        NSParameterAssert(count > 0);
+        _count = count;
+        _data = [NSData dataWithBytes:values length:count * sizeof(unsigned short)];
+        _scalarType = MTIVectorScalarTypeUShort;
+    }
+    return self;
+}
+
+- (instancetype)initWithCharValues:(const char *)values count:(NSUInteger)count {
+    if (self = [super init]) {
+        NSParameterAssert(values);
+        NSParameterAssert(count > 0);
+        _count = count;
+        _data = [NSData dataWithBytes:values length:count * sizeof(char)];
+        _scalarType = MTIVectorScalarTypeChar;
+    }
+    return self;
+}
+
+- (instancetype)initWithUCharValues:(const unsigned char *)values count:(NSUInteger)count {
+    if (self = [super init]) {
+        NSParameterAssert(values);
+        NSParameterAssert(count > 0);
+        _count = count;
+        _data = [NSData dataWithBytes:values length:count * sizeof(unsigned char)];
+        _scalarType = MTIVectorScalarTypeUChar;
+    }
+    return self;
+}
+
 + (instancetype)vectorWithFloatValues:(const float *)values count:(NSUInteger)count {
     return [[MTIVector alloc] initWithFloatValues:values count:count];
 }
@@ -63,33 +107,6 @@
 
 + (instancetype)vectorWithUIntValues:(const uint *)values count:(NSUInteger)count {
     return [[MTIVector alloc] initWithUIntValues:values count:count];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    NSData *data = [coder decodeObjectOfClass:[NSData class] forKey:@"data"];
-    NSNumber *scalarTypeValue = [coder decodeObjectOfClass:[NSNumber class] forKey:@"scalarType"];
-    if (data == nil || scalarTypeValue == nil) {
-        return nil;
-    }
-    switch ([scalarTypeValue integerValue]) {
-        case MTIVectorScalarTypeFloat:
-            return [self initWithFloatValues:data.bytes count:data.length/sizeof(float)];
-        case MTIVectorScalarTypeInt:
-            return [self initWithIntValues:data.bytes count:data.length/sizeof(int)];
-        case MTIVectorScalarTypeUInt:
-            return [self initWithUIntValues:data.bytes count:data.length/sizeof(uint)];
-        default:
-            return nil;
-    }
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder {
-    [coder encodeObject:_data forKey:@"data"];
-    [coder encodeObject:@(_scalarType) forKey:@"scalarType"];
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
 }
 
 - (NSUInteger)hash {

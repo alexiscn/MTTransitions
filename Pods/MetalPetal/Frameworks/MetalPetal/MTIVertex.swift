@@ -7,7 +7,11 @@
 //
 
 import Foundation
-import simd
+import Metal
+
+#if SWIFT_PACKAGE
+import MetalPetalObjectiveC.Core
+#endif
 
 extension MTIVertex {
     public init(position: (Float,Float,Float,Float), textureCoordinate: (Float, Float)) {
@@ -23,9 +27,20 @@ extension MTIVertex : Equatable {
     }
 }
 
+extension MTIVertex: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(position)
+        hasher.combine(textureCoordinate)
+    }
+}
+
 extension MTIVertices {
     public convenience init(vertices: [MTIVertex], primitiveType: MTLPrimitiveType) {
         self.init(__vertices: vertices, count: UInt(vertices.count), primitiveType: primitiveType)
+    }
+    
+    public convenience init(vertexBuffer: MTIDataBuffer, vertexCount: Int, indexBuffer: MTIDataBuffer?, indexCount: Int?, primitiveType: MTLPrimitiveType) {
+        self.init(vertexBuffer: vertexBuffer, vertexCount: UInt(vertexCount), indexBuffer: indexBuffer, indexCount: UInt(indexCount ?? 0), primitiveType: primitiveType)
     }
 }
 

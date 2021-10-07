@@ -6,15 +6,21 @@
 //
 //
 #import <Metal/Metal.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIKernel.h>
+#import <MetalPetal/MTITextureDimensions.h>
+#else
 #import "MTIKernel.h"
 #import "MTITextureDimensions.h"
-#import "MTIPixelFormat.h"
-#import "MTIAlphaType.h"
+#endif
+
+@class MTIAlphaTypeHandlingRule;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MTIComputePipeline, MTIFunctionDescriptor, MTIImage;
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIComputeFunctionDispatchOptions : NSObject <NSCopying>
 
 + (instancetype)new NS_UNAVAILABLE;
@@ -27,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIComputePipelineKernel : NSObject <MTIKernel>
 
 - (instancetype)init NS_UNAVAILABLE;

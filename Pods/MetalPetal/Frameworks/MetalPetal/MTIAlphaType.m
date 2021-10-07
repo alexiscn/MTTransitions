@@ -89,11 +89,22 @@ NSString * MTIAlphaTypeGetDescription(MTIAlphaType alphaType) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         passthroughAlphaTypeHandlingRule = [[MTIAlphaTypeHandlingRule alloc] initWithAcceptableAlphaTypes:@[@(MTIAlphaTypeNonPremultiplied),@(MTIAlphaTypeAlphaIsOne),@(MTIAlphaTypePremultiplied)] outputAlphaTypeHandler:^MTIAlphaType(NSArray<NSNumber *> * _Nonnull inputAlphaTypes) {
-            NSAssert(inputAlphaTypes.count == 1, @"");
+            NSAssert([NSSet setWithArray:inputAlphaTypes].count == 1, @"");
             return [inputAlphaTypes.firstObject integerValue];
         }];
     });
     return passthroughAlphaTypeHandlingRule;
+}
+
+- (BOOL)_canHandleAlphaTypesInImages:(NSArray<MTIImage *> *)images {
+    /* Alpha Type Assert */
+    // https://github.com/MetalPetal/MetalPetal#alpha-types
+    for (MTIImage *image in images) {
+        if (![self canAcceptAlphaType:image.alphaType]) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end

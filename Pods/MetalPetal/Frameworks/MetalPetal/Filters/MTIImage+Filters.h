@@ -5,8 +5,13 @@
 //  Created by Yu Ao on 30/09/2017.
 //
 
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIFilter.h>
+#import <MetalPetal/MTIImage.h>
+#else
 #import "MTIFilter.h"
 #import "MTIImage.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (MTIImage *)imageByUnpremultiplyingAlpha;
 
 - (MTIImage *)imageByPremultiplyingAlpha;
+
+- (MTIImage *)imageByUnpremultiplyingAlphaWithPixelFormat:(MTLPixelFormat)pixelFormat NS_SWIFT_NAME(unpremultiplyingAlpha(outputPixelFormat:));
+
+- (MTIImage *)imageByPremultiplyingAlphaWithPixelFormat:(MTLPixelFormat)pixelFormat NS_SWIFT_NAME(premultiplyingAlpha(outputPixelFormat:));
 
 - (MTIImage *)imageByApplyingCGOrientation:(CGImagePropertyOrientation)orientation NS_SWIFT_NAME(oriented(_:));
 

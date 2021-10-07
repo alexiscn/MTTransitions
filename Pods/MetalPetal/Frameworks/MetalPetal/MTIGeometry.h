@@ -28,8 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIRenderPipeline.h>
+#else
 #import "MTIRenderPipeline.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -7,6 +7,10 @@
 
 import Foundation
 
+#if SWIFT_PACKAGE
+import MetalPetalObjectiveC.Core
+#endif
+
 extension MTIAlphaTypeHandlingRule {
     
     public var acceptableAlphaTypes: [MTIAlphaType] {
