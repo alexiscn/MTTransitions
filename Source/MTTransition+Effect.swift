@@ -65,6 +65,7 @@ extension MTTransition {
         case pixelize
         case polarFunction
         case polkaDotsCurtain
+        case powerKaleido
         case radial
         case randomNoisex
         case randomSquares
@@ -142,6 +143,7 @@ extension MTTransition {
             case .pixelize: return MTPixelizeTransition()
             case .polarFunction: return MTPolarFunctionTransition()
             case .polkaDotsCurtain: return MTPolkaDotsCurtainTransition()
+            case .powerKaleido: return MTPowerKaleidoTransition()
             case .radial: return MTRadialTransition()
             case .randomNoisex: return MTRandomNoisexTransition()
             case .randomSquares: return MTRandomSquaresTransition()
@@ -221,6 +223,7 @@ extension MTTransition {
             case .pixelize: return "Pixelize"
             case .polarFunction: return "PolarFunction"
             case .polkaDotsCurtain: return "PolkaDotsCurtain"
+            case .powerKaleido: return "PowerKaleido"
             case .radial: return "Radial"
             case .randomNoisex: return "RandomNoisex"
             case .randomSquares: return "RandomSquares"
