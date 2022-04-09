@@ -60,6 +60,7 @@ extension MTTransition {
         case morph
         case mosaic
         case multiplyBlend
+        case overexposure
         case perlin
         case pinwheel
         case pixelize
@@ -138,6 +139,7 @@ extension MTTransition {
             case .morph: return MTMorphTransition()
             case .mosaic: return MTMosaicTransition()
             case .multiplyBlend: return MTMultiplyBlendTransition()
+            case .overexposure: return MTOverexposureTransition()
             case .perlin: return MTPerlinTransition()
             case .pinwheel: return MTPinwheelTransition()
             case .pixelize: return MTPixelizeTransition()
@@ -218,6 +220,7 @@ extension MTTransition {
             case .morph: return "Morph"
             case .mosaic: return "Mosaic"
             case .multiplyBlend: return "MultiplyBlend"
+            case .overexposure: return "Overexposure"
             case .perlin: return "Perlin"
             case .pinwheel: return "Pinwheel"
             case .pixelize: return "Pixelize"
