@@ -29,6 +29,7 @@ extension MTTransition {
         case circleOpen
         case colorPhase
         case colourDistance
+        case coordFromIn
         case crazyParametricFun
         case crossHatch
         case crossWarp
@@ -109,6 +110,7 @@ extension MTTransition {
             case .circleOpen: return MTCircleOpenTransition()
             case .colorPhase: return MTColorPhaseTransition()
             case .colourDistance: return MTColourDistanceTransition()
+            case .coordFromIn: return MTCoordFromInTransition()
             case .crazyParametricFun: return MTCrazyParametricFunTransition()
             case .crossHatch: return MTCrossHatchTransition()
             case .crossWarp: return MTCrossWarpTransition()
@@ -191,6 +193,7 @@ extension MTTransition {
             case .circleOpen: return "CircleOpen"
             case .colorPhase: return "ColorPhase"
             case .colourDistance: return "ColourDistance"
+            case .coordFromIn: return "CoordFromIn"
             case .crazyParametricFun: return "CrazyParametricFun"
             case .crossHatch: return "CrossHatch"
             case .crossWarp: return "CrossWarp"
