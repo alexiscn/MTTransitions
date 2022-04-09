@@ -73,6 +73,7 @@ extension MTTransition {
         case ripple
         case rotate
         case rotateScaleFade
+        case scaleIn
         case simpleZoom
         case squaresWire
         case squeeze
@@ -152,6 +153,7 @@ extension MTTransition {
             case .ripple: return MTRippleTransition()
             case .rotate: return MTRotateTransition()
             case .rotateScaleFade: return MTRotateScaleFadeTransition()
+            case .scaleIn: return MTScaleInTransition()
             case .simpleZoom: return MTSimpleZoomTransition()
             case .squaresWire: return MTSquaresWireTransition()
             case .squeeze: return MTSqueezeTransition()
@@ -233,6 +235,7 @@ extension MTTransition {
             case .ripple: return "Ripple"
             case .rotate: return "Rotate"
             case .rotateScaleFade: return "RotateScaleFade"
+            case .scaleIn: return "ScaleIn"
             case .simpleZoom: return "SimpleZoom"
             case .squaresWire: return "SquaresWire"
             case .squeeze: return "Squeeze"

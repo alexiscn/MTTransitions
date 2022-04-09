@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+public class MTScaleInTransition: MTTransition {
+    
+    override var fragmentName: String {
+        return "ScaleInFragment"
+    }
+}
