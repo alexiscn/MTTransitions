@@ -2,7 +2,7 @@
 //  MTNoneTransition.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/30.
+//  Created by alexiscn on 2020/3/30.
 //
 
 import Foundation

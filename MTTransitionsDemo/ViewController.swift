@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  MTTransitionsDemo
 //
-//  Created by xu.shuifeng on 2019/1/24.
-//  Copyright © 2019 xu.shuifeng. All rights reserved.
+//  Created by alexiscn on 2019/1/24.
+//  Copyright © 2019 alexiscn. All rights reserved.
 //
 
 import UIKit

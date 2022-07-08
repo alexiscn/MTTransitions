@@ -2,7 +2,7 @@
 //  MTTransitions.h
 //  MTTransitions
 //
-//  Created by xu.shuifeng on 2019/1/24.
+//  Created by alexiscn on 2019/1/24.
 //
 
 #ifndef MTTransitions_h

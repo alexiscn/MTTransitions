@@ -2,8 +2,8 @@
 //  PickImageTransitionViewController.swift
 //  MTTransitionsDemo
 //
-//  Created by xu.shuifeng on 2020/4/9.
-//  Copyright © 2020 xu.shuifeng. All rights reserved.
+//  Created by alexiscn on 2020/4/9.
+//  Copyright © 2020 alexiscn. All rights reserved.
 //
 
 import UIKit

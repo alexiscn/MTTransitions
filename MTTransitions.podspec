@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.summary         = 'MTTransitions'
   s.homepage        = 'https://github.com/alexiscn/MTTransitions'
   s.license         = { :type => 'MIT' }
-  s.author          = { 'xushuifeng' => 'shuifengxu@gmail.com' }
+  s.author          = { 'alexiscn' => 'shuifengxu@gmail.com' }
   s.platform        = :ios
   s.swift_version   = '5.0'
   s.source_files    = 'Source/**/*.{swift,metal,h}'

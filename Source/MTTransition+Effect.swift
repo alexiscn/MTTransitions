@@ -2,7 +2,7 @@
 //  MTTransition+Effect.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/22.
+//  Created by alexiscn on 2020/3/22.
 //
 
 import Foundation
@@ -61,6 +61,7 @@ extension MTTransition {
         case luminanceMelt
         case morph
         case mosaic
+        case mosaicYueDev
         case multiplyBlend
         case overexposure
         case perlin
@@ -143,6 +144,7 @@ extension MTTransition {
             case .luminanceMelt: return MTLuminanceMeltTransition()
             case .morph: return MTMorphTransition()
             case .mosaic: return MTMosaicTransition()
+            case .mosaicYueDev: return MTMosaicYueDevTransition()
             case .multiplyBlend: return MTMultiplyBlendTransition()
             case .overexposure: return MTOverexposureTransition()
             case .perlin: return MTPerlinTransition()
@@ -227,6 +229,7 @@ extension MTTransition {
             case .luminanceMelt: return "LuminanceMelt"
             case .morph: return "Morph"
             case .mosaic: return "Mosaic"
+            case .mosaicYueDev: return "MosaicYueDev"
             case .multiplyBlend: return "MultiplyBlend"
             case .overexposure: return "Overexposure"
             case .perlin: return "Perlin"

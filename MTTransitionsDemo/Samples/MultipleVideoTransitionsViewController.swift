@@ -2,8 +2,8 @@
 //  MultipleVideoTransitionsViewController.swift
 //  MTTransitionsDemo
 //
-//  Created by xushuifeng on 2020/3/25.
-//  Copyright © 2020 xu.shuifeng. All rights reserved.
+//  Created by alexiscn on 2020/3/25.
+//  Copyright © 2020 alexiscn. All rights reserved.
 //
 
 import UIKit

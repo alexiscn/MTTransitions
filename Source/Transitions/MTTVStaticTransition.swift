@@ -2,7 +2,7 @@
 //  MTTVStaticTransition.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/24.
+//  Created by alexiscn on 2020/3/24.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  MTViewControllerTransition.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/22.
+//  Created by alexiscn on 2020/3/22.
 //
 
 import Foundation
