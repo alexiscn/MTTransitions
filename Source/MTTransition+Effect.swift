@@ -18,6 +18,7 @@ extension MTTransition {
         /// none transition applied
         case none
         case angular
+        case bookFlip
         case bounce
         case bowTieHorizontal
         case bowTieVertical
@@ -99,6 +100,7 @@ extension MTTransition {
             switch self {
             case .none: return MTNoneTransition()
             case .angular: return MTAngularTransition()
+            case .bookFlip: return MTBookFlipTransition()
             case .bounce: return MTBounceTransition()
             case .bowTieHorizontal: return MTBowTieHorizontalTransition()
             case .bowTieVertical: return MTBowTieVerticalTransition()
@@ -182,6 +184,7 @@ extension MTTransition {
             switch self {
             case .none: return "None"
             case .angular: return "Angular"
+            case .bookFlip: return "BookFlip"
             case .bounce: return "Bounce"
             case .bowTieHorizontal: return "BowTieHorizontal"
             case .bowTieVertical: return "BowTieVertical"
