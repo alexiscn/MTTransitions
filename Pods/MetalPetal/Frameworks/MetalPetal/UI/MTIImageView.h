@@ -9,13 +9,20 @@
 
 #import <UIKit/UIKit.h>
 #import <MetalKit/MetalKit.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIDrawableRendering.h>
+#else
 #import "MTIDrawableRendering.h"
+#endif
 
 @class MTIImage,MTIContext;
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIImageView : UIView <MTKViewDelegate>
+
+@property (nonatomic) BOOL automaticallyCreatesContext;
 
 @property (nonatomic) MTLPixelFormat colorPixelFormat;
 
@@ -23,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) MTIDrawableRenderingResizingMode resizingMode;
 
-@property (nonatomic, strong) MTIContext *context;
+/// The `MTIContext` used to render the image. If no context is assigned and `automaticallyCreatesContext` is set to `true` (the default value), a `MTIContext` is created automatically when the image view renders its content.
+@property (nonatomic, strong, nullable) MTIContext *context;
 
 @property (nonatomic, strong, nullable) MTIImage *image;
 

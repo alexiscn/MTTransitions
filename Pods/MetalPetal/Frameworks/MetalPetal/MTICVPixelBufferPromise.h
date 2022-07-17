@@ -6,12 +6,17 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIImagePromise.h>
+#import <MetalPetal/MTICVPixelBufferRendering.h>
+#else
 #import "MTIImagePromise.h"
 #import "MTICVPixelBufferRendering.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTICVPixelBufferPromise : NSObject <MTIImagePromise>
 
 @property (nonatomic, readonly) MTICVPixelBufferRenderingAPI renderingAPI;
@@ -26,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+__attribute__((objc_subclassing_restricted))
 @interface MTICVPixelBufferDirectBridgePromise : NSObject <MTIImagePromise>
 
 - (instancetype)init NS_UNAVAILABLE;

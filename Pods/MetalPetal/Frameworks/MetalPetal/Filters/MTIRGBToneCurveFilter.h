@@ -5,11 +5,17 @@
 //  Created by Yu Ao on 12/01/2018.
 //
 
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIFilter.h>
+#else
 #import "MTIFilter.h"
-#import "MTIVector.h"
+#endif
+
+@class MTIVector;
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIRGBToneCurveFilter : NSObject <MTIFilter>
 
 @property (nonatomic, strong, nullable) MTIImage *inputImage;

@@ -9,10 +9,18 @@
 #import <MetalKit/MetalKit.h>
 #import <CoreImage/CoreImage.h>
 #import <CoreVideo/CoreVideo.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIContext.h>
+#else
 #import "MTIContext.h"
+#endif
+
+@class MTIImage;
+@protocol MTIKernelConfiguration, MTIKernel, MTIImagePromise;
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIImagePromiseRenderTarget : NSObject
 
 @property (nonatomic,strong,readonly,nullable) id<MTLTexture> texture;
@@ -32,7 +40,7 @@ typedef NSString * MTIContextImageAssociatedValueTableName NS_EXTENSIBLE_STRING_
 
 #pragma mark - Render Target
 
-- (nullable MTIImagePromiseRenderTarget *)newRenderTargetWithResuableTextureDescriptor:(MTITextureDescriptor *)textureDescriptor error:(NSError **)error NS_SWIFT_NAME(makeRenderTarget(resuableTextureDescriptor:));
+- (nullable MTIImagePromiseRenderTarget *)newRenderTargetWithReusableTextureDescriptor:(MTITextureDescriptor *)textureDescriptor error:(NSError **)error NS_SWIFT_NAME(makeRenderTarget(reusableTextureDescriptor:));
 
 - (MTIImagePromiseRenderTarget *)newRenderTargetWithTexture:(id<MTLTexture>)texture NS_SWIFT_NAME(makeRenderTarget(texture:));
 
@@ -43,8 +51,6 @@ typedef NSString * MTIContextImageAssociatedValueTableName NS_EXTENSIBLE_STRING_
 - (void)unlockForRendering;
 
 #pragma mark - Cache
-
-- (nullable id<MTLLibrary>)libraryWithURL:(NSURL *)URL error:(NSError **)error;
 
 - (nullable id<MTLFunction>)functionWithDescriptor:(MTIFunctionDescriptor *)descriptor error:(NSError **)error;
 

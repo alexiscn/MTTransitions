@@ -8,6 +8,7 @@
 #import "MTIImage+Filters.h"
 #import "MTIAlphaPremultiplicationFilter.h"
 #import "MTIUnaryImageRenderingFilter.h"
+#import "MTIPixelFormat.h"
 
 @implementation MTIImage (Filters)
 
@@ -17,6 +18,14 @@
 
 - (MTIImage *)imageByPremultiplyingAlpha {
     return [[MTIPremultiplyAlphaFilter imageByProcessingImage:[self imageWithCachePolicy:MTIImageCachePolicyTransient]] imageWithCachePolicy:self.cachePolicy];
+}
+
+- (MTIImage *)imageByPremultiplyingAlphaWithPixelFormat:(MTLPixelFormat)pixelFormat {
+    return [[MTIPremultiplyAlphaFilter imageByProcessingImage:[self imageWithCachePolicy:MTIImageCachePolicyTransient] outputPixelFormat:pixelFormat] imageWithCachePolicy:self.cachePolicy];
+}
+
+- (MTIImage *)imageByUnpremultiplyingAlphaWithPixelFormat:(MTLPixelFormat)pixelFormat {
+    return [[MTIUnpremultiplyAlphaFilter imageByProcessingImage:[self imageWithCachePolicy:MTIImageCachePolicyTransient] outputPixelFormat:pixelFormat] imageWithCachePolicy:self.cachePolicy];
 }
 
 - (MTIImage *)imageByApplyingCGOrientation:(CGImagePropertyOrientation)orientation {

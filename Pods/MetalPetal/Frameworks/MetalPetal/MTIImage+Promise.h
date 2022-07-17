@@ -6,8 +6,12 @@
 //
 //
 
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIImage.h>
+#else
 #import "MTIImage.h"
-#import "MTIImagePromise.h"
+#endif
+@protocol MTIImagePromise;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPromise:(id<MTIImagePromise>)promise samplerDescriptor:(MTISamplerDescriptor *)samplerDescriptor;
 
 - (instancetype)initWithPromise:(id<MTIImagePromise>)promise samplerDescriptor:(MTISamplerDescriptor *)samplerDescriptor cachePolicy:(MTIImageCachePolicy)cachePolicy;
+
+- (instancetype)initWithPromise:(id<MTIImagePromise>)promise cachePolicy:(MTIImageCachePolicy)cachePolicy;
 
 @end
 

@@ -9,10 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Abstract interface for texture loader.
+/// Abstract interface for texture loaders.
 @protocol MTITextureLoader <NSObject>
 
-+ (instancetype)newTextureLoaderWithDevice:(id <MTLDevice>)device;
++ (instancetype)newTextureLoaderWithDevice:(id <MTLDevice>)device NS_SWIFT_NAME(makeTextureLoader(device:));
 
 - (nullable id <MTLTexture>)newTextureWithCGImage:(nonnull CGImageRef)cgImage
                                           options:(nullable NSDictionary <MTKTextureLoaderOption, id> *)options
@@ -35,6 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface MTKTextureLoader (MTITextureLoader) <MTITextureLoader>
+
+@end
+
+/// The default texture loader. A `MTIDefaultTextureLoader` object uses a `MTKTextureLoader` internally to load textures. When an image cannot be loaded with `MTKTextureLoader`, `MTIDefaultTextureLoader` draws the image to a 32bits/pixel BGRA `CVPixelBuffer` and creates a texture from that pixel buffer.
+__attribute__((objc_subclassing_restricted))
+@interface MTIDefaultTextureLoader : NSObject <MTITextureLoader>
+
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)new NS_UNAVAILABLE;
 
 @end
 

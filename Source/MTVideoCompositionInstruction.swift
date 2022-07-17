@@ -2,7 +2,7 @@
 //  MTVideoCompositionInstruction.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/23.
+//  Created by alexiscn on 2020/3/23.
 //
 
 import Foundation

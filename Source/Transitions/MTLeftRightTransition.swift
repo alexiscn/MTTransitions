@@ -2,7 +2,7 @@
 //  MTLeftRightTransition.swift
 //  MTTransitions
 //
-//  Created by xu.shuifeng on 2021/2/22.
+//  Created by alexiscn on 2021/2/22.
 //
 
 import Foundation

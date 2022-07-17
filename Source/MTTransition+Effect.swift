@@ -2,7 +2,7 @@
 //  MTTransition+Effect.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/22.
+//  Created by alexiscn on 2020/3/22.
 //
 
 import Foundation
@@ -18,6 +18,7 @@ extension MTTransition {
         /// none transition applied
         case none
         case angular
+        case bookFlip
         case bounce
         case bowTieHorizontal
         case bowTieVertical
@@ -29,6 +30,7 @@ extension MTTransition {
         case circleOpen
         case colorPhase
         case colourDistance
+        case coordFromIn
         case crazyParametricFun
         case crossHatch
         case crossWarp
@@ -59,17 +61,22 @@ extension MTTransition {
         case luminanceMelt
         case morph
         case mosaic
+        case mosaicYueDev
         case multiplyBlend
+        case overexposure
         case perlin
         case pinwheel
         case pixelize
         case polarFunction
         case polkaDotsCurtain
+        case powerKaleido
         case radial
         case randomNoisex
         case randomSquares
         case ripple
+        case rotate
         case rotateScaleFade
+        case scaleIn
         case simpleZoom
         case squaresWire
         case squeeze
@@ -94,6 +101,7 @@ extension MTTransition {
             switch self {
             case .none: return MTNoneTransition()
             case .angular: return MTAngularTransition()
+            case .bookFlip: return MTBookFlipTransition()
             case .bounce: return MTBounceTransition()
             case .bowTieHorizontal: return MTBowTieHorizontalTransition()
             case .bowTieVertical: return MTBowTieVerticalTransition()
@@ -105,6 +113,7 @@ extension MTTransition {
             case .circleOpen: return MTCircleOpenTransition()
             case .colorPhase: return MTColorPhaseTransition()
             case .colourDistance: return MTColourDistanceTransition()
+            case .coordFromIn: return MTCoordFromInTransition()
             case .crazyParametricFun: return MTCrazyParametricFunTransition()
             case .crossHatch: return MTCrossHatchTransition()
             case .crossWarp: return MTCrossWarpTransition()
@@ -135,17 +144,22 @@ extension MTTransition {
             case .luminanceMelt: return MTLuminanceMeltTransition()
             case .morph: return MTMorphTransition()
             case .mosaic: return MTMosaicTransition()
+            case .mosaicYueDev: return MTMosaicYueDevTransition()
             case .multiplyBlend: return MTMultiplyBlendTransition()
+            case .overexposure: return MTOverexposureTransition()
             case .perlin: return MTPerlinTransition()
             case .pinwheel: return MTPinwheelTransition()
             case .pixelize: return MTPixelizeTransition()
             case .polarFunction: return MTPolarFunctionTransition()
             case .polkaDotsCurtain: return MTPolkaDotsCurtainTransition()
+            case .powerKaleido: return MTPowerKaleidoTransition()
             case .radial: return MTRadialTransition()
             case .randomNoisex: return MTRandomNoisexTransition()
             case .randomSquares: return MTRandomSquaresTransition()
             case .ripple: return MTRippleTransition()
+            case .rotate: return MTRotateTransition()
             case .rotateScaleFade: return MTRotateScaleFadeTransition()
+            case .scaleIn: return MTScaleInTransition()
             case .simpleZoom: return MTSimpleZoomTransition()
             case .squaresWire: return MTSquaresWireTransition()
             case .squeeze: return MTSqueezeTransition()
@@ -172,6 +186,7 @@ extension MTTransition {
             switch self {
             case .none: return "None"
             case .angular: return "Angular"
+            case .bookFlip: return "BookFlip"
             case .bounce: return "Bounce"
             case .bowTieHorizontal: return "BowTieHorizontal"
             case .bowTieVertical: return "BowTieVertical"
@@ -183,6 +198,7 @@ extension MTTransition {
             case .circleOpen: return "CircleOpen"
             case .colorPhase: return "ColorPhase"
             case .colourDistance: return "ColourDistance"
+            case .coordFromIn: return "CoordFromIn"
             case .crazyParametricFun: return "CrazyParametricFun"
             case .crossHatch: return "CrossHatch"
             case .crossWarp: return "CrossWarp"
@@ -213,17 +229,22 @@ extension MTTransition {
             case .luminanceMelt: return "LuminanceMelt"
             case .morph: return "Morph"
             case .mosaic: return "Mosaic"
+            case .mosaicYueDev: return "MosaicYueDev"
             case .multiplyBlend: return "MultiplyBlend"
+            case .overexposure: return "Overexposure"
             case .perlin: return "Perlin"
             case .pinwheel: return "Pinwheel"
             case .pixelize: return "Pixelize"
             case .polarFunction: return "PolarFunction"
             case .polkaDotsCurtain: return "PolkaDotsCurtain"
+            case .powerKaleido: return "PowerKaleido"
             case .radial: return "Radial"
             case .randomNoisex: return "RandomNoisex"
             case .randomSquares: return "RandomSquares"
             case .ripple: return "Ripple"
+            case .rotate: return "Rotate"
             case .rotateScaleFade: return "RotateScaleFade"
+            case .scaleIn: return "ScaleIn"
             case .simpleZoom: return "SimpleZoom"
             case .squaresWire: return "SquaresWire"
             case .squeeze: return "Squeeze"

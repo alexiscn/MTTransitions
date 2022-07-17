@@ -11,6 +11,7 @@
 #import "MTIRenderPipelineKernel.h"
 #import "MTIVector+SIMD.h"
 #import "MTIRenderPassOutputDescriptor.h"
+#import "MTIMask.h"
 
 @implementation MTIHexagonalBokehBlurFilter
 @synthesize outputPixelFormat = _outputPixelFormat;
@@ -58,8 +59,7 @@
     
     MTIMask *mask = self.inputMask;
     if (!mask) {
-        MTIImage *maskImage = [[MTIImage alloc] initWithColor:MTIColorMake(1, 1, 1, 1) sRGB:NO size:CGSizeMake(1, 1)];
-        mask = [[MTIMask alloc] initWithContent:maskImage component:MTIColorComponentRed mode:MTIMaskModeNormal];
+        mask = [[MTIMask alloc] initWithContent:MTIImage.whiteImage component:MTIColorComponentRed mode:MTIMaskModeNormal];
     }
     
     MTIVector * deltas[3];

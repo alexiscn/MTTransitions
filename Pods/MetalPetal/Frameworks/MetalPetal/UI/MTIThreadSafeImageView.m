@@ -30,12 +30,15 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
 
 @property CGFloat contentsScale;
 
+@property (nullable) CGColorSpaceRef colorspace;
+
 - (id<CAMetalDrawable>)nextDrawable;
 
 @end
 
 
 // For simulator < iOS 13
+__attribute__((objc_subclassing_restricted))
 @interface MTIStubMetalLayer : CALayer <MTICAMetalLayer>
 
 @property (nullable, retain, atomic) id<MTLDevice> device;
@@ -44,12 +47,22 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
 
 @property (atomic) CGSize drawableSize;
 
+@property (nullable) CGColorSpaceRef colorspace;
+
 @end
 
 @implementation MTIStubMetalLayer
 
 - (id<CAMetalDrawable>)nextDrawable {
     return nil;
+}
+
+- (CGColorSpaceRef)colorspace {
+    return nil;
+}
+
+- (void)setColorspace:(CGColorSpaceRef)colorspace {
+    
 }
 
 @end
@@ -77,6 +90,10 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
 @property (nonatomic) CGRect backgroundAccessingBounds;
 
 @property (nonatomic) BOOL currentDrawableValid;
+
+@property (nonatomic) CGSize currentDrawableSize;
+
+@property (nonatomic, strong) NSError *contextCreationError;
 
 @end
 
@@ -115,14 +132,9 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
 - (void)setupImageView {
     _renderLayer = (id)self.layer;
     _resizingMode = MTIDrawableRenderingResizingModeAspect;
-
-    id<MTLDevice> device = MTLCreateSystemDefaultDevice();
-    NSError *error;
-    _context = [[MTIContext alloc] initWithDevice:device error:&error];
-    if (error) {
-        NSLog(@"%@: Failed to create MTIContext - %@",self,error);
-    }
-    _renderLayer.device = device;
+    _automaticallyCreatesContext = YES;
+    _renderLayer.device = nil;
+    _currentDrawableSize = _renderLayer.drawableSize;
     _lock = MTILockCreate();
     self.opaque = YES;
 }
@@ -159,9 +171,22 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
 
 - (MTIContext *)context {
     [_lock lock];
+    [self setupContextIfNeeded];
     MTIContext *c = _context;
     [_lock unlock];
     return c;
+}
+
+- (void)setupContextIfNeeded {
+    NSAssert([_lock tryLock] == NO, @"");
+    if (!_context && !_contextCreationError && _automaticallyCreatesContext) {
+        NSError *error;
+        _context = [[MTIContext alloc] initWithDevice:MTLCreateSystemDefaultDevice() error:&error];
+        if (error) {
+            _contextCreationError = error;
+        }
+        _renderLayer.device = _context.device;
+    }
 }
 
 - (void)setColorPixelFormat:(MTLPixelFormat)colorPixelFormat {
@@ -178,6 +203,22 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
     MTLPixelFormat format = _renderLayer.pixelFormat;
     [_lock unlock];
     return format;
+}
+
+- (void)setColorSpace:(CGColorSpaceRef)colorSpace {
+    [_lock lock];
+    if (_renderLayer.colorspace != colorSpace) {
+        _renderLayer.colorspace = colorSpace;
+        [self renderImage:_image completion:nil];
+    }
+    [_lock unlock];
+}
+
+- (CGColorSpaceRef)colorSpace {
+    [_lock lock];
+    CGColorSpaceRef colorspace = _renderLayer.colorspace;
+    [_lock unlock];
+    return colorspace;
 }
 
 - (void)setClearColor:(MTLClearColor)clearColor {
@@ -249,8 +290,10 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
     [super layoutSubviews];
     
     [_lock lock];
-    _backgroundAccessingBounds = self.bounds;
-    [self renderImage:_image completion:nil];
+    if (!CGRectEqualToRect(_backgroundAccessingBounds, self.bounds)) {
+        _backgroundAccessingBounds = self.bounds;
+        [self renderImage:_image completion:nil];
+    }
     [_lock unlock];
 }
 
@@ -259,10 +302,12 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
 - (void)renderImage:(MTIImage *)image completion:(void (^)(NSError *))completion {
     NSAssert([_lock tryLock] == NO, @"");
     
+    [self setupContextIfNeeded];
+    
     MTIContext *context = self -> _context;
     if (!context) {
         if (completion) {
-            completion([NSError errorWithDomain:MTIImageViewErrorDomain code:MTIImageViewErrorContextNotFound userInfo:nil]);
+            completion(_contextCreationError ?: [NSError errorWithDomain:MTIImageViewErrorDomain code:MTIImageViewErrorContextNotFound userInfo:nil]);
         }
         return;
     }
@@ -326,9 +371,11 @@ NSString * const MTIImageViewErrorDomain = @"MTIImageViewErrorDomain";
         CGFloat heightScale = imageSize.height/_backgroundAccessingBounds.size.height;
         CGFloat nativeScale = _screenScale;
         CGFloat scale = MAX(MIN(MAX(widthScale,heightScale),nativeScale), 1.0);
-        if (ABS(renderLayer.contentsScale - scale) > 0.00001) {
+        CGSize drawableSize = CGSizeMake(_backgroundAccessingBounds.size.width * scale, _backgroundAccessingBounds.size.height * scale);
+        if (ABS(renderLayer.contentsScale - scale) > 0.00001 || !CGSizeEqualToSize(drawableSize, _currentDrawableSize)) {
             renderLayer.contentsScale = scale;
-            renderLayer.drawableSize = CGSizeMake(_backgroundAccessingBounds.size.width * scale, _backgroundAccessingBounds.size.height * scale);
+            renderLayer.drawableSize = drawableSize;
+            _currentDrawableSize = drawableSize;
         }
     }
 }

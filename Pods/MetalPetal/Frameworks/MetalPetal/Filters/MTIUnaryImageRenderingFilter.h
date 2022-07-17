@@ -5,10 +5,16 @@
 //  Created by Yu Ao on 10/10/2017.
 //
 
+#import <QuartzCore/QuartzCore.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIFilter.h>
+#import <MetalPetal/MTIImageOrientation.h>
+#import <MetalPetal/MTIAlphaType.h>
+#else
 #import "MTIFilter.h"
 #import "MTIImageOrientation.h"
 #import "MTIAlphaType.h"
-#import <QuartzCore/QuartzCore.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

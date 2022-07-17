@@ -3,8 +3,8 @@
 //  https://github.com/eduardourso/GIFGenerator
 //  MTTransitionsDemo
 //
-//  Created by xu.shuifeng on 2019/2/1.
-//  Copyright © 2019 xu.shuifeng. All rights reserved.
+//  Created by alexiscn on 2019/2/1.
+//  Copyright © 2019 alexiscn. All rights reserved.
 //
 
 import ImageIO

@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef MTIShader_h
-#define MTIShader_h
+#ifndef MTIShaderLib_h
+#define MTIShaderLib_h
 
 #if __METAL_MACOS__ || __METAL_IOS__
 
@@ -17,7 +17,7 @@ using namespace metal;
 
 #endif /* __METAL_MACOS__ || __METAL_IOS__ */
 
-#import <simd/simd.h>
+#include <simd/simd.h>
 
 struct MTIVertex {
     vector_float4 position;
@@ -40,13 +40,32 @@ struct MTICLAHELUTGeneratorInputParameters {
 typedef struct MTICLAHELUTGeneratorInputParameters MTICLAHELUTGeneratorInputParameters;
 
 struct MTIMultilayerCompositingLayerShadingParameters {
+    vector_float2 canvasSize;
+    
     float opacity;
-    bool contentHasPremultipliedAlpha;
-    bool hasCompositingMask;
+    
+    int maskComponent;
+    bool maskHasPremultipliedAlpha;
+    bool maskUsesOneMinusValue;
+    
     int compositingMaskComponent;
-    bool usesOneMinusMaskValue;
+    bool compositingMaskHasPremultipliedAlpha;
+    bool compositingMaskUsesOneMinusValue;
+    
+    vector_float4 tintColor;
+    vector_float4 cornerRadius;
+    
+    vector_float2 layerSize;
 };
 typedef struct MTIMultilayerCompositingLayerShadingParameters MTIMultilayerCompositingLayerShadingParameters;
+
+struct MTIMultilayerCompositingLayerVertex {
+    vector_float4 position;
+    vector_float2 textureCoordinate;
+    vector_float2 positionInLayer;
+};
+typedef struct MTIMultilayerCompositingLayerVertex MTIMultilayerCompositingLayerVertex;
+
 
 #if __METAL_MACOS__ || __METAL_IOS__
 
@@ -58,6 +77,12 @@ namespace metalpetal {
         float4 position [[ position ]];
         float2 textureCoordinate;
     } VertexOut;
+
+    typedef struct {
+        float4 position [[ position ]];
+        float2 textureCoordinate;
+        float2 positionInLayer;
+    } MTIMultilayerCompositingLayerVertexOut;
     
     // GLSL mod func for metal
     template <typename T, typename _E = typename enable_if<is_floating_point<typename make_scalar<T>::type>::value>::type>
@@ -85,15 +110,28 @@ namespace metalpetal {
     
     template <typename T, typename _E = typename enable_if<is_floating_point<T>::value>::type>
     METAL_FUNC T ITUR709ToLinear(T c) {
-#if __METAL_IOS__
+        #if __METAL_IOS__
         return powr(c, 1.961);
-#else
+        #else
         return c < 0.081 ? 0.222 * c : powr(0.91 * c + 0.09, 2.222);
-#endif
+        #endif
     }
     
     METAL_FUNC float3 ITUR709ToLinear(float3 c) {
         return float3(ITUR709ToLinear(c.r), ITUR709ToLinear(c.g), ITUR709ToLinear(c.b));
+    }
+
+    template <typename T, typename _E = typename enable_if<is_floating_point<T>::value>::type>
+    METAL_FUNC T linearToITUR709(T c) {
+        #if __METAL_IOS__
+        return powr(c, 1.0/1.961);
+        #else
+        return c < 0.018 ? (4.5 * c) : (1.099 * powr(c, 1.0/2.222) - 0.099);
+        #endif
+    }
+    
+    METAL_FUNC float3 linearToITUR709(float3 c) {
+        return float3(linearToITUR709(c.r), linearToITUR709(c.g), linearToITUR709(c.b));
     }
     
     METAL_FUNC float4 unpremultiply(float4 s) {
@@ -653,8 +691,98 @@ namespace metalpetal {
         
         return finalColor;
     }
+    
+    METAL_FUNC float _circularCornerSDF(float2 p, float dp) {
+        float2 uv = saturate(p);
+        if (uv.x == 0 || uv.y == 0) {
+            return 1;
+        }
+        float d = length(uv);
+        float dx = abs(length(uv + float2(dp, 0)) - d);
+        float dy = abs(length(uv + float2(0, dp)) - d);
+        float w = max(dx + dy, 1e-4);
+        return saturate((w * .5 + (1. - d)) / w);
+    }
+
+    METAL_FUNC float _continuousCornerDistance(float2 p) {
+        float2 uv = max(abs(p) * 1.199 - float2(0.199), 0.0);
+        return pow(uv.x, 2.68) + pow(uv.y, 2.68);
+    }
+
+    METAL_FUNC float _continuousCornerSDF(float2 p, float dp) {
+        float2 uv = saturate(p);
+        if (uv.x == 0 || uv.y == 0) {
+            return 1;
+        }
+        float d = _continuousCornerDistance(uv);
+        // Anti-aliasing. Manually calculate dfdx/dfdy here to avoid asymmetric corners, because `fwdith` always calculates in one direction (x + 1, y + 1)
+        float dx = abs(_continuousCornerDistance(uv + float2(dp, 0)) - d);
+        float dy = abs(_continuousCornerDistance(uv + float2(0, dp)) - d);
+        float w = max(dx + dy, 1e-4);
+        return saturate((w * .5 + (1. - d)) / w);
+    }
+    
+    METAL_FUNC float circularCornerMask(float2 canvasSize, float2 normalizedTextureCoordinate, float4 radius) {
+        float2 textureCoordinate = normalizedTextureCoordinate * canvasSize;
+        //lt rt rb lb
+        float2 rt = float2(canvasSize.x - radius[1], radius[1]);
+        float2 rb = float2(canvasSize.x - radius[2], canvasSize.y - radius[2]);
+        float2 lb = float2(radius[3], canvasSize.y - radius[3]);
+        float4 f = float4(1,1,1,1);
+        {
+            float2 p = float2(1.0 - textureCoordinate.x / radius[0],
+                              1.0 - textureCoordinate.y / radius[0]);
+            f[0] = _circularCornerSDF(p, 1/radius[0]);
+        }
+        {
+            float2 p = float2((textureCoordinate.x - rt.x) / radius[1],
+                              1.0 - textureCoordinate.y / radius[1]);
+            f[1] = _circularCornerSDF(p, 1/radius[1]);
+        }
+        {
+            float2 p = float2((textureCoordinate.x - rb.x) / radius[2],
+                              (textureCoordinate.y - rb.y) / radius[2]);
+            f[2] = _circularCornerSDF(p, 1/radius[2]);
+        }
+        {
+            float2 p = float2(1.0 - textureCoordinate.x / radius[3],
+                              (textureCoordinate.y - lb.y) / radius[3]);
+            f[3] = _circularCornerSDF(p, 1/radius[3]);
+        }
+        return min(min(min(f[0], f[1]),f[2]),f[3]);
+    }
+    
+    METAL_FUNC float continuousCornerMask(float2 canvasSize, float2 normalizedTextureCoordinate, float4 radius) {
+        float2 textureCoordinate = normalizedTextureCoordinate * canvasSize;
+        //lt rt rb lb
+        float2 rt = float2(canvasSize.x - radius[1], radius[1]);
+        float2 rb = float2(canvasSize.x - radius[2], canvasSize.y - radius[2]);
+        float2 lb = float2(radius[3], canvasSize.y - radius[3]);
+        float4 f = float4(1,1,1,1);
+        {
+            float2 p = float2(1.0 - textureCoordinate.x / radius[0],
+                              1.0 - textureCoordinate.y / radius[0]);
+            f[0] = _continuousCornerSDF(p, 1/radius[0]);
+        }
+        {
+            float2 p = float2((textureCoordinate.x - rt.x) / radius[1],
+                              1.0 - textureCoordinate.y / radius[1]);
+            f[1] = _continuousCornerSDF(p, 1/radius[1]);
+        }
+        {
+            float2 p = float2((textureCoordinate.x - rb.x) / radius[2],
+                              (textureCoordinate.y - rb.y) / radius[2]);
+            f[2] = _continuousCornerSDF(p, 1/radius[2]);
+        }
+        {
+            float2 p = float2(1.0 - textureCoordinate.x / radius[3],
+                              (textureCoordinate.y - lb.y) / radius[3]);
+            f[3] = _continuousCornerSDF(p, 1/radius[3]);
+        }
+        return min(min(min(f[0], f[1]),f[2]),f[3]);
+    }
 }
 
 #endif /* __METAL_MACOS__ || __METAL_IOS__ */
 
-#endif /* MTIShader_h */
+#endif /* MTIShaderLib_h */

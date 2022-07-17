@@ -2,7 +2,7 @@
 //  MTMovieMaker.swift
 //  MTTransitions
 //
-//  Created by xushuifeng on 2020/3/25.
+//  Created by alexiscn on 2020/3/25.
 //
 
 import Foundation

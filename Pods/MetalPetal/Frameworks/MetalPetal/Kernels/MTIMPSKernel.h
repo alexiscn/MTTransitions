@@ -6,12 +6,16 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import <MetalPerformanceShaders/MetalPerformanceShaders.h>
+#if __has_include(<MetalPetal/MetalPetal.h>)
+#import <MetalPetal/MTIKernel.h>
+#import <MetalPetal/MTITextureDimensions.h>
+#else
 #import "MTIKernel.h"
 #import "MTITextureDimensions.h"
-#import "MTIPixelFormat.h"
-#import "MTIAlphaType.h"
+#endif
+
+@class MTIAlphaTypeHandlingRule;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef MPSKernel * _Nonnull (^MTIMPSKernelBuilder)(id<MTLDevice> device);
 
+__attribute__((objc_subclassing_restricted))
 @interface MTIMPSKernel : NSObject <MTIKernel>
 
 - (instancetype)init NS_UNAVAILABLE;

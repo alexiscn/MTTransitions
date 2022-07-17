@@ -20,13 +20,16 @@ typedef NS_ERROR_ENUM(MTISCNSceneRendererErrorDomain, MTISCNSceneRendererError) 
     MTISCNSceneRendererErrorSceneKitDoesNotSupportMetal = 1001
 };
 
+__attribute__((objc_subclassing_restricted))
 @interface MTISCNSceneRenderer : NSObject
 
 @property (nonatomic, strong, nullable) SCNScene *scene;
 
 @property (nonatomic, strong, readonly) SCNRenderer *scnRenderer;
 
-@property(nonatomic, readonly) CFTimeInterval nextFrameTime;
+@property (nonatomic, readonly) CFTimeInterval nextFrameTime;
+
+@property (nonatomic) SCNAntialiasingMode antialiasingMode;
 
 + (instancetype)new NS_UNAVAILABLE;
 
@@ -49,6 +52,12 @@ typedef NS_ERROR_ENUM(MTISCNSceneRendererErrorDomain, MTISCNSceneRendererError) 
 @interface MTISCNSceneRenderer (CVPixelBuffer)
 
 /// Render the scene at the specified time to a pixel buffer. The completion block will be called on an internal queue.
+- (BOOL)renderAtTime:(CFTimeInterval)time
+            viewport:(CGRect)viewport
+                sRGB:(BOOL)writesToSRGBTexture
+          completion:(void(^)(CVPixelBufferRef pixelBuffer))completion
+               error:(NSError **)error;
+
 - (BOOL)renderAtTime:(CFTimeInterval)time
             viewport:(CGRect)viewport
           completion:(void(^)(CVPixelBufferRef pixelBuffer))completion

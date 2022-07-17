@@ -9,81 +9,78 @@
 #import "MTIRenderPipelineKernel.h"
 #import "MTIFunctionDescriptor.h"
 #import "MTIImage.h"
+#import "MTIPixelFormat.h"
 
-@implementation MTIPremultiplyAlphaFilter
+@implementation MTIUnpremultiplyAlphaFilter
+@synthesize inputImage = _inputImage;
+@synthesize outputPixelFormat = _outputPixelFormat;
 
-+ (MTIFunctionDescriptor *)fragmentFunctionDescriptor {
-    return [[MTIFunctionDescriptor alloc] initWithName:MTIFilterPremultiplyAlphaFragmentFunctionName];
++ (MTIRenderPipelineKernel *)kernel {
+    static MTIRenderPipelineKernel *kernel;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kernel = [[MTIRenderPipelineKernel alloc] initWithVertexFunctionDescriptor:[[MTIFunctionDescriptor alloc] initWithName:MTIFilterPassthroughVertexFunctionName]
+                                                        fragmentFunctionDescriptor:[[MTIFunctionDescriptor alloc] initWithName:MTIFilterUnpremultiplyAlphaFragmentFunctionName]
+                                                                  vertexDescriptor:nil
+                                                              colorAttachmentCount:1
+                                                             alphaTypeHandlingRule:[[MTIAlphaTypeHandlingRule alloc] initWithAcceptableAlphaTypes:@[@(MTIAlphaTypePremultiplied)] outputAlphaType:MTIAlphaTypeNonPremultiplied]];
+    });
+    return kernel;
+}
+
++ (MTIImage *)imageByProcessingImage:(MTIImage *)image outputPixelFormat:(MTLPixelFormat)pixelFormat {
+    if (image.alphaType == MTIAlphaTypeAlphaIsOne || image.alphaType == MTIAlphaTypeNonPremultiplied) {
+        return image;
+    }
+    return [MTIUnpremultiplyAlphaFilter.kernel applyToInputImages:@[image] parameters:@{} outputTextureDimensions:image.dimensions outputPixelFormat:pixelFormat];
 }
 
 + (MTIImage *)imageByProcessingImage:(MTIImage *)image {
+    return [MTIUnpremultiplyAlphaFilter imageByProcessingImage:image outputPixelFormat:MTIPixelFormatUnspecified];
+}
+
+- (MTIImage *)outputImage {
+    if (!_inputImage) {
+        return nil;
+    }
+    return [MTIUnpremultiplyAlphaFilter imageByProcessingImage:_inputImage outputPixelFormat:_outputPixelFormat];
+}
+
+@end
+
+@implementation MTIPremultiplyAlphaFilter
+@synthesize inputImage = _inputImage;
+@synthesize outputPixelFormat = _outputPixelFormat;
+
++ (MTIRenderPipelineKernel *)kernel {
+    static MTIRenderPipelineKernel *kernel;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kernel = [[MTIRenderPipelineKernel alloc] initWithVertexFunctionDescriptor:[[MTIFunctionDescriptor alloc] initWithName:MTIFilterPassthroughVertexFunctionName]
+                                                        fragmentFunctionDescriptor:[[MTIFunctionDescriptor alloc] initWithName:MTIFilterPremultiplyAlphaFragmentFunctionName]
+                                                                  vertexDescriptor:nil
+                                                              colorAttachmentCount:1
+                                                             alphaTypeHandlingRule:[[MTIAlphaTypeHandlingRule alloc] initWithAcceptableAlphaTypes:@[@(MTIAlphaTypeNonPremultiplied)] outputAlphaType:MTIAlphaTypePremultiplied]];
+    });
+    return kernel;
+}
+
++ (MTIImage *)imageByProcessingImage:(MTIImage *)image outputPixelFormat:(MTLPixelFormat)pixelFormat {
     if (image.alphaType == MTIAlphaTypeAlphaIsOne || image.alphaType == MTIAlphaTypePremultiplied) {
         return image;
     }
-    return [self imageByProcessingImage:image withInputParameters:@{} outputPixelFormat:MTIPixelFormatUnspecified];
-}
-
-+ (MTIAlphaTypeHandlingRule *)alphaTypeHandlingRule {
-    return [[MTIAlphaTypeHandlingRule alloc] initWithAcceptableAlphaTypes:@[@(MTIAlphaTypeNonPremultiplied)] outputAlphaType:MTIAlphaTypePremultiplied];
-}
-
-- (MTIImage *)outputImage {
-    if (self.inputImage.alphaType == MTIAlphaTypeAlphaIsOne || self.inputImage.alphaType == MTIAlphaTypePremultiplied) {
-        return self.inputImage;
-    }
-    return [super outputImage];
-}
-
-@end
-
-@implementation MTIUnpremultiplyAlphaFilter
-
-+ (MTIFunctionDescriptor *)fragmentFunctionDescriptor {
-    return [[MTIFunctionDescriptor alloc] initWithName:MTIFilterUnpremultiplyAlphaFragmentFunctionName];
+    return [MTIPremultiplyAlphaFilter.kernel applyToInputImages:@[image] parameters:@{} outputTextureDimensions:image.dimensions outputPixelFormat:pixelFormat];
 }
 
 + (MTIImage *)imageByProcessingImage:(MTIImage *)image {
-    if (image.alphaType == MTIAlphaTypeAlphaIsOne || image.alphaType == MTIAlphaTypeNonPremultiplied) {
-        return image;
-    }
-    return [self imageByProcessingImage:image withInputParameters:@{} outputPixelFormat:MTIPixelFormatUnspecified];
-}
-
-+ (MTIAlphaTypeHandlingRule *)alphaTypeHandlingRule {
-    return [[MTIAlphaTypeHandlingRule alloc] initWithAcceptableAlphaTypes:@[@(MTIAlphaTypePremultiplied)] outputAlphaType:MTIAlphaTypeNonPremultiplied];
+    return [MTIPremultiplyAlphaFilter imageByProcessingImage:image outputPixelFormat:MTIPixelFormatUnspecified];
 }
 
 - (MTIImage *)outputImage {
-    if (self.inputImage.alphaType == MTIAlphaTypeAlphaIsOne || self.inputImage.alphaType == MTIAlphaTypeNonPremultiplied) {
-        return self.inputImage;
+    if (!_inputImage) {
+        return nil;
     }
-    return [super outputImage];
-}
-
-@end
-
-@implementation MTIUnpremultiplyAlphaWithSRGBToLinearRGBFilter
-
-+ (MTIFunctionDescriptor *)fragmentFunctionDescriptor {
-    return [[MTIFunctionDescriptor alloc] initWithName:MTIFilterUnpremultiplyAlphaWithSRGBToLinearRGBFragmentFunctionName];
-}
-
-+ (MTIImage *)imageByProcessingImage:(MTIImage *)image {
-    if (image.alphaType == MTIAlphaTypeAlphaIsOne || image.alphaType == MTIAlphaTypeNonPremultiplied) {
-        return image;
-    }
-    return [self imageByProcessingImage:image withInputParameters:@{} outputPixelFormat:MTIPixelFormatUnspecified];
-}
-
-+ (MTIAlphaTypeHandlingRule *)alphaTypeHandlingRule {
-    return [[MTIAlphaTypeHandlingRule alloc] initWithAcceptableAlphaTypes:@[@(MTIAlphaTypePremultiplied)] outputAlphaType:MTIAlphaTypeNonPremultiplied];
-}
-
-- (MTIImage *)outputImage {
-    if (self.inputImage.alphaType == MTIAlphaTypeAlphaIsOne || self.inputImage.alphaType == MTIAlphaTypeNonPremultiplied) {
-        return self.inputImage;
-    }
-    return [super outputImage];
+    return [MTIPremultiplyAlphaFilter imageByProcessingImage:_inputImage outputPixelFormat:_outputPixelFormat];
 }
 
 @end
