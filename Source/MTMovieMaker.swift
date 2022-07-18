@@ -45,16 +45,16 @@ public class MTMovieMaker: NSObject {
     ///   - completion: completion callback.
     /// - Throws: Throws an exception.
     public func createVideo(with images: [MTIImage],
-                            effect: MTTransition.Effect,
-                            frameDuration: TimeInterval = 1,
-                            transitionDuration: TimeInterval = 0.8,
+                            effect: [MTTransition.Effect],
+                            frameDurations: [TimeInterval] = [1],
+                            transitionDurations: [TimeInterval] = [0.8],
                             audioURL: URL? = nil,
                             completion: MTMovieMakerCompletion? = nil) throws {
-        let effects = Array(repeating: effect, count: images.count - 1)
+        //let effects = Array(repeating: effect, count: images.count - 1)
         try createVideo(with: images,
-                        effects: effects,
-                        frameDuration: frameDuration,
-                        transitionDuration: transitionDuration,
+                        effects: effect,
+                        frameDurations: frameDurations,
+                        transitionDurations: transitionDurations,
                         audioURL: audioURL,
                         completion: completion)
     }
@@ -70,8 +70,8 @@ public class MTMovieMaker: NSObject {
     /// - Throws: Throws an exception.
     public func createVideo(with images: [UIImage],
                             effects: [MTTransition.Effect],
-                            frameDuration: TimeInterval = 1,
-                            transitionDuration: TimeInterval = 0.8,
+                            frameDurations: [TimeInterval] = [1],
+                            transitionDurations: [TimeInterval] = [0.8],
                             audioURL: URL? = nil,
                             completion: @escaping MTMovieMakerCompletion) throws {
         
@@ -81,8 +81,8 @@ public class MTMovieMaker: NSObject {
         }
         try createVideo(with: inputImages,
                         effects: effects,
-                        frameDuration: frameDuration,
-                        transitionDuration: transitionDuration,
+                        frameDurations: frameDurations,
+                        transitionDurations: transitionDurations,
                         audioURL: audioURL,
                         completion: completion)
     }
@@ -98,8 +98,8 @@ public class MTMovieMaker: NSObject {
     /// - Throws: Throws an exception.
     public func createVideo(with images: [MTIImage],
                             effects: [MTTransition.Effect],
-                            frameDuration: TimeInterval = 1,
-                            transitionDuration: TimeInterval = 0.8,
+                            frameDurations: [TimeInterval] = [1],
+                            transitionDurations: [TimeInterval] = [0.8],
                             audioURL: URL? = nil,
                             completion: MTMovieMakerCompletion? = nil) throws {
         
@@ -138,11 +138,11 @@ public class MTMovieMaker: NSObject {
         writerInput.requestMediaDataWhenReady(on: self.writingQueue) {
             var index = 0
             while index < (images.count - 1) {
-                var presentTime = CMTimeMake(value: Int64(frameDuration * Double(index) * 1000), timescale: 1000)
+                var presentTime = CMTimeMake(value: Int64(frameDurations[index] * Double(index) * 1000), timescale: 1000)
                 let transition = effects[index].transition
                 transition.inputImage = images[index]
                 transition.destImage = images[index + 1]
-                transition.duration = transitionDuration
+                transition.duration = transitionDurations[index]
                 
                 let frameBeginTime = presentTime
                 let frameCount = 29
@@ -153,7 +153,7 @@ public class MTMovieMaker: NSObject {
                         }
                         let progress = Float(counter) / Float(frameCount)
                         transition.progress = progress
-                        let frameTime = CMTimeMake(value: Int64(transitionDuration * Double(progress) * 1000), timescale: 1000)
+                        let frameTime = CMTimeMake(value: Int64(transitionDurations[index] * Double(progress) * 1000), timescale: 1000)
                         presentTime = CMTimeAdd(frameBeginTime, frameTime)
                         var pixelBuffer: CVPixelBuffer?
                         CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pixelBufferPool, &pixelBuffer)
