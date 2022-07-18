@@ -10,6 +10,7 @@ import UIKit
 import MetalPetal
 import MTTransitions
 import Photos
+import Foundation
 
 class CreateVideoFromImagesViewController: UIViewController {
 
@@ -20,6 +21,9 @@ class CreateVideoFromImagesViewController: UIViewController {
     
     private var fileURL: URL?
     private var movieMaker: MTMovieMaker?
+    
+    var frameDuarationArray: [TimeInterval] = []
+    var transitionDurationArray : [TimeInterval] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +65,7 @@ class CreateVideoFromImagesViewController: UIViewController {
         navigationItem.rightBarButtonItem = exportButton
     }
     
+    
     private func createVideo() {
         var images: [UIImage] = []
         
@@ -69,6 +74,8 @@ class CreateVideoFromImagesViewController: UIViewController {
                 images.append(img)
             }
         }
+        frameDuarationArray = Array(repeating: 1.0, count: images.count - 1)
+        transitionDurationArray = Array(repeating: 0.8, count: images.count - 1)
         let effects: [MTTransition.Effect] = [
             .circleOpen, .circleCrop, .none,
             .crossZoom, .dreamy, .rotateScaleFade,
@@ -80,7 +87,21 @@ class CreateVideoFromImagesViewController: UIViewController {
         let fileURL = URL(fileURLWithPath: path)
         movieMaker = MTMovieMaker(outputURL: fileURL)
         do {
-            try movieMaker?.createVideo(with: images, effects: effects, audioURL: audioURL) { [weak self] result in
+           /* try movieMaker?.createVideo(with: images, effects: effects, audioURL: audioURL) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let url):
+                    self.fileURL = url
+                    self.exportButton.isEnabled = true
+                    let playerItem = AVPlayerItem(url: url)
+                    self.player.replaceCurrentItem(with: playerItem)
+                    self.player.play()
+                    self.registerNotifications()
+                case .failure(let error):
+                    print(error)
+                }
+            }*/
+            try movieMaker?.createVideo(with: images, effects: effects, frameDurations: frameDuarationArray, transitionDurations: transitionDurationArray, audioURL: audioURL){[weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let url):
