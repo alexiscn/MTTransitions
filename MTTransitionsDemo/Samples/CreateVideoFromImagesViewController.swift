@@ -79,6 +79,9 @@ class CreateVideoFromImagesViewController: UIViewController {
         frameDuarationArray = [3.0,3.0,2.0,3.0]
         transitionDurationArray = [0.8,2.0,1.0,0.5]
         /*let effects: [MTTransition.Effect] = [
+        frameDuarationArray = Array(repeating: 1.0, count: images.count - 1)
+        transitionDurationArray = Array(repeating: 0.8, count: images.count - 1)
+        let effects: [MTTransition.Effect] = [
             .circleOpen, .circleCrop, .none,
             .crossZoom, .dreamy, .rotateScaleFade,
             .wipeDown, .wipeUp]*/

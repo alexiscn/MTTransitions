@@ -158,6 +158,7 @@ public class MTMovieMaker: NSObject {
                         transition.progress = progress
                         let frameTime = CMTimeMake(value: Int64(transitionDurations[index] * Double(progress) * 1000), timescale: 1000)
                         let presentTime = CMTimeAdd(frameBeginTime, frameTime)
+
                         var pixelBuffer: CVPixelBuffer?
                         CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pixelBufferPool, &pixelBuffer)
                         
