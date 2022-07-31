@@ -69,17 +69,23 @@ class CreateVideoFromImagesViewController: UIViewController {
     private func createVideo() {
         var images: [UIImage] = []
         
-        for i in 1 ... 9 {
+        for i in 1 ... 4 {
             if let img = loadImage(named: "\(i)") {
                 images.append(img)
             }
         }
-        frameDuarationArray = Array(repeating: 1.0, count: images.count - 1)
-        transitionDurationArray = Array(repeating: 0.8, count: images.count - 1)
-        let effects: [MTTransition.Effect] = [
+        //frameDuarationArray = Array(repeating: 2.0, count: images.count)
+        //transitionDurationArray = Array(repeating: 0.8, count: images.count)
+        frameDuarationArray = [3.0,3.0,2.0,3.0]
+        transitionDurationArray = [0.8,2.0,1.0,0.5]
+        /*let effects: [MTTransition.Effect] = [
             .circleOpen, .circleCrop, .none,
             .crossZoom, .dreamy, .rotateScaleFade,
-            .wipeDown, .wipeUp]
+            .wipeDown, .wipeUp]*/
+        //Effects == images.count - 1
+        let effects: [MTTransition.Effect] = [
+            .circleOpen,.rotateScaleFade,.radial]
+        
         
         let audioURL = Bundle.main.url(forResource: "audio2", withExtension: "mp3")
         //let audioURL = Bundle.main.url(forResource: "audio1", withExtension: "mp3")
@@ -109,6 +115,8 @@ class CreateVideoFromImagesViewController: UIViewController {
                     self.exportButton.isEnabled = true
                     let playerItem = AVPlayerItem(url: url)
                     self.player.replaceCurrentItem(with: playerItem)
+                    let asset = AVURLAsset(url: url)
+                    print("LTER",asset.duration.seconds)
                     self.player.play()
                     self.registerNotifications()
                 case .failure(let error):
