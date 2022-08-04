@@ -48,6 +48,8 @@ extension MTTransition {
         case fadegrayscale
         case fade
         case flyeye
+        case fadeInWipeUp
+        case fadeInWipeLeft
         case glitchDisplace
         case glitchMemories
         case gridFlip
@@ -131,6 +133,8 @@ extension MTTransition {
             case .fadegrayscale: return MTFadegrayscaleTransition()
             case .fade: return MTFadeTransition()
             case .flyeye: return MTFlyeyeTransition()
+            case .fadeInWipeUp: return MTFadeInWipeUpTransition()
+            case .fadeInWipeLeft: return MTFadeInWipeLeftTransition()
             case .glitchDisplace: return MTGlitchDisplaceTransition()
             case .glitchMemories: return MTGlitchMemoriesTransition()
             case .gridFlip: return MTGridFlipTransition()
@@ -216,6 +220,8 @@ extension MTTransition {
             case .fadegrayscale: return "Fadegrayscale"
             case .fade: return "Fade"
             case .flyeye: return "Flyeye"
+            case .fadeInWipeUp: return "FadeInWipeUp"
+            case .fadeInWipeLeft: return "FadeInWipeLeft"
             case .glitchDisplace: return "GlitchDisplace"
             case .glitchMemories: return "GlitchMemories"
             case .gridFlip: return "GridFlip"
