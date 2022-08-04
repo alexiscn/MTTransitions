@@ -85,6 +85,7 @@ extension MTTransition {
         case stereoViewer
         case swap
         case swirl
+        case slides
         case tangentMotionBlur
         case topBottom
         case tvStatic
@@ -170,6 +171,7 @@ extension MTTransition {
             case .stereoViewer: return MTStereoViewerTransition()
             case .swap: return MTSwapTransition()
             case .swirl: return MTSwirlTransition()
+            case .slides: return MTSlidesTransition()
             case .tangentMotionBlur: return MTTangentMotionBlurTransition()
             case .topBottom: return MTTopBottomTransition()
             case .tvStatic: return MTTVStaticTransition()
@@ -257,6 +259,7 @@ extension MTTransition {
             case .stereoViewer: return "StereoViewer"
             case .swap: return "Swap"
             case .swirl: return "Swirl"
+            case .slides: return "Slides"
             case .tangentMotionBlur: return "TangentMotionBlur"
             case .topBottom: return "TopBottom"
             case .tvStatic: return "TVStatic"
