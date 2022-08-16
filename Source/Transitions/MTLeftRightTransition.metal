@@ -33,7 +33,7 @@ fragment float4 LeftRightFragment(VertexOut vertexIn [[ stage_in ]],
     if(inBounds(spfr)){
         return getToColor(spfr, toTexture, ratio, _toR);
     } else if(inBounds(spto)) {
-        return getFromColor(spto, toTexture, ratio, _fromR) * (1.0 - progress);
+        return getFromColor(spto, fromTexture, ratio, _fromR) * (1.0 - progress);
     } else {
         return float4(0, 0, 0, 1.0);
     }
