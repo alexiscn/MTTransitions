@@ -41,6 +41,7 @@ extension MTTransition {
         case directionalWarp
         case directionalWipe
         case displacement
+        case dissolve
         case doomScreen
         case doorway
         case dreamy
@@ -127,6 +128,7 @@ extension MTTransition {
             case .directionalWarp: return MTDirectionalWarpTransition()
             case .directionalWipe: return MTDirectionalWipeTransition()
             case .displacement: return MTDisplacementTransition()
+            case .dissolve: return MTDissolveTransition()
             case .doomScreen: return MTDoomScreenTransition()
             case .doorway: return MTDoorwayTransition()
             case .dreamy: return MTDreamyTransition()
@@ -215,6 +217,7 @@ extension MTTransition {
             case .directionalWarp: return "DirectionalWarp"
             case .directionalWipe: return "DirectionalWipe"
             case .displacement: return "Displacement"
+            case .dissolve: return "Dissolve"
             case .doomScreen: return "DoomScreen"
             case .doorway: return "Doorway"
             case .dreamy: return "Dreamy"
