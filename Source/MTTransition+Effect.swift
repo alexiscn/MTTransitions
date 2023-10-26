@@ -82,6 +82,7 @@ extension MTTransition {
         case simpleZoom
         case squaresWire
         case squeeze
+        case staticFade
         case stereoViewer
         case swap
         case swirl
@@ -167,6 +168,7 @@ extension MTTransition {
             case .simpleZoom: return MTSimpleZoomTransition()
             case .squaresWire: return MTSquaresWireTransition()
             case .squeeze: return MTSqueezeTransition()
+            case .staticFade: return MTStaticFadeTransition()
             case .stereoViewer: return MTStereoViewerTransition()
             case .swap: return MTSwapTransition()
             case .swirl: return MTSwirlTransition()
@@ -254,6 +256,7 @@ extension MTTransition {
             case .simpleZoom: return "SimpleZoom"
             case .squaresWire: return "SquaresWire"
             case .squeeze: return "Squeeze"
+            case .staticFade: return "StaticFade"
             case .stereoViewer: return "StereoViewer"
             case .swap: return "Swap"
             case .swirl: return "Swirl"
