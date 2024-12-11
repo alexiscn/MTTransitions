@@ -67,6 +67,7 @@ extension MTTransition {
         case mosaicYueDev
         case multiplyBlend
         case overexposure
+        case parametricGlitch
         case perlin
         case pinwheel
         case pixelize
@@ -155,6 +156,7 @@ extension MTTransition {
             case .mosaicYueDev: return MTMosaicYueDevTransition()
             case .multiplyBlend: return MTMultiplyBlendTransition()
             case .overexposure: return MTOverexposureTransition()
+            case .parametricGlitch: return MTParametricGlitchTransition()
             case .perlin: return MTPerlinTransition()
             case .pinwheel: return MTPinwheelTransition()
             case .pixelize: return MTPixelizeTransition()
@@ -245,6 +247,7 @@ extension MTTransition {
             case .mosaicYueDev: return "MosaicYueDev"
             case .multiplyBlend: return "MultiplyBlend"
             case .overexposure: return "Overexposure"
+            case .parametricGlitch: return "ParametricGlitch"
             case .perlin: return "Perlin"
             case .pinwheel: return "Pinwheel"
             case .pixelize: return "Pixelize"
