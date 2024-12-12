@@ -60,6 +60,7 @@ extension MTTransition {
         case kaleidoScope
         case leftRight
         case linearBlur
+        case lissajousTiles
         case luma
         case luminanceMelt
         case morph
@@ -149,6 +150,7 @@ extension MTTransition {
             case .kaleidoScope: return MTKaleidoScopeTransition()
             case .leftRight: return MTLeftRightTransition()
             case .linearBlur: return MTLinearBlurTransition()
+            case .lissajousTiles: return MTLissajousTilesTransition()
             case .luma: return MTLumaTransition()
             case .luminanceMelt: return MTLuminanceMeltTransition()
             case .morph: return MTMorphTransition()
@@ -240,6 +242,7 @@ extension MTTransition {
             case .kaleidoScope: return "KaleidoScope"
             case .leftRight: return "LeftRight"
             case .linearBlur: return "LinearBlur"
+            case .lissajousTiles: return "LissajousTiles"
             case .luma: return "Luma"
             case .luminanceMelt: return "LuminanceMelt"
             case .morph: return "Morph"
